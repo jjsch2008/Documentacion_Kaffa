@@ -8,9 +8,9 @@
 
 Documentación técnica, arquitectónica y funcional
 
-**Autores:** `[PENDIENTE — completar]`
+**Autores:** Ana Maria Joaqui Conejo, Santiago Salamanca Muñoz, Juan José Sandoval Chávez
 
-**Institución:** `[PENDIENTE — completar]` · **Programa:** `[PENDIENTE — completar]`
+**Institución:** Servicio Nacional De Aprendizaje (SENA) · **Programa:** ADSO (3142101)
 
 Popayán, Cauca — Colombia · 28 de septiembre de 2026
 
