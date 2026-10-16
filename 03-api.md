@@ -30,11 +30,11 @@ Fuente principal: `backend-kaffa/routes/api.php`, controladores en `app/Http/Con
 | Método | Endpoint | Auth | Descripción |
 |--------|----------|------|-------------|
 | POST | `/login` | No | Recibe `{correo, password}`. Throttle 5/min. |
-| POST | `/registro` | No | Registro público (rol `cliente` fijo). Throttle 10/min. No devuelve token. |
-| POST | `/forgot-password` | No | Envía correo de recuperación. Throttle 5/min. |
-| POST | `/reset-password` | No | Restablece contraseña con `{correo, token, password, password_confirmation}`. Throttle 5/min. |
-| GET | `/email/verify/{id}/{hash}` | No (URL firmada) | Verifica el correo; redirige al frontend `/login?verified=…` |
-| POST | `/email/verification-notification` | Sí (o según flujo) | Reenvía el correo de verificación. Throttle 5/min. |
+| POST | `/registro` | No | Registro público (rol `cliente` fijo). **Alta diferida**: guarda el pendiente y envía el código; no crea el usuario aún. Throttle 10/min. No devuelve token. |
+| POST | `/forgot-password` | No | Envía un **código OTP** de restablecimiento. Throttle 5/min. |
+| POST | `/reset-password` | No | Restablece contraseña con `{correo, codigo, password, password_confirmation}`. Throttle 5/min. |
+| POST | `/email/verify-code` | No | Verifica el alta con `{correo, codigo}` (OTP de 6 dígitos) y **crea el usuario** ya verificado. Throttle 10/min. |
+| POST | `/email/verification-notification` | No | Reenvía el **código** de verificación. Throttle 5/min. |
 | GET | `/me` | Sí | Perfil autenticado con roles (oculta `password`, `remember_token`) |
 | GET | `/user` | Sí | Equivalente a `/me` |
 | POST | `/logout` | Sí | Revoca el token actual |
@@ -76,15 +76,23 @@ Errores de login:
 | 403 | Correo sin verificar | `{message: "Debes verificar tu correo…", code: "EMAIL_NOT_VERIFIED"}` |
 | 429 | Demasiados intentos | throttle 5/min |
 
-### 2.3 `POST /registro`
+### 2.3 `POST /registro` — alta diferida
 
-Cuerpo: `{nombre, correo, password}`. La contraseña exige mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos. Devuelve **201 sin token**; la cuenta queda pendiente de verificación de correo (evento `Registered` → correo con enlace firmado). El usuario no puede iniciar sesión hasta verificar.
+Cuerpo: `{nombre, correo, password}`. La contraseña exige mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos.
 
-### 2.4 Recuperación de contraseña
+Devuelve **201 sin token** y **no crea el usuario**: guarda el alta en `registros_pendientes` (nombre + contraseña hasheada) y envía un **código OTP de 6 dígitos** al correo. Reintentar el registro con el mismo correo **actualiza** el pendiente y reenvía el código (ya no responde `correo ya existe`, pues aún no hay usuario).
 
-- `POST /forgot-password` `{correo}`: respuesta uniforme 200 (evita enumeración de usuarios).
-- `POST /reset-password` `{correo, token, password, password_confirmation}`: al restablecer, **se revocan todos los tokens Sanctum** del usuario.
-- El correo enlaza al frontend en `FRONTEND_URL/reset-password?token=…&correo=…`.
+### 2.4 Verificación de correo por código (OTP)
+
+- Registro → código de 6 dígitos por correo; válido **15 min**, **5 intentos**, reenvío con **cooldown de 60 s**.
+- `POST /email/verify-code` `{correo, codigo}` → `200` y **crea el usuario ya verificado** (con rol `cliente`) a partir del pendiente; código incorrecto/expirado o demasiados intentos ⇒ `422`. El usuario sigue sin existir en `users` hasta este paso.
+- `POST /email/verification-notification` `{correo}` → reenvía el código del alta pendiente (respuesta uniforme, anti-enumeración).
+- El código se guarda **hasheado** (tabla `codigos_otp`) y es de **un solo uso**. Los pendientes con más de 24 h se descartan.
+
+### 2.5 Recuperación de contraseña por código (OTP)
+
+- `POST /forgot-password` `{correo}`: respuesta uniforme 200 (evita enumeración de usuarios); envía un **código de 6 dígitos**.
+- `POST /reset-password` `{correo, codigo, password, password_confirmation}`: valida el código; al restablecer, **se revocan todos los tokens Sanctum** del usuario.
 
 ## 3. Endpoint público (landing)
 
@@ -178,9 +186,8 @@ Borrado en cascada gestionado por `PedidoService::eliminar`: elimina detalles, m
 | GET | `/pago-pedidos` | admin, barista | index/show; el cliente consulta los pagos de sus pedidos a través de `GET /pedidos` (relación `pagos`) |
 | POST | `/pago-pedidos` | admin, barista | `turno.activo` + throttle 10/min |
 | PUT/DELETE | `/pago-pedidos/{id}` | admin, barista | `turno.activo` + throttle 10/min |
-| POST | `/comprobantes` | admin, barista | `turno.activo`. Subida de imagen del comprobante |
 
-`POST /comprobantes` (multipart): campo `imagen`, formatos `jpeg/jpg/png/webp`, máx. **5120 KB**. El backend la guarda en el disco `public` (`comprobantes/…`) y devuelve `{url}` absoluta (`…/storage/comprobantes/…`) que el cliente luego envía como `comprobante_url` del pago.
+> **Imágenes y Cloudinary**: las imágenes (productos, eventos, fotos de perfil y comprobantes) se suben **directamente del navegador a Cloudinary** con un upload preset *unsigned* (`cloud_name = roffd6et`, `upload_preset = KAFFACCYS`, carpeta `samples/ecommerce`). El backend **ya no recibe archivos**: sólo recibe y valida la `secure_url` resultante (regla `App\Rules\CloudinaryUrl`, que exige que las URLs de `res.cloudinary.com` pertenezcan a nuestra cuenta) y la persiste en el campo correspondiente (`productos.imagen`, `users.foto`, `evento_imagenes.url`, `pagos.*.comprobante_url`).
 
 ## 7. Facturas
 
@@ -214,7 +221,7 @@ Reglas de cierre (`PUT /cajas/{id}`): se envían `estado='cerrada'` y los montos
 
 ## 9. Compras, proveedores, gastos y mermas
 
-Todos los recursos siguientes exigen `role:admin,barista` + `turno.activo`; compras/gastos/mermas además throttle 10/min. Cada recurso exige además que el token posea su ability (`compras:manage`, `gastos:manage`, `mermas:manage`, `cajas:manage` — middleware `ability:`): un token sin el alcance recibe **403** `TOKEN_SIN_ABILITY`.
+Todos los recursos siguientes exigen `role:admin,barista` + `turno.activo`; sus **escrituras** (POST/PUT/DELETE) están limitadas a throttle 10/min, mientras que las **lecturas** (`GET index`/`show`) no consumen ese cupo (el throttle de Laravel es por usuario y se comparte entre rutas del grupo, por lo que limitar también las lecturas agotaba el cupo de las escrituras). Cada recurso exige además que el token posea su ability (`compras:manage`, `gastos:manage`, `mermas:manage`, `cajas:manage` — middleware `ability:`): un token sin el alcance recibe **403** `TOKEN_SIN_ABILITY`.
 
 **Tabla 10.** _Recursos operativos (compras, gastos, mermas, proveedores)_
 
@@ -296,10 +303,10 @@ Horarios fijos (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, zon
 | Proveedores: escritura | ✔ | — (`ability:proveedores:manage`, solo admin) | — |
 | Movimientos de caja: lectura | ✔ | ✔ (con turno activo) | — |
 | Movimientos de caja: escritura | ✔ | — (solo admin) | — |
-| Comprobantes (subida) | ✔ | ✔ (con turno activo, `comprobantes:upload`) | — |
 | Chat | ✔ (con clientes) | ✔ (con clientes) | ✔ (con barista/admin) |
 | Reportes: crear | ✔ | ✔ | — |
 | Reportes: gestionar | ✔ | — | — |
+| Asistente IA de ventas (chatbot) | ✔ | — | — |
 
 Middleware `role:` responde **401** si no hay usuario autenticado y **403** `{message: "No tienes permiso para realizar esta acción."}` si el rol no corresponde.
 
@@ -326,6 +333,32 @@ Otras respuestas de error: **401** no autenticado (JSON, nunca redirección); **
 | `/login` | 5/min |
 | `/registro` | 10/min |
 | `/forgot-password`, `/reset-password`, `/email/verification-notification` | 5/min |
+| `/email/verify-code` | 10/min |
 | `/equipo` | 60/min |
 | Escrituras de catálogo (admin) | 30/min |
 | `POST /pedidos`, escrituras operativas (pedidos/pagos/compras/gastos/mermas/cajas) | 10/min |
+| `/asistente/*` (Asistente IA, solo admin) | 20/min |
+
+## 17. Asistente IA de ventas (solo admin)
+
+**Tabla 18.** _Endpoints del Asistente IA de ventas_
+
+| Método | Endpoint | Roles | Middleware adicional | Descripción |
+|--------|----------|-------|----------------------|-------------|
+| GET | `/asistente/mensajes` | admin | `ability:asistente:consultar` | Historial del hilo del admin (`?per_page` 1–100, por defecto 50; más reciente primero) |
+| POST | `/asistente/chat` | admin | `ability:asistente:consultar` + throttle 20/min | Envía `{mensaje (máx. 2000)}` y devuelve la respuesta de la IA |
+| DELETE | `/asistente/mensajes` | admin | `ability:asistente:consultar` | Reinicia (borra) la conversación del admin |
+
+`POST /asistente/chat` — respuesta 201:
+
+```json
+{ "respuesta": "…texto del asistente…", "mensaje_id": 42, "created_at": "2026-10-05T15:47:46.000000Z" }
+```
+
+Reglas y funcionamiento (verificado en `AsistenteController` y `AsistenteVentasService`):
+
+- **Exclusivo del rol admin**: `role:admin` + `ability:asistente:consultar` (el token admin posee `*`); cualquier otro rol recibe **403**.
+- Cada turno (`user` y `assistant`) se **persiste** en `asistente_mensajes` para dar memoria al asistente (últimos 20 turnos) y sobrevivir recargas.
+- El backend **agrega métricas del negocio** (ventas hoy/7/30 días, ticket promedio, top productos, stock bajo, mermas y gastos) y las inyecta como contexto: el asistente sólo razona sobre datos reales.
+- La llamada a Google Gemini (`GEMINI_API_KEY`) se hace **desde el backend**; la key nunca se expone al frontend. Si el modelo principal está saturado (`503`/`429`) o falla, se reintenta con los modelos de respaldo (`GEMINI_FALLBACK_MODEL`).
+- Errores: **503** `{message: "El asistente no está disponible en este momento…"}` si la IA externa falla o falta configuración; **422** si `mensaje` falta o excede 2000 caracteres.

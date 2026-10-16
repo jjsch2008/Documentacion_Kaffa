@@ -26,9 +26,10 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 
 | Aspecto | Valor |
 |---------|-------|
-| Fecha de sincronización con el código | 28 de septiembre de 2026 |
+| Fecha de sincronización con el código | 5 de octubre de 2026 |
 | Commit backend auditado | `d89453a` (parche_seguridad_2) |
 | Commit frontend auditado | `bbcd709` (parche_seguridad_2) |
+| Última ampliación (2026-10-07) | **Verificación y reseteo por código OTP**: nueva tabla `codigos_otp`, `OtpService`, correo `CodigoOtpMail`, endpoints `/email/verify-code` y `/reset-password` por código; gastos/compras con comprobante subido desde el PC; suite a **66 pruebas** |
 | Método | Auditoría archivo por archivo (rutas, migraciones, modelos, controladores, servicios, middleware, seeders, tests, SPA) + pasadas de remediación y de nivel profesional/ICONTEC (2026-09-28) |
 | Cambios aplicados en la remediación | Middleware `ability:`, `.env.example` seguro por defecto, `UserFactory` corregido, lockfile único (pnpm), suite ampliada de 23 a **58 pruebas**, especificación **OpenAPI (Scramble)**, fuente única por dominio y presentación ICONTEC ligera |
 | Idioma | Español (convenciones técnicas profesionales + ICONTEC ligero) |
@@ -54,13 +55,13 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 | # | Documento | Contenido |
 |---|-----------|-----------|
 | 1 | [01-arquitectura.md](01-arquitectura.md) | Arquitectura desacoplada, stack con versiones verificadas, diagramas, flujos de autenticación y pedido. |
-| 2 | [02-base-datos.md](02-base-datos.md) | Esquema PostgreSQL: 29 tablas, diccionario de datos, relaciones, índices y seeders. |
-| 3 | [03-api.md](03-api.md) | Referencia canónica de la API `/api/v1` (fuente de verdad de endpoints). |
-| 4 | [04-modulos.md](04-modulos.md) | Reglas de negocio por módulo (POS, caja, compras, turnos, chat, reportes…). |
+| 2 | [02-base-datos.md](02-base-datos.md) | Esquema PostgreSQL: 30 tablas, diccionario de datos, relaciones, índices y seeders. |
+| 3 | [03-api.md](03-api.md) | Referencia canónica de la API `/api/v1` (fuente de verdad de endpoints), incluido el Asistente IA (§17). |
+| 4 | [04-modulos.md](04-modulos.md) | Reglas de negocio por módulo (POS, caja, compras, turnos, chat, reportes, Asistente IA…). |
 | 5 | [05-seguridad.md](05-seguridad.md) | Autenticación, RBAC, abilities, verificación de correo, CORS, throttling y hallazgos. |
 | 6 | [06-instalacion.md](06-instalacion.md) | Instalación de backend y frontend, requisitos y usuarios de prueba. |
 | 7 | [07-despliegue.md](07-despliegue.md) | Entornos de desarrollo/producción y variables de entorno. |
-| 8 | [08-pruebas.md](08-pruebas.md) | Inventario y resultados reales de la suite (58 pruebas). |
+| 8 | [08-pruebas.md](08-pruebas.md) | Inventario y resultados reales de la suite (66 pruebas). |
 | 9 | [09-manual-usuario.md](09-manual-usuario.md) | Manual de uso por rol: visitante, cliente, barista y administrador. |
 | 10 | [10-requisitos.md](10-requisitos.md) | Requisitos funcionales/no funcionales con matriz de trazabilidad. |
 | 11 | [11-frontend.md](11-frontend.md) | SPA React: componentes, flujo de datos, estilos, sondeo y flujos. |
@@ -72,17 +73,17 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 
 ## Lista de tablas
 
-Numeración secuencial por documento (NTC 1486 [1]). Total: 72 tablas.
+Numeración secuencial por documento (NTC 1486 [1]). Total: 75 tablas.
 
 | Tablas | Documento | Títulos (resumen) |
 |--------|-----------|-------------------|
 | 1–3 | `01-arquitectura.md` | Stack del backend; dependencias del frontend; estructura de carpetas |
-| 1–34 | `02-base-datos.md` | Inventarios de tablas (1–3); diccionarios de las 29 tablas (4–32); índices de rendimiento (33); seeders (34) |
-| 1–17 | `03-api.md` | Convenciones; autenticación; errores de login; equipo; catálogos; pedidos; pagos; facturas; caja; operativas; turnos; chat; reportes; usuarios/roles; matriz RBAC; códigos de error; throttling |
+| 1–35 | `02-base-datos.md` | Inventarios de tablas (1–3); diccionarios de las 30 tablas (4–33); índices de rendimiento (34); seeders (35) |
+| 1–18 | `03-api.md` | Convenciones; autenticación; errores de login; equipo; catálogos; pedidos; pagos; facturas; caja; operativas; turnos; chat; reportes; usuarios/roles; matriz RBAC; códigos de error; throttling; Asistente IA |
 | 1–4 | `05-seguridad.md` | Throttling; mapeo de abilities; hallazgos (estado); otros hallazgos remediados |
 | 1–3 | `06-instalacion.md` | Requisitos previos; usuarios de prueba; problemas comunes |
 | 1 | `07-despliegue.md` | Variables de entorno del backend |
-| 1–3 | `08-pruebas.md` | Frameworks; suite original; suite ampliada |
+| 1–4 | `08-pruebas.md` | Frameworks; suite original; suite ampliada; Asistente IA |
 | 1–3 | `09-manual-usuario.md` | Pantallas públicas; panel barista; panel administrador |
 | 1–3 | `10-requisitos.md` | Requisitos funcionales; no funcionales; matriz de trazabilidad |
 | 1–3 | `11-frontend.md` | Dependencias; rutas de la SPA; intervalos de sondeo |

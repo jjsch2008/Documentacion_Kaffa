@@ -111,7 +111,7 @@ Organización de `src/`:
 
 | Carpeta | Contenido |
 |---------|-----------|
-| `pages/` | Páginas públicas (Home, Menu, Eventos, SobreNosotros, Contacto), auth (Login, Registro, Forgot/ResetPassword, VerifyEmailNotice), cliente (MisPedidos, ChatBarista) y dashboards (`dashboard-admin/` con 16 vistas, `dashboard-barista/` con 4 vistas). |
+| `pages/` | Páginas públicas (Home, Menu, Eventos, SobreNosotros, Contacto), auth (Login, Registro, Forgot/ResetPassword, VerifyEmailNotice), cliente (MisPedidos, ChatBarista) y dashboards (`dashboard-admin/` con 17 vistas, `dashboard-barista/` con 4 vistas). |
 | `components/` | `ErrorBoundary`, `RequireRole` (guard de rutas), `layout/` (Navbar + Footer), `product/ProductCard`, `cliente/ClienteWidgets` (4 modales de cliente). |
 | `lib/` | `api.js` (cliente HTTP con `fetch`, adjunta `Bearer`, maneja 401 limpiando sesión), `auth.js` (login/registro/logout/refresh/requisitos de rol), `storage.js`, `toast.js`, `utils.js`, `stylesManager.js`, `productos-store.js`. |
 | `hooks/` | `useCatalogo`, `useEquipo`, `useChatNoLeidos`, `useStyles`, `useBodyClass`, `useDashboardTheme`. |
@@ -134,9 +134,11 @@ sequenceDiagram
     participant M as SMTP
 
     N->>A: POST /api/v1/registro {nombre, correo, password}
-    A->>M: correo de verificación (evento Registered)
+    A->>M: correo con código OTP (evento Registered)
     A-->>N: 201 "Registro exitoso…" (sin token)
-    Note over N: El usuario abre el enlace firmado<br/>GET /email/verify/{id}/{hash}
+    Note over N: El usuario ingresa el código de 6 dígitos
+    N->>A: POST /api/v1/email/verify-code {correo, codigo}
+    A-->>N: 200 {message: "Correo verificado…"}
     N->>A: POST /api/v1/login {correo, password}
     alt credenciales válidas y correo verificado
         A-->>N: {access_token, token_type, usuario(+roles),<br/>turno_activo, turno_info (baristas)}

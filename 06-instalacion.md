@@ -62,7 +62,9 @@ php artisan serve    # http://localhost:8000  → API en /api/v1
 
 ### 2.2 Correo en desarrollo
 
-`.env.example` apunta a **Mailpit** (`MAIL_HOST=mailpit`, `MAIL_PORT=1025`): los correos de verificación y reseteo pueden inspeccionarse en `http://localhost:8025` (interfaz de Mailpit). `[NO VERIFICADO]` no hay contenedor docker-compose para Mailpit en el repositorio; si no se usa Mailpit, configurar un SMTP real o un `MAIL_MAILER=log` para verlos en `storage/logs/laravel.log`.
+`.env.example` apunta a **Mailpit** (`MAIL_HOST=mailpit`, `MAIL_PORT=1025`): los correos de verificación y reseteo (códigos OTP) pueden inspeccionarse en `http://localhost:8025` (interfaz de Mailpit). `[NO VERIFICADO]` no hay contenedor docker-compose para Mailpit en el repositorio; si no se usa Mailpit, configurar un SMTP real o un `MAIL_MAILER=log` para verlos en `storage/logs/laravel.log`.
+
+Para envíos reales el proyecto usa **Brevo** (relay SMTP): requiere un remitente **verificado**, la **SMTP key** (no la API key) y el host **`smtp-relay.sendinblue.com`**. Detalle en `docs/07-despliegue.md` §3. Usar `smtp-relay.sendinblue.com` es importante: con `smtp-relay.brevo.com` algunos nodos regionales presentan un certificado TLS con otro CN y la verificación falla (`Peer certificate CN ... did not match`).
 
 ## 3. Frontend (`REACT_clean/REACT_kaffa/`)
 
@@ -94,6 +96,7 @@ npm run dev        # http://localhost:5173
 | `could not find driver` al migrar | falta `pdo_pgsql` en PHP | instalar la extensión y reiniciar el servidor |
 | Errores de conexión a BD | credenciales/puerto distintos en el entorno | revisar el bloque `DB_*` de `.env` (debe ser `pgsql`/5432) |
 | SPA no carga datos de la API | backend apagado o proxy mal apuntado | levantar `php artisan serve` en `:8000`; verificar proxy en `vite.config.js` |
-| Login responde 403 `EMAIL_NOT_VERIFIED` | cuenta sin verificar | abrir el enlace del correo (Mailpit/log) o reenviar desde `/verify-email` |
+| Login responde 403 `EMAIL_NOT_VERIFIED` | cuenta sin verificar | usar el **código** del correo (Mailpit en dev, Brevo en prod) en `/verify-email` o reenviarlo |
+| El registro/reset no envía el código con Brevo (`Peer certificate CN ... did not match`) | el nodo regional de Brevo presenta un certificado TLS con CN distinto al host | usar `MAIL_HOST=smtp-relay.sendinblue.com`, o `MAIL_VERIFY_PEER=false` (ver `docs/07-despliegue.md` §3) |
 | Barista recibe 403 `TURNO_INACTIVO`/`FUERA_HORARIO` | fuera de 07:00–18:00 America/Bogota o sin asignación de turno | crear/asignar turno desde el panel admin (Turnos) |
 | 429 en escrituras | límites de throttle (10/min operativas) | esperar o ajustar límites |

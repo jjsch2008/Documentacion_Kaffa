@@ -7,7 +7,7 @@ Definiciones de los términos usados en el sistema KAFFA y en esta documentació
 | **Ability** | Permiso acuñado en un token Sanctum (p. ej. `pedidos:manage`, `catalogo:read`). El middleware `ability:` valida que el token posea la ability exigida por la ruta de escritura; de lo contrario responde 403 `TOKEN_SIN_ABILITY`. |
 | **Arqueo** | Conciliación de caja al cierre: `monto_cierre_sistema = apertura + ingresos − egresos`, calculado por el servidor; la diferencia contra el físico declarado determina Faltante/Sobrante/Perfecto. |
 | **Barista** | Rol operativo: atiende el POS, cobra, registra pedidos de mostrador, compras, gastos y mermas. Solo puede mutar recursos **dentro de su turno activo** (`turno.activo`). |
-| **Comprobante** | Imagen (jpeg/png/webp) que acredita un pago con medio virtual (transferencia, pago móvil, QR). Se sube con `POST /comprobantes` y su URL se persiste en `comprobante_url`. |
+| **Comprobante** | Imagen que acredita un pago con medio virtual (transferencia, pago móvil, QR). Se sube a **Cloudinary** desde el navegador y su `secure_url` se persiste en `comprobante_url`. |
 | **Medio de pago virtual** | Medio marcado `es_virtual=true`; exige `comprobante_url` en el pago (regla validada en el backend). |
 | **Merma** | Pérdida de insumo (rotura, derrame, caducidad) con motivo y responsable; **reduce** el `stock_actual`; su eliminación lo restaura. |
 | **Pivote** | Tabla intermedia de una relación muchos-a-muchos (`usuario__rols`, `recetas`, `barista_turno`) con clave primaria compuesta. |

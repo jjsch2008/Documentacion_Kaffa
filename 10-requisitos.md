@@ -8,8 +8,8 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 
 | ID | Requisito | Evidencia (implementación) |
 |----|-----------|------------------------------|
-| RF-01 | El sistema permite registrarse públicamente como cliente con contraseña fuerte | `AuthController::register`, `routes/api.php` `/registro` |
-| RF-02 | El sistema exige verificación de correo para iniciar sesión | `AuthController::login` (403 `EMAIL_NOT_VERIFIED`), `EmailVerificationController` |
+| RF-01 | El sistema permite registrarse públicamente como cliente con contraseña fuerte, persistiendo la cuenta **solo tras verificar el correo** | `AuthController::register`, `RegistrationService`, `routes/api.php` `/registro` |
+| RF-02 | El sistema exige verificación de correo para iniciar sesión | `AuthController::login` (403 `EMAIL_NOT_VERIFIED`), `EmailVerificationController`, `RegistrationService::confirmar` |
 | RF-03 | El usuario puede iniciar sesión y obtener un token Bearer con sus roles | `AuthController::login`, `ApiTest` |
 | RF-04 | El usuario puede consultar su perfil, editarlo y cerrar sesión (token actual, todos los dispositivos o rotación) | `/me`, `/perfil`, `/logout`, `/auth/refresh`, `/auth/logout-all` |
 | RF-05 | El sistema permite recuperar la contraseña por correo y revoca todas las sesiones al restablecerla | `PasswordResetController`, `PasswordResetTest` |
@@ -20,7 +20,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-10 | El cliente crea sus propios pedidos (autoría forzada, estado inicial `pendiente`) | `PedidoService::crear`, `StorePedidoRequest` |
 | RF-11 | El barista registra pedidos de mostrador y gestiona estados de cualquier pedido | `POST /pedidos`, `PUT /pedidos/{id}`, `PedidosView.jsx` |
 | RF-12 | Cada pedido puede llevar detalles con nota, pagos por medio y factura opcional | `StorePedidoRequest`, `PedidoService` |
-| RF-13 | Los medios de pago virtuales exigen comprobante (imagen) en pedidos, compras y gastos | `withValidator` de `Store*Request`, `Medio_Pago::virtualIds`, `POST /comprobantes` |
+| RF-13 | Los medios de pago virtuales exigen comprobante (imagen) en pedidos, compras y gastos | `withValidator` de `Store*Request`, `Medio_Pago::virtualIds`, `App\Rules\CloudinaryUrl` (imagen alojada en Cloudinary) |
 | RF-14 | El sistema valida stock de insumos (por receta) antes de crear un pedido y lo descuenta al crearlo | `PedidoService`, listener `DeducirInventario` |
 | RF-15 | El sistema valida que la suma de pagos coincida con el total del pedido/compra | `PedidoService`, `CompraService` |
 | RF-16 | Las facturas se numeran de forma secuencial y atómica por año | `FacturaService`, `factura_contadores` |
@@ -38,6 +38,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-28 | Toda lista admite paginación (1–100), filtros por campo, búsqueda parcial en textos, filtros de fecha y ordenamiento | `HasBasicQueries::consultar` |
 | RF-29 | El barista imprime recibos (80 mm) y exporta historial a PDF | `PedidosView.jsx`, `helpers.js` (jsPDF) |
 | RF-30 | El admin exporta pedidos a CSV y visualiza KPIs con gráficas | `PedidosView.jsx`, `InicioView.jsx` (Chart.js) |
+| RF-31 | El admin (y solo él) conversa con un Asistente IA que analiza ventas, predice y sugiere estrategias de marketing; el historial se persiste | `AsistenteController`, `AsistenteVentasService`, `AsistenteView.jsx`, `asistente_mensajes` |
 
 ## 2. Requisitos no funcionales (verificados en implementación)
 
@@ -57,6 +58,8 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RNF-08 | Seguridad: cabeceras CORS configurables y API de tokens puros | `config/cors.php`, `supports_credentials=false` |
 | RNF-09 | Disponibilidad de datos en UI: sondeo periódico (pedidos 10 s, chat 5 s, inventario 15 s, caja 30 s, turno 60 s) | hooks y vistas SPA |
 | RNF-10 | Usabilidad: tema claro/oscuro en dashboards y notificaciones toast | `useDashboardTheme`, `variables.css`, `sonner` |
+| RNF-10b | Seguridad: la API key de IA permanece en el backend; sólo se envían métricas agregadas al proveedor | `config/services.php`, `AsistenteVentasService` |
+| RNF-10c | Robustez: reintento del Asistente IA con modelos de respaldo ante 503/429 del proveedor | `AsistenteVentasService::responder`, `GEMINI_FALLBACK_MODEL` |
 | RNF-11 | Compatibilidad: SPA servida por Vite (dev) o Apache (prod) con la misma base relativa `/api/v1` | `vite.config.js`, `api.js` |
 
 ## 3. Matriz de trazabilidad (resumen)
@@ -77,8 +80,9 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-26 | Reportes | §12 | `ChatReporteTest` (3 pruebas) |
 | RF-28 | Transversal | §1 | parcial (envoltura de paginación en `ApiTest`) |
 | RF-29, RF-30 | Frontend (sin API propia) | — | — `[GAP]` (frontend sin tests) |
+| RF-31 | Asistente IA de ventas | §13 (§17 en docs/03) | `AsistenteTest` (5 pruebas: respuesta/persistencia y bloqueo a barista/cliente/anónimo) |
 
-**Leyenda de gaps**: la suite (58 pruebas, ejecutada 2026-09-28) cubre autenticación, pedidos, caja, compras/mermas, turnos, chat, reportes y sesión de tokens. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
+**Leyenda de gaps**: la suite (63 pruebas, ejecutada 2026-10-05) cubre autenticación, pedidos, caja, compras/mermas, turnos, chat, reportes, sesión de tokens y el Asistente IA. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
 
 ## 4. Fuera de alcance (no implementado)
 

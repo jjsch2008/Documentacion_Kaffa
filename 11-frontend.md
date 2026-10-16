@@ -24,11 +24,11 @@ CDNs cargadas en tiempo de ejecución: Chart.js (gráficas del admin) [11], jsPD
 ```text
 src/
 ├── main.jsx / App.jsx        entrada; ErrorBoundary + Toaster + rutas
-├── pages/                    públicas · auth · cliente · dashboard-admin (16) · dashboard-barista (4)
-├── components/               Layout (Navbar+Footer), RequireRole, ClienteWidgets (4 modales), ProductCard
+├── pages/                    públicas · auth · cliente · dashboard-admin (17) · dashboard-barista (4)
+├── components/               Layout (Navbar+Footer), RequireRole, ClienteWidgets (4 modales), ProductCard, media (ImageUpload, CloudinaryImage)
 ├── context/                  CarritoContext (carrito, pago, perfil del cliente)
 ├── hooks/                    useCatalogo · useEquipo · useChatNoLeidos · useStyles · useBodyClass · useDashboardTheme
-├── lib/                      api.js · auth.js · storage.js · toast.js · utils.js · stylesManager.js · productos-store.js
+├── lib/                      api.js · auth.js · storage.js · toast.js · utils.js · stylesManager.js · productos-store.js · cloudinary.js
 ├── data/                     productos.js (catálogo demo)
 └── styles/                   variables.css (tokens de tema claro/oscuro)
 public/css/                   hojas por página cargadas en caliente (stylesManager.js)
@@ -45,7 +45,7 @@ Ver Tabla 2. Los dashboards usan `RequireRole` (`src/components/RequireRole.jsx`
 | `/`, `/menu`, `/eventos`, `/sobre-nosotros`, `/contacto` | público | sitio comercial; «Sobre Nosotros» incluye equipo por fecha/turno (`GET /equipo`) |
 | `/login`, `/registro`, `/forgot-password`, `/reset-password`, `/verify-email` | público | autenticación |
 | `/pedidos`, `/chat` | `RequireRole cliente` | mis pedidos y chat |
-| `/admin-dashboard` | `RequireRole admin` | panel de 16 secciones |
+| `/admin-dashboard` | `RequireRole admin` | panel de 17 secciones |
 | `/barista-dashboard/{pedidos,inventario,chat,caja}` | `RequireRole barista` | POS, inventario, chat, caja |
 | `*` | — | redirección a `/` |
 
@@ -59,7 +59,7 @@ flowchart TD
         RT["App.jsx<br/>rutas + RequireRole"] --> PUB["Páginas públicas"]
         RT --> CLI["Cliente: MisPedidos · Chat ·<br/>ClienteWidgets (carrito/pago/perfil)"]
         RT --> BAR["Barista: Pedidos(POS) · Inventario · Chat · Caja"]
-        RT --> ADM["Admin: 16 vistas"]
+        RT --> ADM["Admin: 17 vistas"]
         API["lib/api.js (fetch + Bearer)"]
         AUTH["lib/auth.js"]
         CTX["context/CarritoContext"]
@@ -118,8 +118,8 @@ flowchart LR
     B --> C["CartModal<br/>(CarritoContext)"]
     C --> D{"Forma de pago"}
     D -->|"Efectivo en mostrador"| E["POST /pedidos<br/>estado pendiente"]
-    D -->|"Pagar ya (medio virtual)"| F["PaymentModal<br/>imagen comprobante"]
-    F --> G["POST /comprobantes → url"]
+    D -->|"Pagar ya (medio virtual)"| F["PaymentModal<br/>ImageUpload → Cloudinary"]
+    F --> G["secure_url de Cloudinary"]
     G --> E
     E --> H["MisPedidos<br/>(sondeo 10 s)"]
 ```
@@ -131,4 +131,15 @@ Reglas replicadas en la UI (espejo del backend): medio virtual exige comprobante
 - **Dashboard barista**: encabezado con badge de turno y minutos restantes (`BaristaContext`), tema claro/oscuro, modal de perfil (`PUT /perfil`), logout con confirmación.
 - **PDFs**: `helpers.js` carga jsPDF desde CDN; recibo de 80 mm por pedido e historial A4 de entregados.
 - **Admin**: CSV de pedidos generado en cliente; gráficas con Chart.js (ingresos 7 días, top 5 productos).
-- `[GAP]` El frontend no tiene suite de pruebas (solo ESLint) ni variables de entorno (`import.meta.env` sin uso; la base `/api/v1` es relativa).
+- **Asistente IA** (`dashboard-admin/AsistenteView.jsx`): chat estilo Messenger exclusivo del admin. Carga el historial con `GET /asistente/mensajes`, envía con `POST /asistente/chat` (sin sondeo), muestra burbujas con avatares, indicador de escritura y sugerencias rápidas, y permite reiniciar la conversación (`DELETE /asistente/mensajes`). El texto del asistente se escapa antes de aplicar negritas/viñetas (evita inyección HTML).
+- `[GAP]` El frontend no tiene suite de pruebas (solo ESLint).
+
+## 10. Medios e imágenes (Cloudinary)
+
+- **Subida directa**: las imágenes se suben del navegador a Cloudinary (upload preset *unsigned*), nunca a través del backend. Lógica en `src/lib/cloudinary.js`:
+  - `uploadImage(file, { onProgress, signal })`: valida tipo (JPG/PNG/WebP/AVIF) y tamaño (≤ 5 MB), hace `POST` multipart a `https://api.cloudinary.com/v1_1/<cloud>/image/upload` con `file` + `upload_preset`, y devuelve la `secure_url`. La carpeta destino (`samples/ecommerce`) la define el preset.
+  - `cloudinaryUrl(src, { w, h, crop, q, f })`: construye URLs de entrega con transformaciones (`f_auto,q_auto,w_…`); las URLs externas (Unsplash, assets heredados) pasan sin cambios.
+  - `isCloudinary(url)`: detecta URLs de entrega de Cloudinary.
+- **Componentes** (`src/components/media/`): `ImageUpload` (botón + vista previa + progreso, reutilizado en Productos, Eventos, Baristas, comprobantes y avatares) y `CloudinaryImage` (`<img>` con `f_auto,q_auto`, `loading="lazy"` y fallback).
+- **Variables de entorno** (`.env.local`, plantilla en `.env.example`): `VITE_CLOUDINARY_CLOUD_NAME=roffd6et` y `VITE_CLOUDINARY_UPLOAD_PRESET=KAFFACCYS`. Son públicas por diseño (subida unsigned); el API secret jamás se expone.
+- El backend ya no expone endpoints de subida de archivos: sólo valida la `secure_url` recibida (ver `docs/03-api.md` y `docs/05-seguridad.md`).

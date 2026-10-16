@@ -10,7 +10,8 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 - Rotación/revocación: `POST /auth/refresh` (rota el actual), `POST /logout` (revoca el actual), `POST /auth/logout-all` (todos los dispositivos).
 - El restablecimiento de contraseña **revoca todos los tokens** (`PasswordResetController`).
 - 401 siempre como JSON (middleware `Authenticate` devuelve null en `redirectTo`), nunca redirección a login HTML.
-- Enlaces de verificación de correo **firmados** (`signed` middleware) con hash `sha1(correo)`.
+- **Códigos OTP**: verificación de correo y reseteo de contraseña por código de 6 dígitos, guardado **hasheado**, de un solo uso, con caducidad (15 min), límite de intentos (5) y cooldown de reenvío (60 s).
+- **Alta diferida**: el registro público **no persiste** al usuario en `users`; sus datos (nombre, correo y contraseña hasheada) viven en `registros_pendientes` y sólo se materializa el `User` verificado al confirmar el código. Así una cuenta nunca existe sin haber verificado su correo.
 
 ## 2. Autorización (RBAC)
 
@@ -21,7 +22,7 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 
 ## 3. Verificación de correo obligatoria
 
-- Registro público (`POST /registro`) → correo con enlace firmado; login bloqueado hasta verificar (403 `EMAIL_NOT_VERIFIED`).
+- Registro público (`POST /registro`) → correo con **código de 6 dígitos** (`POST /email/verify-code`); login bloqueado hasta verificar (403 `EMAIL_NOT_VERIFIED`).
 - Reenvío: `POST /email/verification-notification` (respuesta uniforme, anti-enumeración).
 - Usuarios creados por el admin nacen verificados; migración con backfill para cuentas preexistentes.
 
@@ -35,9 +36,11 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 | `/login` | 5/min (protege bcrypt) |
 | `/registro` | 10/min |
 | `/forgot-password`, `/reset-password`, `/email/verification-notification` | 5/min |
+| `/email/verify-code` | 10/min |
 | `/equipo` | 60/min |
 | Escrituras de catálogo (admin) | 30/min |
 | `POST /pedidos` y escrituras operativas | 10/min |
+| `/asistente/*` (Asistente IA, solo admin) | 20/min |
 
 ## 5. CORS — `config/cors.php`
 
@@ -53,6 +56,7 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 - `GET /equipo` (público) solo expone `id, nombre, foto` — nunca correos (verificado también por `EquipoTest`).
 - `Handler::$dontFlash` descarta contraseñas de las trazas de excepciones.
 - `dontFlash`/`ConvertEmptyStringsToNull`, `TrimStrings` en el stack global; `ValidatePostSize` activo.
+- **Asistente IA**: la `GEMINI_API_KEY` vive únicamente en el backend (`config/services.php`) y **nunca** se envía al frontend; el navegador sólo consume `/api/v1/asistente/*`. Al proveedor externo (Google Gemini) se le envían **métricas agregadas** del negocio (ventas, productos, stock, mermas, gastos), **nunca datos personales de clientes**.
 
 ## 7. Validación de entradas
 
@@ -65,7 +69,7 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 
 - Política: mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos (registro, reset, admin, perfil).
 - Hash bcrypt por defecto de Laravel (`casts` `hashed` en `User`).
-- Reset: token de un solo uso + revocación de todas las sesiones; respuestas uniformes en `forgot-password` para evitar enumeración de correos.
+- Reset: **código OTP de un solo uso** + revocación de todas las sesiones; respuestas uniformes en `forgot-password` para evitar enumeración de correos.
 
 ## 9. Tokens: alcance de *abilities* (aplicado)
 
@@ -84,7 +88,7 @@ Los tokens incluyen *abilities* por rol (`*` para admin; `pedidos:manage`, `cata
 | Cajas | `cajas:manage` |
 | Proveedores (escritura) | `proveedores:manage` (solo admin la posee) |
 | Movimientos de caja (escritura) | `movimiento-cajas:manage` (solo admin) |
-| `POST /comprobantes` | `comprobantes:upload` |
+| Asistente IA (`/asistente/*`) | `asistente:consultar` (solo admin) |
 | Usuarios / usuario-roles, roles, turnos, factura-ventas | `usuarios:manage`, `roles:manage`, `turnos:manage`, `facturas:manage` (solo admin `*`) |
 
 Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido para esta acción.", code: "TOKEN_SIN_ABILITY", required_ability: [...]}`.
@@ -112,7 +116,7 @@ Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido
 |----------|--------|
 | Abilities de tokens Sanctum almacenadas sin validarse | **RESUELTO**: middleware `ability:` (`EnsureTokenCanAbility`) creado, registrado y aplicado a las rutas de escritura (ver §9) |
 | `UserFactory` con columnas `name`/`email` inexistentes | **RESUELTO**: fábrica reescrita sobre `nombre`/`correo` (+ estados `unverified`/`inactive`) |
-| Suite de pruebas mínima | **RESUELTO parcialmente**: suite ampliada a 58 pruebas (ver `08-pruebas.md`) |
+| Suite de pruebas mínima | **RESUELTO**: suite ampliada (58 pruebas en 2026-09; **63** en 2026-10 con el Asistente IA) — ver `08-pruebas.md` |
 | Dos lockfiles en el frontend | **RESUELTO**: eliminado `package-lock.json`; queda `pnpm-lock.yaml` como fuente única |
 | Directorio vacío `backend-kaffa/backend-kaffa/` | **RESUELTO**: eliminado |
 

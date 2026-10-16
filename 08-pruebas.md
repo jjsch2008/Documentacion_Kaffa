@@ -9,7 +9,7 @@
 | Backend | **PHPUnit 10** (`^10.1`, dev) [9] | `phpunit.xml`: base de datos de pruebas **PostgreSQL `kaffa_test`** (no sqlite, no hereda la base real), `BCRYPT_ROUNDS=4`, caché/cola/sesión en `array` |
 | Frontend | **No hay pruebas automatizadas** | solo ESLint (`npm run lint`); `[GAP]` no existe `test` script ni framework de tests |
 
-> **Ejecución real de la suite**: 28-09-2026, `php artisan test` sobre PostgreSQL local con base `kaffa_test` ⇒ **58 pruebas pasando, 0 fallos (213 aserciones)**. Advertencias: 2 avisos de deprecación preexistentes de PHP 8.5 (constante `PDO::MYSQL_ATTR_SSL_CA` referenciada en `config/database.php`), ajenos a la lógica de la aplicación.
+> **Ejecución real de la suite**: 05-10-2026, `php artisan test` sobre PostgreSQL local con base `kaffa_test` ⇒ **63 pruebas pasando, 0 fallos (228 aserciones)**. Advertencias: 2 avisos de deprecación preexistentes de PHP 8.5 (constante `PDO::MYSQL_ATTR_SSL_CA` referenciada en `config/database.php`), ajenos a la lógica de la aplicación.
 
 ## 2. Inventario de pruebas del backend (`backend-kaffa/tests/`)
 
@@ -23,8 +23,8 @@
 | `tests/Feature/ExampleTest.php` | la ruta web `/` responde 200 |
 | `tests/Feature/ApiTest.php` | Login válido devuelve `{access_token, token_type, usuario}`; contraseña errónea ⇒ 401 con mensaje; ruta protegida sin token ⇒ 401; `GET /api/v1/productos` autenticado devuelve envoltura paginada `{data, links, meta}` |
 | `tests/Feature/EquipoTest.php` | 10 pruebas del endpoint público `/equipo`: acceso público; administradora siempre presente; filtrado mañana/tarde; cambio de fecha; baristas inactivos excluidos; **sin datos sensibles** (correo/password); tipo inválido ⇒ 422; fecha inválida ⇒ 422; valores por defecto (hoy + mañana) |
-| `tests/Feature/EmailVerificationTest.php` | El registro envía correo de verificación y no devuelve token; login sin verificar ⇒ 403 `EMAIL_NOT_VERIFIED`; la URL firmada verifica y redirige a `/login?verified=1`; el reenvío funciona |
-| `tests/Feature/PasswordResetTest.php` | `forgot-password` envía la notificación y guarda el token; respuesta uniforme 200 para correo desconocido (anti-enumeración); token válido actualiza la contraseña (hash); token inválido ⇒ 422; el reseteo **revoca todos los tokens** |
+| `tests/Feature/EmailVerificationTest.php` | (7) El registro envía el **código** de verificación y no devuelve token; login sin verificar ⇒ 403 `EMAIL_NOT_VERIFIED`; código correcto verifica y es de un solo uso; código incorrecto incrementa intentos; código expirado ⇒ 422; demasiados intentos bloquea; el reenvío envía un código nuevo |
+| `tests/Feature/PasswordResetTest.php` | (5) `forgot-password` envía el código y lo guarda; respuesta uniforme 200 para correo desconocido (anti-enumeración); código válido actualiza la contraseña (hash); código inválido ⇒ 422; el reseteo **revoca todos los tokens** |
 
 ### 2.2 Suite ampliada (pasada de seguridad 2026-09, 6 archivos nuevos, 35 pruebas)
 
@@ -41,6 +41,14 @@
 
 > Nota técnica para mantener estas pruebas: la instancia de la aplicación en tests cachea el guard autenticado entre peticiones del mismo método; los tests usan `$this->app['auth']->forgetGuards()` antes de cambiar de usuario/token, y leen los recursos individuales desde `json('data.id')` (los `BaseResource` envuelven la respuesta en `data`).
 
+### 2.3 Asistente IA de ventas (2026-10)
+
+**Tabla 4.** _Inventario de pruebas: Asistente IA_
+
+| Archivo | Qué verifica |
+|---------|--------------|
+| `tests/Feature/AsistenteTest.php` | El admin envía un mensaje, recibe la respuesta del proveedor externo **simulado con `Http::fake`** (no consume cuota) y **ambos turnos se persisten** en `asistente_mensajes`; `GET`/`DELETE` del historial; **barista y cliente reciben 403**; sin token ⇒ 401 |
+
 ## 3. Ejecución de las pruebas
 
 ```bash
@@ -54,9 +62,9 @@ Las pruebas usan `RefreshDatabase` (migraciones por ejecución).
 
 ## 4. Cobertura verificada vs. no cubierta
 
-**Cubierto (suite ejecutada, 58 pruebas)**: login y protección por token; envoltura de paginación; endpoint público `/equipo`; verificación de correo; reseteo de contraseña; pedidos (autoría forzada, comprobante virtual, consistencia de pagos, stock, scope por rol); facturación secuencial; caja y arqueo (movimientos, bloqueo de eliminación, caja ajena); compras y mermas (ajuste/restauración de stock); middleware `turno.activo` (códigos `FUERA_HORARIO`/`TURNO_INACTIVO`, exenciones); chat (reglas y no leídos); reportes (roles y autoría); rotación/revocación de tokens (`refresh`/`logout`/`logout-all`) y middleware `ability:` (`TOKEN_SIN_ABILITY`).
+**Cubierto (suite ejecutada, 66 pruebas)**: login y protección por token; envoltura de paginación; endpoint público `/equipo`; verificación de correo por **código OTP**; reseteo de contraseña por **código**; pedidos (autoría forzada, comprobante virtual, consistencia de pagos, stock, scope por rol); facturación secuencial; caja y arqueo (movimientos, bloqueo de eliminación, caja ajena); compras y mermas (ajuste/restauración de stock); middleware `turno.activo` (códigos `FUERA_HORARIO`/`TURNO_INACTIVO`, exenciones); chat (reglas y no leídos); reportes (roles y autoría); rotación/revocación de tokens (`refresh`/`logout`/`logout-all`) y middleware `ability:` (`TOKEN_SIN_ABILITY`); Asistente IA (persistencia, respuesta simulada y bloqueo por rol).
 
-**No cubierto** `[GAP]` (funcionalidad sin pruebas automatizadas detectadas): CRUD de catálogo completo (create/update/delete de productos/categorías/insumos/recetas/medios-pago), gestión de usuarios/roles/turnos del admin, subida de comprobantes (`POST /comprobantes`), gastos con caja (movimientos `egreso`), consultas con filtros avanzados (`fecha_desde`/`fecha_hasta`/`sort_by`), throttle por rutas (verificación de límites), frontend (sin framework de tests).
+**No cubierto** `[GAP]` (funcionalidad sin pruebas automatizadas detectadas): CRUD de catálogo completo (create/update/delete de productos/categorías/insumos/recetas/medios-pago), gestión de usuarios/roles/turnos del admin, **subida de imágenes a Cloudinary** (ocurre en el frontend; el backend sólo se cubre con la validación de `App\Rules\CloudinaryUrl`), gastos con caja (movimientos `egreso`), consultas con filtros avanzados (`fecha_desde`/`fecha_hasta`/`sort_by`), throttle por rutas (verificación de límites), frontend (sin framework de tests).
 
 **Medición de cobertura**: no existe medición de cobertura de código en el repositorio (no se ejecutó `--coverage`).
 
@@ -70,3 +78,4 @@ Las pruebas usan `RefreshDatabase` (migraciones por ejecución).
 4. Barista: fuera de turno ⇒ 403 (`FUERA_HORARIO`/`TURNO_INACTIVO`); con turno: cobrar, cambiar estados, abrir y cerrar caja, revisar arqueo.
 5. Admin: crear usuario con roles, gestionar catálogo, turnos y reportes; caja sin restricción de turno.
 6. Compra de insumos ⇒ sube stock; merma ⇒ baja stock; eliminar merma ⇒ restaura stock.
+7. Asistente IA: con el admin, abrir «Asistente IA», preguntar por las ventas y verificar que responde con datos reales; comprobar que barista y cliente no ven la sección ni obtienen datos del endpoint (403).

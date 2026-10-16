@@ -15,9 +15,9 @@ Manual basado en las pantallas implementadas en la SPA (`REACT_clean/REACT_kaffa
 | Contacto | `/contacto` | Datos de contacto y horarios |
 | Registro | `/registro` | Crear cuenta de cliente (nombre, correo, contraseña fuerte) |
 | Login | `/login` | Iniciar sesión (correo + contraseña) |
-| Recuperar contraseña | `/forgot-password` → `/reset-password` | Recibir enlace por correo y restablecer |
+| Recuperar contraseña | `/forgot-password` → `/reset-password` | Recibir **código** por correo y restablecer |
 
-Después de registrarse, el sistema **envía un correo de verificación**; hay que abrir el enlace antes de poder iniciar sesión. Desde `/verify-email` se puede reenviar el correo.
+Después de registrarse, el sistema **envía un código de 6 dígitos** al correo; hay que ingresarlo en `/verify-email` antes de poder iniciar sesión. Desde ahí también se puede reenviar el código.
 
 ## 2. Cliente
 
@@ -25,7 +25,7 @@ Tras iniciar sesión, el cliente permanece en el sitio público (misma web) con 
 
 1. **Comprar** (`ProductCard` + modales): elegir producto → cantidad y nota por línea («sin azúcar») → carrito (editar cantidades, ver total) → **Pagar**:
    - *Efectivo en mostrador*: el pedido queda `pendiente` y se paga en caja.
-   - *Pagar ya*: elegir medio **virtual** (transferencia/pago móvil/QR) y adjuntar la **imagen del comprobante**; el sistema la sube y registra el pago.
+   - *Pagar ya*: elegir medio **virtual** (transferencia/pago móvil/QR) y adjuntar la **imagen del comprobante** (se sube a Cloudinary desde el navegador); el sistema registra el pago con la URL.
 2. **Mis Pedidos** (`/pedidos`): lista de sus pedidos con estado (`pendiente`, `pagado`, `cancelado`, `entregado`), productos, pagos y número de factura. Se actualiza sola cada 10 s.
 3. **Chat** (`/chat`): conversación con baristas/administración, con contador de mensajes no leídos.
 4. **Mi Perfil** (menú de usuario): cambiar nombre, correo, contraseña y foto.
@@ -52,13 +52,13 @@ También puede editar su perfil (menú de avatar) y cerrar sesión.
 
 **Tabla 3.** _Secciones del panel administrador_
 
-Panel con 16 secciones (menú lateral). El admin **no depende de turnos** para operar.
+Panel con 17 secciones (menú lateral). El admin **no depende de turnos** para operar.
 
 | Sección | Uso |
 |---------|------|
 | Inicio | KPIs: ingresos del día, pedidos del día, clientes registrados, ticket promedio + gráficas (ingresos de 7 días, top 5 productos) |
 | Pedidos | Tabla con detalle completo, cambio de estado, eliminación con cascada y **exportación CSV** |
-| Productos | CRUD con imagen (URL/base64), precio y categoría |
+| Productos | CRUD con imagen (subida a Cloudinary), precio y categoría |
 | Categorías | CRUD de categorías |
 | Insumos | CRUD; el stock lo mueven compras/mermas/ventas (solo se fija al crear) |
 | Mermas | Registrar mermas (baja stock) y eliminarlas (restaura stock) |
@@ -71,6 +71,7 @@ Panel con 16 secciones (menú lateral). El admin **no depende de turnos** para o
 | Baristas | Gestión de baristas: crear con contraseña y foto, asignar rol |
 | Turnos | Crear/editar turnos (`mañana`/`tarde`) y asignar baristas por turno |
 | Reportes | Novedades enviadas por baristas: marcar leídas, editar prioridad, eliminar |
+| Asistente IA | Chat con un asistente que analiza las ventas reales, hace **predicciones** y sugiere estrategias de marketing. Escribe tu pregunta (o usa una sugerencia); el historial se guarda y puedes **Limpiar** la conversación. Solo el administrador tiene acceso |
 | Configuración | CRUD de **medios de pago** (con flag «virtual» ⇒ exige comprobante) y tabla de roles del sistema |
 
 El perfil del admin y el cierre de sesión están en la barra superior.
@@ -78,7 +79,7 @@ El perfil del admin y el cierre de sesión están en la barra superior.
 ## 5. Reglas comunes a tener en cuenta
 
 - Contraseñas: mínimo 8 caracteres con mayúscula, minúscula, número y símbolo.
-- Los medios de pago virtuales (transferencia, pago móvil, QR) **exigen comprobante** (imagen) en pagos de pedidos, compras y gastos.
+- Los medios de pago virtuales (transferencia, pago móvil, QR) **exigen comprobante** (imagen) en pagos de pedidos, compras y gastos. Las imágenes se alojan en **Cloudinary** (subida directa desde el navegador).
 - El barista debe tener **turno activo** para cobrar, mover estados, y todo lo de caja/compras/gastos/mermas; de lo contrario el sistema rechaza la operación.
 - Los números de factura los asigna el sistema automáticamente.
 - Los datos de listas se actualizan periódicamente (pedidos 10 s, chat 5 s, inventario 15 s, caja 30 s); no hay que refrescar la página.

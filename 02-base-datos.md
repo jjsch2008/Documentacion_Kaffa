@@ -5,15 +5,15 @@
 - **Motor**: PostgreSQL (`.env`: `DB_CONNECTION=pgsql`, `DB_HOST=127.0.0.1`, `DB_PORT=5432`, `DB_DATABASE=kaffa`). Los tests usan la base `kaffa_test` (`phpunit.xml`).
 - **Zona horaria de la aplicación**: `America/Bogota` (`config/app.php`).
 - **Nomenclatura**: tablas en español; las tabletas de detalle de pagos y pivotes usan doble guion bajo (`pago__pedidos`, `usuario__rols`, `movimiento__cajas`), siguiendo el estilo del generador de código original.
-- **Borrado lógico (soft delete)**: columnas `deleted_at` en la mayoría de tablas de negocio (verificado por migraciones y rasgo `SoftDeletes` en los modelos). Excepciones: `pago__pedidos`, `detalle__pedidos`, `detalle__compras`, `compra__pagos`, `gasto__pagos`, `movimiento__cajas`, `recetas`, `usuario__rols`, `barista_turno`, `turnos`, `rols`, `medio__pagos`, `factura__ventas`, `factura_contadores`, `mensajes`.
+- **Borrado lógico (soft delete)**: columnas `deleted_at` en la mayoría de tablas de negocio (verificado por migraciones y rasgo `SoftDeletes` en los modelos). Excepciones: `pago__pedidos`, `detalle__pedidos`, `detalle__compras`, `compra__pagos`, `gasto__pagos`, `movimiento__cajas`, `recetas`, `usuario__rols`, `barista_turno`, `turnos`, `rols`, `medio__pagos`, `factura__ventas`, `factura_contadores`, `mensajes`, `asistente_mensajes`.
 - **Dinero**: `decimal(10,2)` en todas las columnas monetarias; casts `decimal:2` en los modelos Eloquent.
-- **Migraciones**: 37 archivos en `backend-kaffa/database/migrations/` (24 de creación de tablas + 13 de alteración/índices).
+- **Migraciones**: 38 archivos en `backend-kaffa/database/migrations/` (25 de creación de tablas + 13 de alteración/índices).
 
 > `.env.example` ya declara la conexión correcta (`pgsql`/5432/`kaffa`), corregida en la pasada de seguridad de 2026-09.
 
-## 2. Inventario de tablas (29)
+## 2. Inventario de tablas (32)
 
-### 2.1 Infraestructura de Laravel (4)
+### 2.1 Infraestructura de Laravel (6)
 
 **Tabla 1.** _Inventario: tablas de infraestructura de Laravel_
 
@@ -23,6 +23,8 @@
 | `password_reset_tokens` | Tokens de recuperación de contraseña (columna `email` por convención de Laravel). |
 | `failed_jobs` | Cola de trabajos fallidos (sin uso activo: `QUEUE_CONNECTION=sync`). |
 | `personal_access_tokens` | Tokens Sanctum (`tokenable` polimórfico, `token` único, `abilities`, `expires_at`). |
+| `codigos_otp` | Códigos OTP de un solo uso (hasheados) para verificación de correo y reseteo de contraseña. |
+| `registros_pendientes` | Altas de clientes **aún sin verificar** (nombre, correo y contraseña hasheada). El usuario no se crea en `users` hasta confirmar el código. |
 
 ### 2.2 Núcleo de negocio (21)
 
@@ -52,7 +54,7 @@
 | `cajas` | Sesiones de caja con arqueo (apertura/cierre, sistema vs físico, efectivo vs digital). |
 | `movimiento__cajas` | Movimientos de caja (`ingreso`/`egreso`) enlazados a pagos. |
 
-### 2.3 Módulos de características (4)
+### 2.3 Módulos de características (5)
 
 **Tabla 3.** _Inventario: tablas de los módulos de características_
 
@@ -62,6 +64,7 @@
 | `barista_turno` | Pivote N:M barista ↔ turno (quiénes trabajan cada turno). |
 | `reportes` | Reportes de novedades creados por baristas (prioridad, leído). |
 | `mensajes` | Chat cliente ↔ barista/admin (leído). |
+| `asistente_mensajes` | Historial del chat con el Asistente IA de ventas (exclusivo del rol admin). |
 
 ## 3. Diagrama entidad–relación
 
@@ -99,6 +102,7 @@ erDiagram
     users ||--o{ mensajes : "remitente_id"
     users ||--o{ mensajes : "destinatario_id"
     users |o--o{ reportes : "barista_id"
+    users ||--o{ asistente_mensajes : "usuario_id"
     productos ||--o{ recetas : ""
     insumos ||--o{ recetas : ""
 ```
@@ -484,9 +488,24 @@ Fuente de cada tabla: los archivos de migración indicados. `PK` = clave primari
 
 > Reglas: no auto-mensajes, no chat cliente↔cliente, destinatario inactivo rechazado (422) — `MensajeController::store`.
 
-### 4.27 `personal_access_tokens` — `2019_12_14_000001…`
+### 4.27 `asistente_mensajes` — `2026_10_05_000001…`
 
-**Tabla 30.** _Diccionario de la tabla `personal_access_tokens`_
+**Tabla 30.** _Diccionario de la tabla `asistente_mensajes`_
+
+| Campo | Tipo | NULL | Clave | Detalle |
+|-------|------|------|-------|---------|
+| id | bigint | No | PK | |
+| usuario_id | bigint | No | FK → users.id | cascade; administrador dueño del hilo |
+| rol | varchar(20) | No | | `user` (pregunta del admin) o `assistant` (respuesta de la IA) |
+| contenido | text | No | | texto del turno |
+| created_at / updated_at | timestamp | No | | |
+| Índice | | | | `(usuario_id, id)` para recuperar el hilo cronológicamente |
+
+> El historial se persiste por administrador y sirve de memoria del Asistente IA de ventas (últimos 20 turnos como contexto). Se accede sólo vía `POST /api/v1/asistente/chat` (rol admin) — ver `03-api.md` y `04-modulos.md`.
+
+### 4.28 `personal_access_tokens` — `2019_12_14_000001…`
+
+**Tabla 31.** _Diccionario de la tabla `personal_access_tokens`_
 
 | Campo | Tipo | NULL | Clave | Detalle |
 |-------|------|------|-------|---------|
@@ -499,9 +518,9 @@ Fuente de cada tabla: los archivos de migración indicados. `PK` = clave primari
 | expires_at | timestamp | Sí | | se fija si `SANCTUM_EXPIRATION` está definida |
 | created_at / updated_at | timestamp | No | | |
 
-### 4.28 `password_reset_tokens` — `2014_10_12_100000…`
+### 4.29 `password_reset_tokens` — `2014_10_12_100000…`
 
-**Tabla 31.** _Diccionario de la tabla `password_reset_tokens`_
+**Tabla 32.** _Diccionario de la tabla `password_reset_tokens`_
 
 | Campo | Tipo | NULL | Clave | Detalle |
 |-------|------|------|-------|---------|
@@ -509,15 +528,46 @@ Fuente de cada tabla: los archivos de migración indicados. `PK` = clave primari
 | token | string | No | | |
 | created_at | timestamp | Sí | | |
 
-### 4.29 `failed_jobs` — `2019_08_19_000000…`
+### 4.30 `failed_jobs` — `2019_08_19_000000…`
 
-**Tabla 32.** _Diccionario de la tabla `failed_jobs`_
+**Tabla 33.** _Diccionario de la tabla `failed_jobs`_
 
 Estructura estándar de Laravel (id, uuid único, connection, queue, payload, exception, failed_at). Sin uso activo con `QUEUE_CONNECTION=sync`.
 
+### 4.31 `codigos_otp` — `2026_10_07_000001_create_codigos_otp_table.php`
+
+**Tabla 34.** _Diccionario de la tabla `codigos_otp`_
+
+| Columna | Tipo | Nulo | Notas |
+|---------|------|------|-------|
+| id | bigint | No | PK |
+| correo | varchar(120) | No | correo destino del código (indexado) |
+| tipo | varchar(20) | No | `verificacion` o `reset` |
+| codigo_hash | varchar | No | hash del código OTP (nunca en claro) |
+| expira_at | timestamp | Sí | caducidad (15 min) |
+| intentos | tinyint | No | intentos fallidos (máx. 5) |
+| enviado_at | timestamp | Sí | último envío (cooldown de reenvío 60 s) |
+| created_at / updated_at | timestamp | Sí | |
+
+Restricción única `(correo, tipo)`. Usada por `OtpService` para la verificación de correo y el restablecimiento de contraseña; el código es de un solo uso (se elimina al validarse).
+
+### 4.32 `registros_pendientes` — `2026_10_13_000001_create_registros_pendientes_table.php`
+
+**Tabla 35.** _Diccionario de la tabla `registros_pendientes`_
+
+| Columna | Tipo | Nulo | Notas |
+|---------|------|------|-------|
+| id | bigint | No | PK |
+| correo | varchar(120) | No | correo del alta (único) |
+| nombre | varchar(100) | No | nombre del solicitante |
+| password | varchar | No | contraseña **hasheada** (`hashed` cast); nunca en claro |
+| created_at / updated_at | timestamp | Sí | |
+
+Implementa el **alta diferida**: el registro público guarda aquí los datos y envía el OTP, pero **no** crea la fila en `users`. Al validar el código (`RegistrationService::confirmar`) se crea el usuario ya verificado (con rol `cliente`) y se elimina el pendiente. Los pendientes con más de 24 h se purgan (`RegistrationService::purgarAntiguos`).
+
 ## 5. Índices de rendimiento — `2026_07_31_000000_add_performance_indexes_to_tables.php`
 
-**Tabla 33.** _Índices de rendimiento añadidos por tabla_
+**Tabla 36.** _Índices de rendimiento añadidos por tabla_
 
 | Tabla | Índices adicionados |
 |-------|---------------------|
@@ -535,7 +585,7 @@ Además, índices únicos declarados en las migraciones: `factura__ventas.pedido
 
 ## 6. Seeders — `backend-kaffa/database/seeders/`
 
-**Tabla 34.** _Seeders del proyecto (orden de ejecución)_
+**Tabla 37.** _Seeders del proyecto (orden de ejecución)_
 
 Orden de ejecución (`DatabaseSeeder`): `RolSeeder` → `MedioPagoSeeder` → `UserSeeder` → `TurnoSeeder` → `CatalogSeeder`.
 

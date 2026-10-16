@@ -23,7 +23,7 @@ flowchart LR
     W -->|"archivos estáticos dist/"| SPA["SPA React (build)"]
     W -->|"proxy /api/v1"| L["Laravel (PHP-FPM)"]
     L --> PG[("PostgreSQL kaffa")]
-    L --> SMTP["SMTP real"]
+    L --> SMTP["Brevo (SMTP relay)"]
 ```
 
 **Figura 1.** _Topología de producción prevista (servidor web + PHP-FPM + PostgreSQL)_
@@ -33,7 +33,7 @@ Pasos generales (aplicación PHP estándar Laravel + SPA estática):
 1. **Frontend**: `npm run build` y publicar `dist/` en el servidor web.
 2. **Backend**: desplegar `backend-kaffa/` (sin `vendor/`, regenerarlo con `composer install --no-dev --optimize-autoloader`), apuntar el DocumentRoot/web-entry de Laravel a `public/` y en proxy/rutas, publicar `/api/v1` desde el mismo dominio de la SPA (la SPA llama la ruta relativa).
 3. **Base de datos**: PostgreSQL dedicado; `php artisan migrate --seed` solo la primera vez (los seeders son idempotentes con `firstOrCreate`).
-4. **Enlaces de correo**: `FRONTEND_URL` debe apuntar al dominio público de la SPA (los correos de verificación y reseteo enlazan a `{FRONTEND_URL}/…`).
+4. **Correos**: `FRONTEND_URL` debe apuntar al dominio público de la SPA (los correos de verificación y reseteo entregan **códigos** que se ingresan en `{FRONTEND_URL}/verify-email` y `/reset-password`). El envío real usa **Brevo** (relay SMTP); ver §3.
 5. **Cron/queue** (opcional): con `QUEUE_CONNECTION=sync` no se necesita worker; si se cambia a `redis`/`database`, programar `php artisan schedule:run`/queue:work según las recomendaciones del propio `.env.example`. `[NO VERIFICADO]` No hay tareas programadas ni jobs definidos en el código.
 
 ## 3. Variables de entorno del backend (`.env`)
@@ -46,20 +46,26 @@ Solo se documentan variables usadas por el proyecto (el resto de la plantilla de
 |----------|-----|-----------|-------------------------------|
 | `APP_NAME` / `APP_ENV` / `APP_DEBUG` | Laravel | `Laravel` / `local` / `true` | `KAFFA` / `production` / `false` |
 | `APP_URL` | URL base backend | `http://localhost` | dominio del backend |
-| `FRONTEND_URL` | Destino de enlaces de verificación y reseteo | `http://localhost:5173` | `https://app.kaffa.com` (ejemplo) |
+| `FRONTEND_URL` | Dominio de la SPA (contexto de verificación/reseteo) | `http://localhost:5173` | `https://app.kaffa.com` (ejemplo) |
 | `DB_CONNECTION` / `DB_HOST` / `DB_PORT` / `DB_DATABASE` / `DB_USERNAME` / `DB_PASSWORD` | PostgreSQL | `pgsql` / `127.0.0.1` / `5432` / `kaffa` / `postgres` / (vacía en dev) | igual con credenciales dedicadas |
 | `SANCTUM_EXPIRATION` | Minutos de vida del token | `1440` (24 h, por defecto en `.env.example`) | `1440` + rotación con `/auth/refresh` |
 | `CORS_ALLOWED_ORIGINS` | Orígenes permitidos (separados por comas) | `http://localhost:5173` (dev server de Vite) | `https://app.kaffa.com` (dominio real; nunca `*`) |
 | `CACHE_DRIVER` | Caché (usada por IDs de medios virtuales) | `file` | `redis` (recomendado) |
 | `QUEUE_CONNECTION` | Cola | `sync` | `redis` (recomendado) |
-| `MAIL_*` / `MAIL_FROM_ADDRESS` | Correo de verificación y reseteo | Mailpit `127.0.0.1:1025` | SMTP real del dominio |
+| `MAIL_MAILER` / `MAIL_HOST` / `MAIL_PORT` / `MAIL_ENCRYPTION` / `MAIL_USERNAME` / `MAIL_PASSWORD` | Relay de correo para OTP de verificación y reseteo | Mailpit `mailpit:1025` | Brevo: `smtp` / `smtp-relay.sendinblue.com` / `587` / `tls` / `<login>@smtp-brevo.com` / SMTP key |
+| `MAIL_FROM_ADDRESS` / `MAIL_FROM_NAME` | Remitente de los correos | `hello@example.com` | correo **verificado en Brevo** / `KAFFA` |
+| `MAIL_TIMEOUT` | Timeout del SMTP (segundos); acota el envío síncrono | `10` | `10` |
+| `MAIL_VERIFY_PEER` | Verificación del certificado TLS del relay | `true` | `true` (usar `false` solo si el host de Brevo presenta un certificado con CN distinto) |
+| `GEMINI_API_KEY` | API key de Google Gemini para el Asistente IA (solo backend) | (secreto local) | clave del proyecto en Google AI Studio; nunca en el frontend |
+| `GEMINI_MODEL` | Modelo principal del Asistente IA | `gemini-3.8-flash` | modelo Flash vigente |
+| `GEMINI_FALLBACK_MODEL` | Modelos de respaldo (coma-separados) si el principal está saturado (503/429) | `gemini-flash-latest,gemini-3.6-flash` | uno o más modelos Flash disponibles |
 
-El frontend **no usa variables de entorno**: no hay `import.meta.env` en `src/`; la URL de la API es la relativa `/api/v1` y las CDNs (Chart.js, jsPDF, fuentes) están fijas en el código.
+El frontend usa variables de entorno de Vite (`VITE_*`) para Cloudinary (ver `docs/11-frontend.md`): `VITE_CLOUDINARY_CLOUD_NAME` y `VITE_CLOUDINARY_UPLOAD_PRESET`. La URL de la API es la relativa `/api/v1` y las CDNs (Chart.js, jsPDF, fuentes) están fijas en el código.
 
 ## 4. Consideraciones operativas
 
 - **Zona horaria**: la lógica de turnos usa `America/Bogota` (`config/app.php` y `TurnoService`); sincronizar el reloj del servidor (NTP) para que los turnos y cierres de caja calculen bien.
-- **Backups**: `[RECOMENDACIÓN]` backups periódicos de PostgreSQL (`kaffa`) y del disco `storage/app/public/comprobantes` (imágenes de comprobantes subidas por `POST /comprobantes`); ejecutar `php artisan storage:link` para que `storage/…` sea público bajo `/storage`.
+- **Backups**: `[RECOMENDACIÓN]` backups periódicos de PostgreSQL (`kaffa`). Las imágenes (productos, eventos, fotos de perfil y comprobantes) viven en **Cloudinary**, no en el disco del servidor, por lo que ya no requieren respaldo local.
 - **HTTPS**: recomendable en producción (los Bearer tokens viajan en cada cabecera).
 - **Logs**: pila estándar Laravel; los fallos de envío de correo se registran explícitamente en `AuthController`.
 - **Escalado**: no hay estado en el servidor más allá de sesiones de archivos (la API es stateless por tokens); caché/cola en Redis y balanceo simple son viables. `[RECOMENDACIÓN]` no verificada con pruebas de carga.

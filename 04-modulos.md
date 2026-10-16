@@ -6,17 +6,19 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 
 ## 1. Autenticación y sesión
 
-- **Propósito**: registro público de clientes con verificación de correo obligatoria, login por token Sanctum, recuperación de contraseña y gestión de sesión.
+- **Propósito**: registro público de clientes con verificación de correo obligatoria (por **código OTP**), login por token Sanctum, recuperación de contraseña y gestión de sesión.
 - **Actores**: todos.
-- **Entidades**: `users`, `personal_access_tokens`, `password_reset_tokens`, `usuario__rols`.
-- **Implementación**: `AuthController`, `PasswordResetController`, `EmailVerificationController`, notificaciones `ResetPasswordNotification` y verificación en español (`AppServiceProvider`).
+- **Entidades**: `users`, `registros_pendientes`, `personal_access_tokens`, `password_reset_tokens`, `usuario__rols`, `codigos_otp`.
+- **Implementación**: `AuthController`, `PasswordResetController`, `EmailVerificationController`, `RegistrationService`, `OtpService` y el correo `CodigoOtpMail`.
 - **Reglas**:
   - Login por `correo` + `password` (no existe login por `email`).
   - Contraseñas: mínimo 8 caracteres con mayúsculas, minúsculas, números y símbolos (`Password::min(8)->mixedCase()->numbers()->symbols()`).
-  - Sin correo verificado no hay sesión (`403 EMAIL_NOT_VERIFIED`). Los usuarios creados por el admin nacen verificados; el backfill de la migración verificó a los usuarios preexistentes.
+  - **Alta diferida**: `POST /registro` **no** crea el usuario; guarda el alta en `registros_pendientes` y envía un **código de 6 dígitos** (válido 15 min, 5 intentos, reenvío cada 60 s). El `User` (ya verificado, con rol `cliente`) se crea sólo al confirmar el código con `POST /email/verify-code`.
+  - Recuperación de contraseña también por **código**: `POST /forgot-password` lo envía y `POST /reset-password` `{correo, codigo, password, password_confirmation}` lo valida.
+  - Los códigos se guardan **hasheados** en `codigos_otp` y son de un solo uso.
   - Al restablecer la contraseña se revocan todos los tokens.
   - El token admite `expires_at` si `SANCTUM_EXPIRATION` está definida (por defecto no expira).
-  - Las *abilities* del token (`*`, `pedidos:manage`, `catalogo:read`, …) se almacenan pero **no se validan** con middleware (ver `05-seguridad.md`).
+  - Las *abilities* del token (`*`, `pedidos:manage`, `catalogo:read`, `asistente:consultar`, …) se emiten según el rol (`AuthController::abilitiesFor`) y se **validan** con el middleware `ability:` en las rutas de escritura y del Asistente IA (ver `05-seguridad.md`).
 
 ## 2. Catálogo (categorías, productos, insumos, recetas, medios de pago)
 
@@ -49,9 +51,9 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 
 - **Propósito**: registrar pagos por medio y validar comprobantes en medios virtuales.
 - **Entidades**: `pago__pedidos`, `compra__pagos`, `gasto__pagos`, `medio__pagos`.
-- **Endpoint de subida**: `POST /comprobantes` (imagen jpeg/jpg/png/webp ≤ 5120 KB) → URL pública (`storage/comprobantes/…`) que se persiste como `comprobante_url`.
-- **Regla transversal**: si `medio__pagos.es_virtual = true`, `comprobante_url` es obligatoria (validada en `StorePedidoRequest`, `StoreCompraRequest`, `StoreGastoRequest` con `withValidator`); si no, opcional.
-- **Frontend**: el barista sube la imagen en el flujo de cobro (`POST /comprobantes`) y luego registra el pago con la URL devuelta.
+- **Subida de imágenes (Cloudinary)**: las imágenes se suben **desde el frontend** a Cloudinary (upload preset *unsigned*; nube `roffd6et`, preset `KAFFACCYS`, carpeta `samples/ecommerce`). No hay endpoint de subida de archivos: al registrar un pago el cliente/barista ya envía la `secure_url` devuelta por Cloudinary en `pagos.*.comprobante_url`.
+- **Regla transversal**: si `medio__pagos.es_virtual = true`, `comprobante_url` es obligatoria (validada en `StorePedidoRequest`, `StoreCompraRequest`, `StoreGastoRequest` con `withValidator`); si no, opcional. La URL se valida además con `App\Rules\CloudinaryUrl`.
+- **Frontend**: tanto el cliente (portal) como el barista suben la imagen a Cloudinary con el componente reutilizable `ImageUpload` y luego registran el pago con la URL devuelta.
 
 ## 5. Facturación
 
@@ -122,14 +124,28 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 - **Entidades**: `reportes`.
 - **Reglas**: barista crea con `barista_id` forzado y `prioridad ∈ baja|media|alta`; el admin lista, marca como leído, edita o elimina. Vista admin `ReportesView.jsx` con insignias por prioridad.
 
-## 13. Sitio público y equipo
+## 13. Asistente IA de ventas (solo admin)
+
+- **Propósito**: chatbot para el administrador que analiza las ventas, hace **predicciones** y sugiere **mejoras y estrategias de marketing** a partir de los datos reales del negocio.
+- **Actores**: exclusivamente el rol `admin` (el barista y el cliente no lo ven ni pueden llamarlo: 403).
+- **Entidades**: `asistente_mensajes` (historial), más las fuentes de datos que se agregan para el contexto (`factura__ventas`, `pedidos`, `detalle__pedidos`, `insumos`, `mermas`, `gasto__pagos`).
+- **Implementación**: `AsistenteController` + `AsistenteVentasService`; proveedor externo **Google Gemini** (`GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_FALLBACK_MODEL`, `config/services.php`).
+- **Frontend**: `dashboard-admin/AsistenteView.jsx` (chat estilo Messenger con burbujas, indicador de escritura, sugerencias rápidas y botón para limpiar la conversación), accesible desde la sección «Asistente IA» del panel admin.
+- **Reglas**:
+  - La **API key nunca sale del backend**: el navegador sólo habla con `/api/v1/asistente/*`.
+  - `AsistenteVentasService::resumenNegocio` **agrega métricas** (ventas hoy/7/30 días, ticket promedio, top 5 productos, ingresos por día, variación semanal, stock bajo, mermas y gastos) y sólo envía **datos agregados** (sin datos personales de clientes).
+  - Cada pregunta y respuesta se persiste por administrador; los últimos 20 turnos se envían como memoria del asistente.
+  - Si el modelo principal está saturado (`503`/`429`) o falla, se reintenta con los modelos de respaldo; si todos fallan ⇒ **503** con mensaje amable.
+  - `mensaje` requerido, máx. 2000 caracteres; throttle 20/min.
+
+## 14. Sitio público y equipo
 
 - **Propósito**: landing comercial (inicio, menú, eventos, sobre nosotros, contacto) sin autenticación.
 - **Frontend**: `pages/Home.jsx`, `Menu.jsx`, `Eventos.jsx`, `SobreNosotros.jsx`, `Contacto.jsx` + `useCatalogo` y `useEquipo`.
 - **Endpoints**: `GET /productos`, `GET /categorias` (autenticados; en demo la SPA usa catálogo estático) y `GET /equipo` (público).
 - El catálogo demo (10 productos) se muestra si la API falla o está vacía; los productos demo no son comprables.
 
-## 14. Usuarios y roles (administración)
+## 15. Usuarios y roles (administración)
 
 - **Propósito**: gestión de cuentas y asignación de roles múltiples.
 - **Entidades**: `users`, `rols`, `usuario__rols`.
