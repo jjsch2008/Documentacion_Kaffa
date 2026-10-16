@@ -79,7 +79,7 @@ flowchart TD
 ```
 
 - **Estado**: no hay store global; el estado vive en `Context` (carrito) y en `localStorage` (sesión/tema). Los cambios de sesión se propagan con el evento de ventana `kaffa-auth-change` (lo escuchan `Navbar`, `Layout` y `CarritoContext` para limpiar carrito al cerrar sesión).
-- **Token**: `api.js` lee `kaffaToken` y adjunta `Authorization: Bearer …`; ante **401** limpia token/usuario y el guard redirige a `/login`. No hay reintento/refresco automático (`/auth/refresh` existe en el backend pero la SPA no lo invoca — `[GAP]`).
+- **Token**: `api.js` lee `kaffaToken` y adjunta `Authorization: Bearer …`; ante **401** limpia token/usuario y emite el evento `kaffa-auth-change` (la UI vuelve a invitado). Además, al arrancar, `App.jsx` valida la sesión persistida con `GET /me` (`Auth.validateSession()`): si el token ya no sirve (expirado/revocado) **o el backend no responde**, la sesión se limpia. Al **cerrar sesión** (navbar, panel admin y panel barista) se vuelve a la **página principal** `/`. No hay reintento/refresco automático (`/auth/refresh` existe en el backend pero la SPA no lo invoca — `[GAP]`).
 - **Errores**: `ApiError` expone `status`, `errors` (bag de Laravel) y `code` de negocio; `Api.firstError()` muestra el primer mensaje; `Api.turnoMessage()` traduce los códigos de turno (`FUERA_HORARIO`, `TURNO_INACTIVO`, `TURNO_EXPIRADO`).
 
 ## 5. Sistema de estilos
