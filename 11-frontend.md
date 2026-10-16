@@ -131,7 +131,7 @@ Reglas replicadas en la UI (espejo del backend): medio virtual exige comprobante
 - **Dashboard barista**: encabezado con badge de turno y minutos restantes (`BaristaContext`), tema claro/oscuro, modal de perfil (`PUT /perfil`), logout con confirmación.
 - **PDFs**: `helpers.js` carga jsPDF desde CDN; recibo de 80 mm por pedido e historial A4 de entregados.
 - **Admin**: CSV de pedidos generado en cliente; gráficas con Chart.js (ingresos 7 días, top 5 productos).
-- **Asistente IA** (`dashboard-admin/AsistenteView.jsx`): chat estilo Messenger exclusivo del admin. Carga el historial con `GET /asistente/mensajes`, envía con `POST /asistente/chat` (sin sondeo), muestra burbujas con avatares, indicador de escritura y sugerencias rápidas, y permite reiniciar la conversación (`DELETE /asistente/mensajes`). El texto del asistente se escapa antes de aplicar negritas/viñetas (evita inyección HTML).
+- **Asistente KAFFA** (`dashboard-admin/AsistenteView.jsx`): chat estilo Messenger, **disponible para todos los roles** (también como ícono flotante para barista/cliente). Carga el historial con `GET /asistente/mensajes`, envía con `POST /asistente/chat` (sin sondeo), muestra burbujas con avatares, indicador de escritura y sugerencias rápidas, y permite reiniciar la conversación (`DELETE /asistente/mensajes`). El texto del asistente se escapa antes de aplicar negritas/viñetas (evita inyección HTML).
 - `[GAP]` El frontend no tiene suite de pruebas (solo ESLint).
 
 ## 10. Medios e imágenes (Cloudinary)

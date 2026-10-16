@@ -63,85 +63,104 @@
         "/api/v1/asistente/mensajes": {
             "get": {
                 "operationId": "asistente.index",
-                "summary": "Historial del chat del administrador autenticado (m\u00e1s reciente primero)",
+                "summary": "Historial de conversaci\u00f3n del usuario autenticado. Se devuelve del turno\nm\u00e1s reciente al m\u00e1s antiguo; el frontend lo invierte para mostrarlo en\norden cronol\u00f3gico",
                 "tags": [
                     "Asistente"
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Paginated set of `BaseResource`",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "current_page": {
-                                            "type": "integer"
-                                        },
                                         "data": {
-                                            "type": "string"
-                                        },
-                                        "first_page_url": {
-                                            "type": "string"
-                                        },
-                                        "from": {
-                                            "type": [
-                                                "integer",
-                                                "null"
-                                            ]
-                                        },
-                                        "last_page": {
-                                            "$ref": "#/components/schemas/AsistenteMensaje"
-                                        },
-                                        "last_page_url": {
-                                            "type": "string"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BaseResource"
+                                            }
                                         },
                                         "links": {
                                             "type": "object",
-                                            "additionalProperties": {}
-                                        },
-                                        "next_page_url": {
-                                            "type": "string"
-                                        },
-                                        "path": {
-                                            "type": [
-                                                "string",
-                                                "null"
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string"
+                                                },
+                                                "last": {
+                                                    "type": "string"
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
                                             ]
                                         },
-                                        "per_page": {
-                                            "type": "integer"
-                                        },
-                                        "prev_page_url": {
-                                            "type": [
-                                                "string",
-                                                "null"
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "$ref": "#/components/schemas/BaseResource"
+                                                },
+                                                "links": {
+                                                    "type": "object",
+                                                    "additionalProperties": {}
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "total": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
                                             ]
-                                        },
-                                        "to": {
-                                            "type": [
-                                                "integer",
-                                                "null"
-                                            ]
-                                        },
-                                        "total": {
-                                            "type": "integer"
                                         }
                                     },
                                     "required": [
-                                        "current_page",
                                         "data",
-                                        "first_page_url",
-                                        "from",
-                                        "last_page",
-                                        "last_page_url",
                                         "links",
-                                        "next_page_url",
-                                        "path",
-                                        "per_page",
-                                        "prev_page_url",
-                                        "to",
-                                        "total"
+                                        "meta"
                                     ]
                                 }
                             }
@@ -153,8 +172,8 @@
                 }
             },
             "delete": {
-                "operationId": "asistente.limpiar",
-                "summary": "Reiniciar la conversaci\u00f3n del administrador autenticado",
+                "operationId": "asistente.destroy",
+                "summary": "Borra todo el historial del usuario autenticado",
                 "tags": [
                     "Asistente"
                 ],
@@ -168,13 +187,11 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "const": "Conversaci\u00f3n reiniciada."
-                                        },
-                                        "eliminados": {}
+                                            "const": "Conversaci\u00f3n eliminada"
+                                        }
                                     },
                                     "required": [
-                                        "message",
-                                        "eliminados"
+                                        "message"
                                     ]
                                 }
                             }
@@ -189,7 +206,7 @@
         "/api/v1/asistente/chat": {
             "post": {
                 "operationId": "asistente.chat",
-                "summary": "Enviar un mensaje al asistente y recibir su respuesta",
+                "summary": "Env\u00eda una pregunta al asistente y devuelve su respuesta. El servicio\npersiste tanto la pregunta como la respuesta en el historial",
                 "tags": [
                     "Asistente"
                 ],
@@ -213,7 +230,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "",
                         "content": {
                             "application/json": {
@@ -1093,9 +1110,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
             },
@@ -1176,9 +1190,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
             },
@@ -2515,6 +2526,63 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationException"
+                    }
+                }
+            }
+        },
+        "/api/v1/eventos/imagen": {
+            "post": {
+                "operationId": "eventos.imagen",
+                "description": "Guarda el archivo en el disco 'public' y devuelve una URL absoluta que el\nfrontend persiste luego en el array `imagenes` del evento. La URL resultante\npasa la regla CloudinaryUrl (s\u00f3lo se restringen las URLs de res.cloudinary.com\najenas a nuestra cuenta).",
+                "summary": "Subida de una imagen de la galer\u00eda desde el cliente m\u00f3vil (c\u00e1mara/galer\u00eda)",
+                "tags": [
+                    "Evento"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "imagen": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "contentMediaType": "application/octet-stream",
+                                        "description": "Maximum file size: 5120 kilobytes."
+                                    }
+                                },
+                                "required": [
+                                    "imagen"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "url": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "url"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "$ref": "#/components/responses/ValidationException"
                     },
                     "401": {
                         "$ref": "#/components/responses/AuthenticationException"
@@ -5125,9 +5193,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
             },
@@ -5208,9 +5273,6 @@
                                 }
                             }
                         }
-                    },
-                    "401": {
-                        "$ref": "#/components/responses/AuthenticationException"
                     }
                 }
             },
@@ -6064,11 +6126,99 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Paginated set of `BaseResource`",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/LengthAwarePaginator"
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BaseResource"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object",
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string"
+                                                },
+                                                "last": {
+                                                    "type": "string"
+                                                },
+                                                "prev": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "next": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "first",
+                                                "last",
+                                                "prev",
+                                                "next"
+                                            ]
+                                        },
+                                        "meta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer"
+                                                },
+                                                "from": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "last_page": {
+                                                    "$ref": "#/components/schemas/BaseResource"
+                                                },
+                                                "links": {
+                                                    "type": "object",
+                                                    "additionalProperties": {}
+                                                },
+                                                "path": {
+                                                    "type": [
+                                                        "string",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "per_page": {
+                                                    "type": "integer"
+                                                },
+                                                "to": {
+                                                    "type": [
+                                                        "integer",
+                                                        "null"
+                                                    ]
+                                                },
+                                                "total": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "required": [
+                                                "current_page",
+                                                "from",
+                                                "last_page",
+                                                "links",
+                                                "path",
+                                                "per_page",
+                                                "to",
+                                                "total"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "data",
+                                        "links",
+                                        "meta"
+                                    ]
                                 }
                             }
                         }
@@ -6342,6 +6492,9 @@
                                                         "fecha": {
                                                             "type": "string"
                                                         },
+                                                        "fecha_fin": {
+                                                            "type": "string"
+                                                        },
                                                         "tipo": {
                                                             "type": "string"
                                                         },
@@ -6361,6 +6514,7 @@
                                                     "required": [
                                                         "id",
                                                         "fecha",
+                                                        "fecha_fin",
                                                         "tipo",
                                                         "minutos_restantes",
                                                         "hora_inicio",
@@ -7019,46 +7173,6 @@
     },
     "components": {
         "schemas": {
-            "AsistenteMensaje": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    },
-                    "usuario_id": {
-                        "type": "integer"
-                    },
-                    "rol": {
-                        "type": "string"
-                    },
-                    "contenido": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": [
-                            "string",
-                            "null"
-                        ],
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "usuario_id",
-                    "rol",
-                    "contenido",
-                    "created_at",
-                    "updated_at"
-                ],
-                "title": "AsistenteMensaje"
-            },
             "BaseResource": {
                 "type": "array",
                 "items": {},
@@ -8142,6 +8256,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
+                    "fecha_fin": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
                     "tipo": {
                         "type": "string",
                         "enum": [
@@ -8160,6 +8278,7 @@
                 },
                 "required": [
                     "fecha",
+                    "fecha_fin",
                     "tipo",
                     "barista_ids"
                 ],
@@ -8183,7 +8302,7 @@
                             "null"
                         ],
                         "format": "uri",
-                        "description": "URL de la foto de perfil (p.ej. secure_url de Cloudinary).",
+                        "description": "URL de la foto de perfil (p.ej. secure_url de Cloudinary).\nSe conserva la pol\u00edtica fuerte del registro/admin de main.",
                         "maxLength": 500
                     },
                     "password": {
@@ -8197,7 +8316,13 @@
                     },
                     "rol_ids": {
                         "type": "array",
-                        "description": "Roles opcionales al crear: array de ids (requiere admin; se asignan en UsuarioController).",
+                        "description": "Roles opcionales al crear: array de ids (requiere admin; se asignan en\nUsuarioController). Se aceptan ambas claves: 'rol_ids' (can\u00f3nico del\nbackend) y 'roles' (la app m\u00f3vil env\u00eda \u00e9sta).",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "roles": {
+                        "type": "array",
                         "items": {
                             "type": "integer"
                         }
@@ -8518,6 +8643,10 @@
                         "type": "string",
                         "format": "date-time"
                     },
+                    "fecha_fin": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
                     "tipo": {
                         "type": "string",
                         "enum": [
@@ -8549,7 +8678,11 @@
                         "maxLength": 120
                     },
                     "password": {
-                        "type": "string"
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "description": "Pol\u00edtica fuerte de main; se permite null para editar sin cambiar\nla contrase\u00f1a (la app m\u00f3vil lo env\u00eda as\u00ed)."
                     },
                     "foto": {
                         "type": [
@@ -8564,6 +8697,13 @@
                         "type": "boolean"
                     },
                     "rol_ids": {
+                        "type": "array",
+                        "description": "Se aceptan 'rol_ids' (can\u00f3nico) y 'roles' (la app m\u00f3vil env\u00eda \u00e9sta).",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "roles": {
                         "type": "array",
                         "items": {
                             "type": "integer"

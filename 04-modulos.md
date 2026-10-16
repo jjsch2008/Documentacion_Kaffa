@@ -18,12 +18,12 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
   - Los códigos se guardan **hasheados** en `codigos_otp` y son de un solo uso.
   - Al restablecer la contraseña se revocan todos los tokens.
   - El token admite `expires_at` si `SANCTUM_EXPIRATION` está definida (por defecto no expira).
-  - Las *abilities* del token (`*`, `pedidos:manage`, `catalogo:read`, `asistente:consultar`, …) se emiten según el rol (`AuthController::abilitiesFor`) y se **validan** con el middleware `ability:` en las rutas de escritura y del Asistente IA (ver `05-seguridad.md`).
+  - Las *abilities* del token (`*`, `pedidos:manage`, `catalogo:read`, …) se emiten según el rol (`AuthController::abilitiesFor`) y se **validan** con el middleware `ability:` en las rutas de escritura (ver `05-seguridad.md`).
 
 ## 2. Catálogo (categorías, productos, insumos, recetas, medios de pago)
 
 - **Propósito**: menú vendible con precios en COP, composición por insumos (recetas) y medios de pago disponibles.
-- **Actores**: lectura para todos los autenticados; escritura solo admin.
+- **Actores**: lectura **pública** para categorías y productos (Home del invitado, sin sesión); lectura autenticada para insumos/recetas/medios-pago; escritura solo admin.
 - **Entidades**: `categorias`, `productos`, `insumos`, `recetas`, `medio__pagos`.
 - **Reglas**:
   - Un producto pertenece (opcionalmente) a una categoría y consume N insumos vía `recetas` con `cantidad`.
@@ -51,7 +51,7 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 
 - **Propósito**: registrar pagos por medio y validar comprobantes en medios virtuales.
 - **Entidades**: `pago__pedidos`, `compra__pagos`, `gasto__pagos`, `medio__pagos`.
-- **Subida de imágenes (Cloudinary)**: las imágenes se suben **desde el frontend** a Cloudinary (upload preset *unsigned*; nube `roffd6et`, preset `KAFFACCYS`, carpeta `samples/ecommerce`). No hay endpoint de subida de archivos: al registrar un pago el cliente/barista ya envía la `secure_url` devuelta por Cloudinary en `pagos.*.comprobante_url`.
+- **Subida de imágenes (Cloudinary)**: las imágenes se suben **desde el frontend** a Cloudinary (upload preset *unsigned*; nube `roffd6et`, preset `KAFFACCYS`, carpeta `samples/ecommerce`). Para comprobantes no hay endpoint de subida de archivos: al registrar un pago el cliente/barista ya envía la `secure_url` devuelta por Cloudinary en `pagos.*.comprobante_url`. La única subida que recibe el backend es **`POST /eventos/imagen`** (galería de eventos, pensada para la cámara/galería de la app móvil), que guarda el archivo en el disco `public` y devuelve una URL.
 - **Regla transversal**: si `medio__pagos.es_virtual = true`, `comprobante_url` es obligatoria (validada en `StorePedidoRequest`, `StoreCompraRequest`, `StoreGastoRequest` con `withValidator`); si no, opcional. La URL se valida además con `App\Rules\CloudinaryUrl`.
 - **Frontend**: tanto el cliente (portal) como el barista suben la imagen a Cloudinary con el componente reutilizable `ImageUpload` y luego registran el pago con la URL devuelta.
 
@@ -101,12 +101,14 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 
 ## 10. Turnos
 
-- **Propósito**: definir qué baristas trabajan cada turno (mañana 07:00–13:00 / tarde 13:00–18:00, America/Bogota) y condicionar sus operaciones a estar en turno.
+- **Propósito**: definir qué baristas trabajan cada turno (mañana 07:00–13:00 / tarde 13:00–18:00 / **abierto 05:00–22:00**, America/Bogota) y condicionar sus operaciones a estar en turno.
 - **Actores**: admin (define), barista (consulta), cliente (inmune).
 - **Entidades**: `turnos`, `barista_turno`, `cajas`.
 - **Implementación**: `TurnoService`, `TurnoController`, middleware `turno.activo` (`EnsureActiveTurno`).
 - **Reglas**:
   - Único turno por `fecha+tipo` (UNIQUE).
+  - Cada turno define un rango `fecha`–`fecha_fin` (si `fecha_fin` = `fecha`, es de un solo día); un barista está en turno si la fecha actual cae dentro del rango y su tipo coincide con la hora. El tipo **`abierto`** cubre la jornada extendida (05:00–22:00) y tiene **prioridad** sobre mañana/tarde.
+  - No se puede eliminar un turno con **cajas asociadas** (422): primero deben cerrarse.
   - El barista solo puede mutar pedidos/pagos/compras/gastos/mermas/cajas **dentro de su turno activo**; si no ⇒ 403 con `FUERA_HORARIO` / `TURNO_INACTIVO` / `TURNO_EXPIRADO`. Admin y cliente están exentos.
   - `GET /equipo` (público) usa esta información para la landing; la SPA del barista muestra el badge de turno y minutos restantes (sondeo 60 s).
 
@@ -124,29 +126,39 @@ Cada módulo describe: propósito, actores, entidades, endpoints y reglas de neg
 - **Entidades**: `reportes`.
 - **Reglas**: barista crea con `barista_id` forzado y `prioridad ∈ baja|media|alta`; el admin lista, marca como leído, edita o elimina. Vista admin `ReportesView.jsx` con insignias por prioridad.
 
-## 13. Asistente IA de ventas (solo admin)
+## 13. Asistente KAFFA (todos los roles)
 
-- **Propósito**: chatbot para el administrador que analiza las ventas, hace **predicciones** y sugiere **mejoras y estrategias de marketing** a partir de los datos reales del negocio.
-- **Actores**: exclusivamente el rol `admin` (el barista y el cliente no lo ven ni pueden llamarlo: 403).
-- **Entidades**: `asistente_mensajes` (historial), más las fuentes de datos que se agregan para el contexto (`factura__ventas`, `pedidos`, `detalle__pedidos`, `insumos`, `mermas`, `gasto__pagos`).
-- **Implementación**: `AsistenteController` + `AsistenteVentasService`; proveedor externo **Google Gemini** (`GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_FALLBACK_MODEL`, `config/services.php`).
-- **Frontend**: `dashboard-admin/AsistenteView.jsx` (chat estilo Messenger con burbujas, indicador de escritura, sugerencias rápidas y botón para limpiar la conversación), accesible desde la sección «Asistente IA» del panel admin.
+- **Propósito**: chatbot integrado (ícono flotante en la app y en la web) que responde con **datos reales** del negocio, adaptándose al rol del usuario.
+- **Actores**: todos los usuarios autenticados. **Admin**: analítica completa, **predicciones** de ventas y recomendaciones de marketing. **Barista**: analítica operativa (ventas, productos, inventario, pedidos). **Cliente**: ayuda del menú, medios de pago, cómo pedir, eventos próximos y sede, **sin** métricas internas.
+- **Entidades**: `asistente_mensajes` (historial por usuario); fuentes consultadas para las respuestas: `pedidos`, `detalle__pedidos`, `productos`, `insumos`, `gasto__pagos`, `medio__pagos`, `eventos`.
+- **Implementación**: `AsistenteController` + `AsistenteService`. El servicio es **local**: detecta la intención por palabras clave y calcula la respuesta con consultas reales (no depende de una API externa). Las claves `GEMINI_*` (`config/services.php`) quedan disponibles por si se conecta un modelo, pero **no se usan** en el flujo actual.
+- **Frontend**: `dashboard-admin/AsistenteView.jsx` (chat estilo Messenger con burbujas, indicador de escritura, sugerencias rápidas y botón para limpiar la conversación). El asistente también está disponible para barista y cliente mediante el ícono flotante.
 - **Reglas**:
-  - La **API key nunca sale del backend**: el navegador sólo habla con `/api/v1/asistente/*`.
-  - `AsistenteVentasService::resumenNegocio` **agrega métricas** (ventas hoy/7/30 días, ticket promedio, top 5 productos, ingresos por día, variación semanal, stock bajo, mermas y gastos) y sólo envía **datos agregados** (sin datos personales de clientes).
-  - Cada pregunta y respuesta se persiste por administrador; los últimos 20 turnos se envían como memoria del asistente.
-  - Si el modelo principal está saturado (`503`/`429`) o falla, se reintenta con los modelos de respaldo; si todos fallan ⇒ **503** con mensaje amable.
-  - `mensaje` requerido, máx. 2000 caracteres; throttle 20/min.
+  - Cada pregunta y respuesta se **persiste** y se **aísla por `usuario_id`** (cada quien ve sólo su historial).
+  - El **cliente nunca recibe métricas internas** (ventas, gastos, inventario, predicciones): el servicio acota la respuesta según el rol.
+  - `mensaje` requerido, máx. 2000 caracteres; `throttle:30,1` (todos los roles).
 
 ## 14. Sitio público y equipo
 
 - **Propósito**: landing comercial (inicio, menú, eventos, sobre nosotros, contacto) sin autenticación.
 - **Frontend**: `pages/Home.jsx`, `Menu.jsx`, `Eventos.jsx`, `SobreNosotros.jsx`, `Contacto.jsx` + `useCatalogo` y `useEquipo`.
-- **Endpoints**: `GET /productos`, `GET /categorias` (autenticados; en demo la SPA usa catálogo estático) y `GET /equipo` (público).
+- **Endpoints**: `GET /productos`, `GET /categorias` (**públicos**, sin sesión) y `GET /equipo` (público); `GET /eventos` y `GET /eventos/{id}` (públicos, sólo publicados). En modo demo la SPA usa catálogo estático si la API falla.
 - El catálogo demo (10 productos) se muestra si la API falla o está vacía; los productos demo no son comprables.
 
 ## 15. Usuarios y roles (administración)
 
 - **Propósito**: gestión de cuentas y asignación de roles múltiples.
 - **Entidades**: `users`, `rols`, `usuario__rols`.
-- **Reglas**: un usuario puede tener varios roles; el admin crea usuarios ya verificados; filtro `?rol=`; la SPA redirige tras el login según el rol: admin → `/admin-dashboard`, barista → `/barista-dashboard`, cliente → `/` (permanece en el sitio público).
+- **Reglas**: un usuario puede tener varios roles; el admin crea usuarios ya verificados; filtro `?rol=`; la SPA redirige tras el login según el rol: admin → `/admin-dashboard`, barista → `/barista-dashboard`, cliente → `/` (permanece en el sitio público). Se acepta la clave `roles[]` (app móvil) como alias de `rol_ids[]`.
+
+## 16. Eventos
+
+- **Propósito**: gestionar los eventos de la cafetería que se muestran en la sección «Eventos» de la landing y en el Home de la app (ferias del café, talleres…).
+- **Actores**: lectura **pública** (sólo eventos con `publicado = true`); gestión (crear, editar, publicar y subir imagen) exclusiva del **admin**.
+- **Entidades**: `eventos`, `evento_imagenes`.
+- **Implementación**: `EventoController` + `StoreEventoRequest`/`UpdateEventoRequest`; `EventoPolicy` (lectura pública, gestión admin).
+- **Reglas**:
+  - El listado público devuelve sólo `publicado = true`, ordenado por fecha/hora ascendente; el detalle público responde 404 para borradores.
+  - Galería de hasta **5 imágenes** por evento, con orden; cada URL se valida con `App\Rules\CloudinaryUrl`.
+  - `POST /eventos/imagen` (multipart) recibe una imagen de la cámara/galería del móvil, la guarda en el disco `public` y devuelve la URL para persistirla en `imagenes[]`.
+  - El grupo de gestión exige `role:admin` + `ability:catalogo:manage` + `ability:eventos:manage` y `throttle:30,1`.

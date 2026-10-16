@@ -94,24 +94,48 @@ Devuelve **201 sin token** y **no crea el usuario**: guarda el alta en `registro
 - `POST /forgot-password` `{correo}`: respuesta uniforme 200 (evita enumeración de usuarios); envía un **código de 6 dígitos**.
 - `POST /reset-password` `{correo, codigo, password, password_confirmation}`: valida el código; al restablecer, **se revocan todos los tokens Sanctum** del usuario.
 
-## 3. Endpoint público (landing)
+## 3. Endpoints públicos (landing, catálogo y eventos)
 
-**Tabla 4.** _Endpoint público de equipo (landing)_
+**Tabla 4.** _Endpoints públicos (sin autenticación)_
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | GET | `/equipo` | Equipo visible en la landing: `{administradora: {id, nombre, foto}, baristas: [{id, nombre, foto}], fecha, tipo}`. Throttle 60/min. |
+| GET | `/categorias`, `/categorias/{id}` | Catálogo de categorías (sólo `index`/`show`) para el Home del invitado. Throttle 60/min. |
+| GET | `/productos`, `/productos/{id}` | Catálogo de productos (sólo `index`/`show`) para el Home del invitado. Throttle 60/min. |
+| GET | `/eventos` | Eventos publicados (`publicado = true`), orden `fecha, hora` ascendente. Throttle 60/min. |
+| GET | `/eventos/{id}` | Detalle público de un evento publicado (`whereNumber`; un borrador responde 404). Throttle 60/min. |
 
-Parámetros: `?fecha=YYYY-MM-DD` y `?tipo=mañana|tarde` (por defecto: hoy America/Bogota y `mañana`). La administradora es fija (primer admin activo); los baristas son los asignados al turno `fecha+tipo` y activos. No expone correos ni datos sensibles.
+Parámetros (`/equipo`): `?fecha=YYYY-MM-DD` y `?tipo=mañana|tarde|abierto` (por defecto: hoy America/Bogota y `mañana`). La administradora es fija (primer admin activo); los baristas son los asignados al turno que cubre `fecha` y su tipo, y activos. No expone correos ni datos sensibles.
+
+> **Catálogo público.** Categorías y productos se sirven **sin sesión** (Home del invitado de la app móvil y menú web): son de sólo lectura (`index`/`show`) y están limitados con `throttle:60,1`. Las escrituras siguen siendo exclusivas del admin (ver §4). Los recursos sensibles (insumos, recetas, medios-pago) **no** son públicos.
+
+### 3.1 Eventos — gestión (administración)
+
+**Tabla 5.** _Endpoints de gestión de eventos (admin)_
+
+| Método | Endpoint | Middleware adicional | Descripción |
+|--------|----------|----------------------|-------------|
+| GET | `/eventos/admin` | `ability:eventos:manage` | Listado de gestión: incluye borradores y publicados. |
+| POST | `/eventos` | `ability:eventos:manage` | Crea `{titulo, descripcion, lugar?, fecha, hora?, publicado?, imagenes[]?}`. |
+| POST | `/eventos/imagen` | `ability:eventos:manage` | Subida **multipart** de una imagen (campo `imagen`, ≤ 5 MB) → `{url}`. |
+| PUT/PATCH | `/eventos/{id}` | `ability:eventos:manage` | Actualiza; `imagenes` (si se envía) **reemplaza** la galería. |
+| DELETE | `/eventos/{id}` | `ability:eventos:manage` | Soft delete. |
+
+Reglas (verificadas en `EventoController`, `StoreEventoRequest`/`UpdateEventoRequest` y `Evento`):
+
+- Todo el grupo exige `role:admin` + `throttle:30,1` + `ability:catalogo:manage` (grupo de escritura de catálogo) **y** `ability:eventos:manage`.
+- Máximo **5 imágenes** por evento (`Evento::MAX_IMAGENES`); cada URL se valida con `App\Rules\CloudinaryUrl` (acepta URLs externas y de nuestra cuenta Cloudinary).
+- `POST /eventos/imagen` permite a la app móvil subir la imagen desde la cámara/galería: el archivo se guarda en el disco `public` (carpeta `eventos`) y se devuelve una **URL absoluta** que el cliente persiste luego en `imagenes[]`. Es compatible con el flujo Cloudinary del navegador (que envía la `secure_url` directamente).
 
 ## 4. Catálogos
 
-**Tabla 5.** _Catálogos: lectura y escritura por rol_
+**Tabla 6.** _Catálogos: lectura y escritura por rol_
 
 | Recurso | Lectura (index/show) | Escritura (store/update/destroy) |
 |---------|----------------------|-----------------------------------|
-| `/categorias` | Todos los autenticados | Solo admin (throttle 30/min) |
-| `/productos` | Todos los autenticados | Solo admin (throttle 30/min) |
+| `/categorias` | **Público** (sin sesión, throttle 60/min) | Solo admin (throttle 30/min) |
+| `/productos` | **Público** (sin sesión, throttle 60/min) | Solo admin (throttle 30/min) |
 | `/insumos` | Todos los autenticados | Solo admin (throttle 30/min) |
 | `/recetas` | Todos los autenticados | Solo admin (throttle 30/min) |
 | `/medios-pago` | Todos los autenticados | Solo admin (throttle 30/min) |
@@ -126,7 +150,7 @@ Ejemplos de carga útil (validadores `Store*Request`):
 
 ## 5. Pedidos
 
-**Tabla 6.** _Endpoints de pedidos_
+**Tabla 7.** _Endpoints de pedidos_
 
 | Método | Endpoint | Roles | Middleware adicional |
 |--------|----------|-------|----------------------|
@@ -179,7 +203,7 @@ Borrado en cascada gestionado por `PedidoService::eliminar`: elimina detalles, m
 
 ## 6. Pagos y comprobantes
 
-**Tabla 7.** _Endpoints de pagos y comprobantes_
+**Tabla 8.** _Endpoints de pagos y comprobantes_
 
 | Método | Endpoint | Roles | Notas |
 |--------|----------|-------|-------|
@@ -187,11 +211,11 @@ Borrado en cascada gestionado por `PedidoService::eliminar`: elimina detalles, m
 | POST | `/pago-pedidos` | admin, barista | `turno.activo` + throttle 10/min |
 | PUT/DELETE | `/pago-pedidos/{id}` | admin, barista | `turno.activo` + throttle 10/min |
 
-> **Imágenes y Cloudinary**: las imágenes (productos, eventos, fotos de perfil y comprobantes) se suben **directamente del navegador a Cloudinary** con un upload preset *unsigned* (`cloud_name = roffd6et`, `upload_preset = KAFFACCYS`, carpeta `samples/ecommerce`). El backend **ya no recibe archivos**: sólo recibe y valida la `secure_url` resultante (regla `App\Rules\CloudinaryUrl`, que exige que las URLs de `res.cloudinary.com` pertenezcan a nuestra cuenta) y la persiste en el campo correspondiente (`productos.imagen`, `users.foto`, `evento_imagenes.url`, `pagos.*.comprobante_url`).
+> **Imágenes y Cloudinary**: las imágenes (productos, eventos, fotos de perfil y comprobantes) se suben **directamente del navegador a Cloudinary** con un upload preset *unsigned* (`cloud_name = roffd6et`, `upload_preset = KAFFACCYS`, carpeta `samples/ecommerce`). El backend **no recibe archivos** en el flujo web: sólo recibe y valida la `secure_url` resultante (regla `App\Rules\CloudinaryUrl`, que exige que las URLs de `res.cloudinary.com` pertenezcan a nuestra cuenta) y la persiste en el campo correspondiente (`productos.imagen`, `users.foto`, `evento_imagenes.url`, `pagos.*.comprobante_url`). **Excepción (móvil)**: `POST /eventos/imagen` sí recibe el archivo (multipart), lo guarda en el disco `public` y devuelve una URL absoluta — pensado para la cámara/galería de la app; esa URL se persiste luego en `imagenes[]` del evento.
 
 ## 7. Facturas
 
-**Tabla 8.** _Endpoints de facturas_
+**Tabla 9.** _Endpoints de facturas_
 
 | Método | Endpoint | Roles |
 |--------|----------|-------|
@@ -203,7 +227,7 @@ El `numero_factura` siempre lo genera el servidor a partir de `factura_contadore
 
 ## 8. Caja y movimientos
 
-**Tabla 9.** _Endpoints de caja y movimientos_
+**Tabla 10.** _Endpoints de caja y movimientos_
 
 | Método | Endpoint | Roles | Notas |
 |--------|----------|-------|-------|
@@ -213,7 +237,7 @@ El `numero_factura` siempre lo genera el servidor a partir de `factura_contadore
 | PUT | `/cajas/{id}` | admin, barista | `turno.activo` + throttle 10/min |
 | DELETE | `/cajas/{id}` | admin, barista | bloqueado si hay movimientos (422) |
 | GET | `/movimiento-cajas`, `/movimiento-cajas/{id}` | admin, barista | `turno.activo`. Escritura (store/update/destroy): solo admin (`MovimientoCajaPolicy` + `ability:movimiento-cajas:manage`); los movimientos operativos los emiten los servicios |
-| GET | `/turno-activo` | todos los autenticados | `{turno_activo, turno_info{id, fecha, tipo, minutos_restantes, hora_inicio, hora_fin}}` |
+| GET | `/turno-activo` | todos los autenticados | `{turno_activo, turno_info{id, fecha, fecha_fin, tipo, minutos_restantes, hora_inicio, hora_fin}}` |
 
 Reglas de apertura (`POST /cajas`, `StoreCajaRequest`): solo se recibe `monto_apertura_fisico` (requerido) y opcionalmente el desglose `monto_apertura_efectivo`/`monto_apertura_digital`. El servidor fija `abierta_por`, `estado='abierta'`, `fecha_apertura=now` y `turno_id` (turno activo del barista; null para admin).
 
@@ -223,7 +247,7 @@ Reglas de cierre (`PUT /cajas/{id}`): se envían `estado='cerrada'` y los montos
 
 Todos los recursos siguientes exigen `role:admin,barista` + `turno.activo`; sus **escrituras** (POST/PUT/DELETE) están limitadas a throttle 10/min, mientras que las **lecturas** (`GET index`/`show`) no consumen ese cupo (el throttle de Laravel es por usuario y se comparte entre rutas del grupo, por lo que limitar también las lecturas agotaba el cupo de las escrituras). Cada recurso exige además que el token posea su ability (`compras:manage`, `gastos:manage`, `mermas:manage`, `cajas:manage` — middleware `ability:`): un token sin el alcance recibe **403** `TOKEN_SIN_ABILITY`.
 
-**Tabla 10.** _Recursos operativos (compras, gastos, mermas, proveedores)_
+**Tabla 11.** _Recursos operativos (compras, gastos, mermas, proveedores)_
 
 | Recurso | Métodos | Carga útil relevante |
 |---------|---------|----------------------|
@@ -237,21 +261,23 @@ Todos los recursos siguientes exigen `role:admin,barista` + `turno.activo`; sus 
 
 ## 10. Turnos
 
-**Tabla 11.** _Endpoints de turnos_
+**Tabla 12.** _Endpoints de turnos_
 
 | Método | Endpoint | Roles | Descripción |
 |--------|----------|-------|-------------|
 | GET | `/turnos` | admin | Lista con `baristas` cargados |
-| POST | `/turnos` | admin | `{fecha (Y-m-d), tipo ∈ mañana\|tarde, barista_ids[] (≥1)}` — único por `fecha+tipo` |
-| GET/PUT/DELETE | `/turnos/{id}` | admin | PUT reemplaza los baristas asignados |
+| POST | `/turnos` | admin | `{fecha (Y-m-d), fecha_fin (Y-m-d, ≥ fecha), tipo ∈ mañana\|tarde\|abierto, barista_ids[] (≥1)}` — único por `fecha+tipo` |
+| GET/PUT/DELETE | `/turnos/{id}` | admin | PUT reemplaza los baristas asignados (`fecha_fin` y `tipo` editables) |
 | GET | `/mis-turnos` | barista | Turnos propios, paginado 15, orden `fecha,tipo asc` |
-| GET | `/turno-activo` | todos los autenticados | Turno activo del barista (para no baristas: `{turno_activo:false, turno_info:null}`) |
+| GET | `/turno-activo` | todos los autenticados | Turno activo del barista: `{turno_activo, turno_info{id, fecha, fecha_fin, tipo, minutos_restantes, hora_inicio, hora_fin}}` (para no baristas: `{turno_activo:false, turno_info:null}`) |
 
-Horarios fijos (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, zona `America/Bogota`. Fuera de 07:00–18:00 no hay turno esperado.
+Horarios (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, **abierto 05:00–22:00** (jornada extendida), zona `America/Bogota`. Un turno **cubre** una fecha si cae dentro de su rango `[fecha, fecha_fin]` (si `fecha_fin` es nulo equivale a un turno de un solo día). El tipo `abierto` tiene **prioridad** sobre mañana/tarde cuando el barista lo tiene asignado. Fuera de 05:00–22:00 no hay turno esperado.
+
+> Al eliminar un turno con **cajas asociadas** se responde 422 (`BusinessRuleException`): primero deben cerrarse sus cajas.
 
 ## 11. Chat (`/mensajes`)
 
-**Tabla 12.** _Endpoints del chat_
+**Tabla 13.** _Endpoints del chat_
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
@@ -262,7 +288,7 @@ Horarios fijos (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, zon
 
 ## 12. Reportes de novedades
 
-**Tabla 13.** _Endpoints de reportes_
+**Tabla 14.** _Endpoints de reportes_
 
 | Método | Endpoint | Roles |
 |--------|----------|-------|
@@ -273,25 +299,27 @@ Horarios fijos (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, zon
 
 ## 13. Usuarios y roles (solo admin)
 
-**Tabla 14.** _Endpoints de administración de usuarios y roles_
+**Tabla 15.** _Endpoints de administración de usuarios y roles_
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
 | GET | `/usuarios` | Soporta filtro `?rol=admin\|barista\|cliente` |
-| POST | `/usuarios` | `{nombre, correo (único), password (fuerte), foto? (URL), activo?, rol_ids[]}` — los usuarios creados por el admin nacen **verificados** |
-| PUT | `/usuarios/{id}` | Ídem (password opcional; sincroniza `rol_ids`) |
+| POST | `/usuarios` | `{nombre, correo (único), password (fuerte), foto? (URL), activo?, rol_ids[]}` — los usuarios creados por el admin nacen **verificados**. Se acepta también la clave `roles[]` (la envía la app móvil) como alias de `rol_ids[]`. |
+| PUT | `/usuarios/{id}` | Ídem (password opcional; sincroniza `rol_ids`/`roles`) |
 | DELETE | `/usuarios/{id}` | Soft delete |
 | GET/POST/PUT/DELETE | `/roles` | CRUD de roles |
 | GET/POST/PUT/DELETE | `/usuario-roles` | Asignación de roles (pivote) |
 
 ## 14. Matriz RBAC resumida
 
-**Tabla 15.** _Matriz RBAC resumida_
+**Tabla 16.** _Matriz RBAC resumida_
 
 | Capacidad | admin | barista | cliente |
 |-----------|:-----:|:-------:|:--------:|
-| Catálogos: lectura | ✔ | ✔ | ✔ |
+| Catálogos: lectura | ✔ | ✔ | ✔ (categorías/productos, además, **sin sesión**) |
 | Catálogos: escritura | ✔ | — | — |
+| Eventos: lectura | ✔ | ✔ | ✔ (publicados; **sin sesión**) |
+| Eventos: gestión (crear/editar/publicar/imagen) | ✔ | — | — |
 | Usuarios / roles / turnos / factura-ventas: CRUD | ✔ | — | — |
 | Pedidos: ver | todos | todos | solo propios |
 | Pedidos: crear | ✔ | ✔ (mostrador) | ✔ (propios, `pendiente`) |
@@ -306,26 +334,32 @@ Horarios fijos (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, zon
 | Chat | ✔ (con clientes) | ✔ (con clientes) | ✔ (con barista/admin) |
 | Reportes: crear | ✔ | ✔ | — |
 | Reportes: gestionar | ✔ | — | — |
-| Asistente IA de ventas (chatbot) | ✔ | — | — |
+| Asistente KAFFA (chatbot) | ✔ (analítica) | ✔ (operativo) | ✔ (ayuda del menú) |
 
 Middleware `role:` responde **401** si no hay usuario autenticado y **403** `{message: "No tienes permiso para realizar esta acción."}` si el rol no corresponde.
 
 ## 15. Códigos de error de negocio (403)
 
-**Tabla 16.** _Códigos de error de negocio_
+**Tabla 17.** _Códigos de error de negocio_
 
 | Código | Condición |
 |--------|-----------|
 | `EMAIL_NOT_VERIFIED` | Login con correo no verificado |
-| `FUERA_HORARIO` | Barista fuera de 07:00–18:00 (America/Bogota) |
-| `TURNO_INACTIVO` | Barista sin turno asignado para el tramo horario actual |
+| `FUERA_HORARIO` | Barista fuera de 05:00–22:00 (America/Bogota) |
+| `TURNO_INACTIVO` | Barista sin turno asignado que cubra el tramo horario actual |
 | `TURNO_EXPIRADO` | El turno del barista ya terminó («Debes cerrar la caja inmediatamente») |
+| `PERMISO_DENEGADO` | Un rol no autorizado intenta crear un pedido (403) |
+| `CAJA_NO_EXISTE` | Se referencia una caja inexistente (422) |
+| `CAJA_CERRADA` | La caja indicada no está abierta (422) |
+| `CAJA_AJENA` | Un barista opera contra una caja abierta por otro barista (422) |
+
+Los cuatro últimos se emiten desde `PedidoService`/`CompraService`/`GastoService` vía `BusinessRuleException` con un campo `code` adicional en el cuerpo JSON (`Handler`), que el cliente móvil/SPA puede leer sin analizar el mensaje. El resto de `BusinessRuleException` conserva el formato `{message}`.
 
 Otras respuestas de error: **401** no autenticado (JSON, nunca redirección); **403** `TOKEN_SIN_ABILITY` (token sin la ability exigida por el middleware `ability:`); **404** `{"message": "Recurso no encontrado."}` para rutas API inexistentes (`Handler`); **422** errores de validación Laravel + `BusinessRuleException` (stock insuficiente, pagos inconsistentes, caja con movimientos, etc.); **429** límites de throttle.
 
 ## 16. Throttling (límites de peticiones)
 
-**Tabla 17.** _Límites de peticiones (throttling)_
+**Tabla 18.** _Límites de peticiones (throttling)_
 
 | Grupo | Límite |
 |-------|--------|
@@ -334,31 +368,31 @@ Otras respuestas de error: **401** no autenticado (JSON, nunca redirección); **
 | `/registro` | 10/min |
 | `/forgot-password`, `/reset-password`, `/email/verification-notification` | 5/min |
 | `/email/verify-code` | 10/min |
-| `/equipo` | 60/min |
-| Escrituras de catálogo (admin) | 30/min |
+| `/equipo`, `/categorias`, `/productos`, `/eventos` (públicos) | 60/min |
+| Escrituras de catálogo + gestión de eventos (admin) | 30/min |
 | `POST /pedidos`, escrituras operativas (pedidos/pagos/compras/gastos/mermas/cajas) | 10/min |
-| `/asistente/*` (Asistente IA, solo admin) | 20/min |
+| `/asistente/*` (Asistente KAFFA, todos los roles autenticados) | 30/min |
 
-## 17. Asistente IA de ventas (solo admin)
+## 17. Asistente KAFFA (todos los roles)
 
-**Tabla 18.** _Endpoints del Asistente IA de ventas_
+**Tabla 19.** _Endpoints del Asistente KAFFA_
 
 | Método | Endpoint | Roles | Middleware adicional | Descripción |
 |--------|----------|-------|----------------------|-------------|
-| GET | `/asistente/mensajes` | admin | `ability:asistente:consultar` | Historial del hilo del admin (`?per_page` 1–100, por defecto 50; más reciente primero) |
-| POST | `/asistente/chat` | admin | `ability:asistente:consultar` + throttle 20/min | Envía `{mensaje (máx. 2000)}` y devuelve la respuesta de la IA |
-| DELETE | `/asistente/mensajes` | admin | `ability:asistente:consultar` | Reinicia (borra) la conversación del admin |
+| GET | `/asistente/mensajes` | todos los autenticados | throttle 30/min | Historial del hilo del usuario (`?per_page` 1–100, por defecto 15; más reciente primero). |
+| POST | `/asistente/chat` | todos los autenticados | throttle 30/min | Envía `{mensaje (máx. 2000)}` y devuelve la respuesta adaptada al rol. |
+| DELETE | `/asistente/mensajes` | todos los autenticados | throttle 30/min | Reinicia (borra) la conversación del usuario autenticado. |
 
-`POST /asistente/chat` — respuesta 201:
+`POST /asistente/chat` — respuesta 200:
 
 ```json
-{ "respuesta": "…texto del asistente…", "mensaje_id": 42, "created_at": "2026-10-05T15:47:46.000000Z" }
+{ "respuesta": "…texto del asistente…", "mensaje_id": 42, "created_at": "2026-10-16T15:47:46-05:00" }
 ```
 
-Reglas y funcionamiento (verificado en `AsistenteController` y `AsistenteVentasService`):
+Reglas y funcionamiento (verificado en `AsistenteController` y `AsistenteService`):
 
-- **Exclusivo del rol admin**: `role:admin` + `ability:asistente:consultar` (el token admin posee `*`); cualquier otro rol recibe **403**.
-- Cada turno (`user` y `assistant`) se **persiste** en `asistente_mensajes` para dar memoria al asistente (últimos 20 turnos) y sobrevivir recargas.
-- El backend **agrega métricas del negocio** (ventas hoy/7/30 días, ticket promedio, top productos, stock bajo, mermas y gastos) y las inyecta como contexto: el asistente sólo razona sobre datos reales.
-- La llamada a Google Gemini (`GEMINI_API_KEY`) se hace **desde el backend**; la key nunca se expone al frontend. Si el modelo principal está saturado (`503`/`429`) o falla, se reintenta con los modelos de respaldo (`GEMINI_FALLBACK_MODEL`).
-- Errores: **503** `{message: "El asistente no está disponible en este momento…"}` si la IA externa falla o falta configuración; **422** si `mensaje` falta o excede 2000 caracteres.
+- **Disponible para todos los roles autenticados** (`auth:sanctum` + `throttle:30,1`); no exige una ability específica (es el ícono flotante de la app móvil, también visible para clientes).
+- La respuesta se **adapta al rol** (`rolAsistente`): el **admin** recibe analítica completa (ventas hoy/7 días/mes, productos más vendidos, inventario por reponer, pedidos, gastos, **predicción** de ventas por promedio móvil a 7 días y **recomendaciones de promoción**); el **barista**, la analítica operativa (ventas, productos, inventario, pedidos — sin gastos ni predicciones); el **cliente**, ayuda del menú, medios de pago, cómo hacer un pedido, eventos próximos y sede, **sin** métricas internas del negocio.
+- El servicio es **local** (`AsistenteService`): interpreta la intención por palabras clave y responde con **consultas reales a la base de datos**, sin depender de una API externa. Las claves `GEMINI_*` (`config/services.php`) se conservan por si se conecta un modelo más adelante, pero **no se usan** en el flujo actual.
+- Cada turno (`user` y `assistant`) se **persiste** en `asistente_mensajes`, aislado por `usuario_id`.
+- Errores: **401** sin token; **422** si `mensaje` falta o excede 2000 caracteres; **429** por throttle.

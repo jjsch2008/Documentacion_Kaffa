@@ -9,7 +9,9 @@
 | Backend | **PHPUnit 10** (`^10.1`, dev) [9] | `phpunit.xml`: base de datos de pruebas **PostgreSQL `kaffa_test`** (no sqlite, no hereda la base real), `BCRYPT_ROUNDS=4`, caché/cola/sesión en `array` |
 | Frontend | **No hay pruebas automatizadas** | solo ESLint (`npm run lint`); `[GAP]` no existe `test` script ni framework de tests |
 
-> **Ejecución real de la suite**: 05-10-2026, `php artisan test` sobre PostgreSQL local con base `kaffa_test` ⇒ **63 pruebas pasando, 0 fallos (228 aserciones)**. Advertencias: 2 avisos de deprecación preexistentes de PHP 8.5 (constante `PDO::MYSQL_ATTR_SSL_CA` referenciada en `config/database.php`), ajenos a la lógica de la aplicación.
+> **Ejecución real de la suite**: 16-10-2026, `php artisan test` sobre PostgreSQL local con base `kaffa_test` ⇒ **85 pruebas pasando, 0 fallos (293 aserciones)**, tras integrar en `main` los cambios móviles de la rama `ana`. Advertencias: 2 avisos de deprecación preexistentes de PHP 8.5 (constante `PDO::MYSQL_ATTR_SSL_CA` referenciada en `config/database.php`), ajenos a la lógica de la aplicación.
+
+> **Migraciones**: la integración eliminó **3 migraciones duplicadas** que la rama `ana` recreaba (`eventos`, `evento_imagenes`, `asistente_mensajes` con fecha `2026_10_13`); se conservan las de `main` (`2026_10_05`/`2026_10_08`) y se añadió `2026_10_06_000000_add_fecha_fin_to_turnos_table`. `php artisan migrate:fresh --seed` fue verificado sobre una base desechable.
 
 ## 2. Inventario de pruebas del backend (`backend-kaffa/tests/`)
 
@@ -21,7 +23,7 @@
 |---------|--------------|
 | `tests/Unit/ExampleTest.php` | trivial (`assertTrue(true)`) |
 | `tests/Feature/ExampleTest.php` | la ruta web `/` responde 200 |
-| `tests/Feature/ApiTest.php` | Login válido devuelve `{access_token, token_type, usuario}`; contraseña errónea ⇒ 401 con mensaje; ruta protegida sin token ⇒ 401; `GET /api/v1/productos` autenticado devuelve envoltura paginada `{data, links, meta}` |
+| `tests/Feature/ApiTest.php` | Login válido devuelve `{access_token, token_type, usuario}`; contraseña errónea ⇒ 401 con mensaje; ruta protegida (`/insumos`) sin token ⇒ 401; **catálogo público** (`/productos`, `/categorias`) sin token ⇒ 200 con envoltura `{data, links, meta}`; `GET /api/v1/productos` autenticado devuelve la misma envoltura paginada |
 | `tests/Feature/EquipoTest.php` | 10 pruebas del endpoint público `/equipo`: acceso público; administradora siempre presente; filtrado mañana/tarde; cambio de fecha; baristas inactivos excluidos; **sin datos sensibles** (correo/password); tipo inválido ⇒ 422; fecha inválida ⇒ 422; valores por defecto (hoy + mañana) |
 | `tests/Feature/EmailVerificationTest.php` | (7) El registro envía el **código** de verificación y no devuelve token; login sin verificar ⇒ 403 `EMAIL_NOT_VERIFIED`; código correcto verifica y es de un solo uso; código incorrecto incrementa intentos; código expirado ⇒ 422; demasiados intentos bloquea; el reenvío envía un código nuevo |
 | `tests/Feature/PasswordResetTest.php` | (5) `forgot-password` envía el código y lo guarda; respuesta uniforme 200 para correo desconocido (anti-enumeración); código válido actualiza la contraseña (hash); código inválido ⇒ 422; el reseteo **revoca todos los tokens** |
@@ -41,13 +43,23 @@
 
 > Nota técnica para mantener estas pruebas: la instancia de la aplicación en tests cachea el guard autenticado entre peticiones del mismo método; los tests usan `$this->app['auth']->forgetGuards()` antes de cambiar de usuario/token, y leen los recursos individuales desde `json('data.id')` (los `BaseResource` envuelven la respuesta en `data`).
 
-### 2.3 Asistente IA de ventas (2026-10)
+### 2.3 Asistente KAFFA (todos los roles)
 
-**Tabla 4.** _Inventario de pruebas: Asistente IA_
+**Tabla 4.** _Inventario de pruebas: Asistente KAFFA_
 
 | Archivo | Qué verifica |
 |---------|--------------|
-| `tests/Feature/AsistenteTest.php` | El admin envía un mensaje, recibe la respuesta del proveedor externo **simulado con `Http::fake`** (no consume cuota) y **ambos turnos se persisten** en `asistente_mensajes`; `GET`/`DELETE` del historial; **barista y cliente reciben 403**; sin token ⇒ 401 |
+| `tests/Feature/AsistenteTest.php` | El **admin** envía un mensaje y recibe una respuesta **calculada localmente** (sin llamadas de red ni API externa), y **ambos turnos se persisten** en `asistente_mensajes`; el **barista** y el **cliente** también pueden usar el asistente (respuesta adaptada al rol); `GET /asistente/mensajes` devuelve el historial paginado (`data` + `meta.total`) y `DELETE` lo reinicia; sin token ⇒ 401 |
+
+### 2.4 Eventos e integración móvil (2026-10-16)
+
+**Tabla 5.** _Inventario de pruebas: eventos e integración móvil_
+
+| Archivo | Qué verifica |
+|---------|--------------|
+| `tests/Feature/EventoTest.php` | (12) El listado público sólo muestra `publicado=true`; el detalle público no expone borradores (404); el admin crea/publica y el evento aparece en público; `indexAdmin` incluye borradores; la validación de URLs de imagen rechaza otra cuenta de Cloudinary y acepta la nuestra; la galería respeta el orden y el tope de 5; **`POST /eventos/imagen`** (multipart) devuelve `{url}` y guarda el archivo en el disco `public`; el barista no puede crear eventos ni subir imágenes (403) |
+| `tests/Feature/TurnoMiddlewareTest.php` | Además de los casos base (§2.2): el turno tipo **`abierto`** permite operar antes/después del horario estándar y tiene **prioridad** sobre `mañana`; el rango `fecha`–`fecha_fin` cubre el día activo |
+| `tests/Feature/EquipoTest.php` | El endpoint público resuelve el turno que **cubre** la fecha dentro del rango `[fecha, fecha_fin]` |
 
 ## 3. Ejecución de las pruebas
 
@@ -62,9 +74,9 @@ Las pruebas usan `RefreshDatabase` (migraciones por ejecución).
 
 ## 4. Cobertura verificada vs. no cubierta
 
-**Cubierto (suite ejecutada, 66 pruebas)**: login y protección por token; envoltura de paginación; endpoint público `/equipo`; verificación de correo por **código OTP**; reseteo de contraseña por **código**; pedidos (autoría forzada, comprobante virtual, consistencia de pagos, stock, scope por rol); facturación secuencial; caja y arqueo (movimientos, bloqueo de eliminación, caja ajena); compras y mermas (ajuste/restauración de stock); middleware `turno.activo` (códigos `FUERA_HORARIO`/`TURNO_INACTIVO`, exenciones); chat (reglas y no leídos); reportes (roles y autoría); rotación/revocación de tokens (`refresh`/`logout`/`logout-all`) y middleware `ability:` (`TOKEN_SIN_ABILITY`); Asistente IA (persistencia, respuesta simulada y bloqueo por rol).
+**Cubierto (suite ejecutada, 85 pruebas)**: login y protección por token; envoltura de paginación; **catálogo público sin sesión** (`/productos`, `/categorias`); endpoint público `/equipo`; **eventos** (listado público, gestión admin, galería y **subida de imagen** `/eventos/imagen`); verificación de correo por **código OTP**; reseteo de contraseña por **código**; pedidos (autoría forzada, comprobante virtual, consistencia de pagos, stock, scope por rol); facturación secuencial; caja y arqueo (movimientos, bloqueo de eliminación, caja ajena); compras y mermas (ajuste/restauración de stock); middleware `turno.activo` (códigos `FUERA_HORARIO`/`TURNO_INACTIVO`, exenciones, turno **`abierto`** y rango **`fecha_fin`**); chat (reglas y no leídos); reportes (roles y autoría); rotación/revocación de tokens (`refresh`/`logout`/`logout-all`) y middleware `ability:` (`TOKEN_SIN_ABILITY`); **Asistente KAFFA** (multi-rol, respuesta local, aislamiento por usuario).
 
-**No cubierto** `[GAP]` (funcionalidad sin pruebas automatizadas detectadas): CRUD de catálogo completo (create/update/delete de productos/categorías/insumos/recetas/medios-pago), gestión de usuarios/roles/turnos del admin, **subida de imágenes a Cloudinary** (ocurre en el frontend; el backend sólo se cubre con la validación de `App\Rules\CloudinaryUrl`), gastos con caja (movimientos `egreso`), consultas con filtros avanzados (`fecha_desde`/`fecha_hasta`/`sort_by`), throttle por rutas (verificación de límites), frontend (sin framework de tests).
+**No cubierto** `[GAP]` (funcionalidad sin pruebas automatizadas detectadas): CRUD de catálogo completo (create/update/delete de productos/categorías/insumos/recetas/medios-pago), gestión de usuarios/roles/turnos del admin, **subida de imágenes a Cloudinary** (ocurre en el frontend; el backend sólo se cubre con la validación de `App\Rules\CloudinaryUrl` y con la subida local de `/eventos/imagen`), gastos con caja (movimientos `egreso`), consultas con filtros avanzados (`fecha_desde`/`fecha_hasta`/`sort_by`), throttle por rutas (verificación de límites), frontend (sin framework de tests).
 
 **Medición de cobertura**: no existe medición de cobertura de código en el repositorio (no se ejecutó `--coverage`).
 
@@ -78,4 +90,5 @@ Las pruebas usan `RefreshDatabase` (migraciones por ejecución).
 4. Barista: fuera de turno ⇒ 403 (`FUERA_HORARIO`/`TURNO_INACTIVO`); con turno: cobrar, cambiar estados, abrir y cerrar caja, revisar arqueo.
 5. Admin: crear usuario con roles, gestionar catálogo, turnos y reportes; caja sin restricción de turno.
 6. Compra de insumos ⇒ sube stock; merma ⇒ baja stock; eliminar merma ⇒ restaura stock.
-7. Asistente IA: con el admin, abrir «Asistente IA», preguntar por las ventas y verificar que responde con datos reales; comprobar que barista y cliente no ven la sección ni obtienen datos del endpoint (403).
+7. Asistente KAFFA: con el admin, preguntar por ventas/inventario/predicciones y verificar respuestas con datos reales; con el barista, comprobar la vista operativa (**sin** gastos, predicciones ni marketing); con el cliente, comprobar la ayuda de menú/pagos/eventos y que **no** recibe métricas internas. Verificar que el historial se conserva por usuario.
+8. Móvil: abrir el Home **sin sesión** (catálogo público `/productos`/`/categorias`); como admin, crear un evento subiendo una imagen (`POST /eventos/imagen`) y publicarlo; como admin, crear un turno con rango `fecha`–`fecha_fin` y un turno tipo `abierto`, y comprobar que el barista puede operar dentro del rango/horario.

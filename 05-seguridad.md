@@ -37,10 +37,10 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 | `/registro` | 10/min |
 | `/forgot-password`, `/reset-password`, `/email/verification-notification` | 5/min |
 | `/email/verify-code` | 10/min |
-| `/equipo` | 60/min |
-| Escrituras de catálogo (admin) | 30/min |
+| `/equipo`, `/categorias`, `/productos`, `/eventos` (públicos) | 60/min |
+| Escrituras de catálogo + gestión de eventos (admin) | 30/min |
 | `POST /pedidos` y escrituras operativas | 10/min |
-| `/asistente/*` (Asistente IA, solo admin) | 20/min |
+| `/asistente/*` (Asistente KAFFA, todos los roles autenticados) | 30/min |
 
 ## 5. CORS — `config/cors.php`
 
@@ -56,7 +56,7 @@ Este documento describe **mecanismos implementados y verificados**. La existenci
 - `GET /equipo` (público) solo expone `id, nombre, foto` — nunca correos (verificado también por `EquipoTest`).
 - `Handler::$dontFlash` descarta contraseñas de las trazas de excepciones.
 - `dontFlash`/`ConvertEmptyStringsToNull`, `TrimStrings` en el stack global; `ValidatePostSize` activo.
-- **Asistente IA**: la `GEMINI_API_KEY` vive únicamente en el backend (`config/services.php`) y **nunca** se envía al frontend; el navegador sólo consume `/api/v1/asistente/*`. Al proveedor externo (Google Gemini) se le envían **métricas agregadas** del negocio (ventas, productos, stock, mermas, gastos), **nunca datos personales de clientes**.
+- **Asistente KAFFA**: disponible para todos los roles autenticados (`/api/v1/asistente/*`), pero **acota la respuesta por rol**: el cliente nunca recibe métricas internas (ventas, gastos, inventario, predicciones). El servicio es **local** (`AsistenteService`): no envía datos a proveedores externos. Las claves `GEMINI_*` (`config/services.php`) permanecen únicamente en el backend y no se usan en el flujo actual; si se conectara un modelo externo, sólo se le enviarían métricas agregadas, nunca datos personales de clientes.
 
 ## 7. Validación de entradas
 
@@ -88,8 +88,10 @@ Los tokens incluyen *abilities* por rol (`*` para admin; `pedidos:manage`, `cata
 | Cajas | `cajas:manage` |
 | Proveedores (escritura) | `proveedores:manage` (solo admin la posee) |
 | Movimientos de caja (escritura) | `movimiento-cajas:manage` (solo admin) |
-| Asistente IA (`/asistente/*`) | `asistente:consultar` (solo admin) |
+| Eventos (gestión) | `eventos:manage` (además de `catalogo:manage` del grupo) |
 | Usuarios / usuario-roles, roles, turnos, factura-ventas | `usuarios:manage`, `roles:manage`, `turnos:manage`, `facturas:manage` (solo admin `*`) |
+
+> El **Asistente KAFFA** (`/asistente/*`) ya **no exige** una ability propia: está disponible para todos los roles autenticados con `throttle:30,1`, y la separación de datos se garantiza por el **rol** dentro del servicio (el cliente no recibe métricas internas).
 
 Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido para esta acción.", code: "TOKEN_SIN_ABILITY", required_ability: [...]}`.
 
@@ -107,6 +109,7 @@ Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido
 | 4 | `CORS_ALLOWED_ORIGINS=*` por defecto | **RESUELTO** | `.env.example` fija `http://localhost:5173` (origen del dev server de Vite) con comentario para el dominio de producción |
 | 5 | `APP_DEBUG=true` por defecto en `.env.example` | **MITIGADO** | Se mantiene `true` para desarrollo (estándar Laravel) y se añadió un **checklist de PRODUCCIÓN comentado** al inicio del archivo (`APP_ENV=production`, `APP_DEBUG=false`, CORS real, Redis, SMTP real) |
 | 6 | `QUEUE_CONNECTION=sync` y `CACHE_DRIVER=file` por defecto | **DOCUMENTADO (por diseño en dev)** | Valores correctos para desarrollo; comentarios y checklist de producción indican `redis` para producción |
+| 7 | La rama de integración móvil (`origin/ana`) versionó **credenciales reales** en `.env.example` (`DB_USERNAME=backend`, `DB_PASSWORD=01052006`) | **MITIGADO / ACCIÓN PENDIENTE** | En la integración se restauraron los **placeholders** seguros en `.env.example` (`kaffa`/`postgres`/vacío). El secreto **permanece en el historial de Git** de esa rama: **rotar la contraseña de PostgreSQL** y, si el repositorio es público, purgar el historial (`git filter-repo`) |
 
 ### 10.1 Otros hallazgos remediados en la misma pasada
 
@@ -116,7 +119,7 @@ Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido
 |----------|--------|
 | Abilities de tokens Sanctum almacenadas sin validarse | **RESUELTO**: middleware `ability:` (`EnsureTokenCanAbility`) creado, registrado y aplicado a las rutas de escritura (ver §9) |
 | `UserFactory` con columnas `name`/`email` inexistentes | **RESUELTO**: fábrica reescrita sobre `nombre`/`correo` (+ estados `unverified`/`inactive`) |
-| Suite de pruebas mínima | **RESUELTO**: suite ampliada (58 pruebas en 2026-09; **63** en 2026-10 con el Asistente IA) — ver `08-pruebas.md` |
+| Suite de pruebas mínima | **RESUELTO**: suite ampliada (58 pruebas en 2026-09; **63** en 2026-10 con el Asistente IA; **85** en 2026-10-16 tras integrar los cambios móviles de `ana`) — ver `08-pruebas.md` |
 | Dos lockfiles en el frontend | **RESUELTO**: eliminado `package-lock.json`; queda `pnpm-lock.yaml` como fuente única |
 | Directorio vacío `backend-kaffa/backend-kaffa/` | **RESUELTO**: eliminado |
 

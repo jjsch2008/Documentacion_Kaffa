@@ -15,7 +15,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-05 | El sistema permite recuperar la contraseña por correo y revoca todas las sesiones al restablecerla | `PasswordResetController`, `PasswordResetTest` |
 | RF-06 | Un usuario puede tener varios roles simultáneos (admin/barista/cliente) | `usuario__rols`, `RolSeeder` |
 | RF-07 | El sitio público muestra menú, eventos, contacto y el equipo (administradora + baristas por fecha y turno) | `pages/*`, `EquipoController`, `useEquipo`, `EquipoTest` |
-| RF-08 | El catálogo (productos, categorías, insumos, recetas, medios de pago) es consultable por usuarios autenticados | rutas públicas de lectura (`index`/`show`) en `routes/api.php` |
+| RF-08 | El catálogo es consultable: categorías y productos **sin sesión** (Home del invitado); insumos, recetas y medios de pago para usuarios autenticados | rutas de lectura `index`/`show` en `routes/api.php` (públicas para categorías/productos) |
 | RF-09 | El admin administra el catálogo completo | grupo `role:admin` + `ability:catalogo:manage` de `routes/api.php` |
 | RF-10 | El cliente crea sus propios pedidos (autoría forzada, estado inicial `pendiente`) | `PedidoService::crear`, `StorePedidoRequest` |
 | RF-11 | El barista registra pedidos de mostrador y gestiona estados de cualquier pedido | `POST /pedidos`, `PUT /pedidos/{id}`, `PedidosView.jsx` |
@@ -29,7 +29,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-19 | Las compras a proveedores incrementan stock y registran egresos de caja; su eliminación revierte el stock | `CompraService` |
 | RF-20 | Las mermas reducen stock con responsable y motivo; su eliminación restaura el stock | `MermaService` |
 | RF-21 | Los gastos registran egresos con pagos y movimientos de caja | `GastoService` |
-| RF-22 | El admin define turnos (mañana/tarde por día) y asigna baristas | `TurnoController`, `TurnoService`, `TurnosView.jsx` |
+| RF-22 | El admin define turnos (`mañana`/`tarde`/**`abierto`** y rango `fecha`–`fecha_fin`) y asigna baristas | `TurnoController`, `TurnoService`, `TurnosView.jsx` |
 | RF-23 | Las operaciones del barista (pedidos/pagos/compras/gastos/mermas/cajas) exigen turno activo; con excepciones para admin y cliente | middleware `turno.activo`, `EnsureActiveTurno` |
 | RF-24 | El barista consulta sus turnos y el turno activo actual | `/mis-turnos`, `/turno-activo`, `BaristaContext` |
 | RF-25 | Chat directo cliente ↔ barista/admin con no leídos y marcado masivo | `MensajeController`, `ChatBarista.jsx`, `ChatView.jsx` |
@@ -38,7 +38,8 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-28 | Toda lista admite paginación (1–100), filtros por campo, búsqueda parcial en textos, filtros de fecha y ordenamiento | `HasBasicQueries::consultar` |
 | RF-29 | El barista imprime recibos (80 mm) y exporta historial a PDF | `PedidosView.jsx`, `helpers.js` (jsPDF) |
 | RF-30 | El admin exporta pedidos a CSV y visualiza KPIs con gráficas | `PedidosView.jsx`, `InicioView.jsx` (Chart.js) |
-| RF-31 | El admin (y solo él) conversa con un Asistente IA que analiza ventas, predice y sugiere estrategias de marketing; el historial se persiste | `AsistenteController`, `AsistenteVentasService`, `AsistenteView.jsx`, `asistente_mensajes` |
+| RF-31 | Todos los usuarios autenticados conversan con el **Asistente KAFFA**, cuya respuesta se adapta al rol (admin: analítica/predicciones/marketing; barista: operativo; cliente: menú/ayuda); el historial se persiste por usuario | `AsistenteController`, `AsistenteService`, `AsistenteView.jsx`, `asistente_mensajes` |
+| RF-32 | El sistema publica eventos en la landing/Home y permite al admin gestionarlos (crear, editar, publicar y **subir imagen** desde el móvil) | `EventoController`, `EventoPolicy`, `StoreEventoRequest`, `POST /eventos/imagen` |
 
 ## 2. Requisitos no funcionales (verificados en implementación)
 
@@ -58,8 +59,8 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RNF-08 | Seguridad: cabeceras CORS configurables y API de tokens puros | `config/cors.php`, `supports_credentials=false` |
 | RNF-09 | Disponibilidad de datos en UI: sondeo periódico (pedidos 10 s, chat 5 s, inventario 15 s, caja 30 s, turno 60 s) | hooks y vistas SPA |
 | RNF-10 | Usabilidad: tema claro/oscuro en dashboards y notificaciones toast | `useDashboardTheme`, `variables.css`, `sonner` |
-| RNF-10b | Seguridad: la API key de IA permanece en el backend; sólo se envían métricas agregadas al proveedor | `config/services.php`, `AsistenteVentasService` |
-| RNF-10c | Robustez: reintento del Asistente IA con modelos de respaldo ante 503/429 del proveedor | `AsistenteVentasService::responder`, `GEMINI_FALLBACK_MODEL` |
+| RNF-10b | Seguridad: el Asistente KAFFA es **local** (no envía datos a proveedores externos) y **acota la respuesta por rol**; el cliente nunca recibe métricas internas | `AsistenteService`, `AsistenteController::rolAsistente` |
+| RNF-10c | Robustez: el Asistente resuelve las respuestas con consultas locales, sin dependencia de una API externa (evita fallos 503/429 de proveedor) | `AsistenteService` |
 | RNF-11 | Compatibilidad: SPA servida por Vite (dev) o Apache (prod) con la misma base relativa `/api/v1` | `vite.config.js`, `api.js` |
 
 ## 3. Matriz de trazabilidad (resumen)
@@ -71,18 +72,19 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-01..RF-05 | Autenticación y sesión | §2 | `ApiTest`, `EmailVerificationTest`, `PasswordResetTest`, `TokenSessionTest` (rotación/revocación) |
 | RF-06, RF-27 | Usuarios y roles | §13 | — `[GAP]` (solo abilities en `TokenSessionTest`) |
 | RF-07 | Sitio público y equipo | §3 | `EquipoTest` (10 pruebas) |
-| RF-08, RF-09 | Catálogo | §4 | parcial (`ApiTest`: listado autenticado; `TokenSessionTest`: escritura con ability) |
+| RF-08, RF-09 | Catálogo | §4 | `ApiTest` (catálogo público sin token) + `TokenSessionTest` (escritura con ability) |
 | RF-10..RF-16 | Pedidos y POS / Pagos / Facturación | §5–§7 | `PedidoTest` (6 pruebas: autoría, comprobante, pagos, stock, scope, numeración de factura) |
 | RF-17, RF-18 | Caja | §8 | `CajaTest` (5 pruebas: apertura, turno, arqueo, eliminación) |
 | RF-19..RF-21 | Compras / Gastos / Mermas | §9 | `CompraMermaTest` (6 pruebas; gastos con caja aún `[GAP]`) |
-| RF-22..RF-24 | Turnos | §10 | `TurnoMiddlewareTest` (6 pruebas: turno activo, códigos 403, exenciones, abilities) |
+| RF-22..RF-24 | Turnos | §10 | `TurnoMiddlewareTest` (8 pruebas: turno activo, **`abierto`**, rango `fecha_fin`, códigos 403, exenciones, abilities) |
 | RF-25 | Chat | §11 | `ChatReporteTest` (5 pruebas) |
 | RF-26 | Reportes | §12 | `ChatReporteTest` (3 pruebas) |
 | RF-28 | Transversal | §1 | parcial (envoltura de paginación en `ApiTest`) |
 | RF-29, RF-30 | Frontend (sin API propia) | — | — `[GAP]` (frontend sin tests) |
-| RF-31 | Asistente IA de ventas | §13 (§17 en docs/03) | `AsistenteTest` (5 pruebas: respuesta/persistencia y bloqueo a barista/cliente/anónimo) |
+| RF-31 | Asistente KAFFA | §13 (§17 en docs/03) | `AsistenteTest` (5 pruebas: multi-rol, respuesta local, historial y reinicio, 401 anónimo) |
+| RF-32 | Eventos | §16 (§3.1 en docs/03) | `EventoTest` (12 pruebas: público/publicado, gestión admin, galería, subida de imagen, 403 barista) |
 
-**Leyenda de gaps**: la suite (63 pruebas, ejecutada 2026-10-05) cubre autenticación, pedidos, caja, compras/mermas, turnos, chat, reportes, sesión de tokens y el Asistente IA. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
+**Leyenda de gaps**: la suite (85 pruebas, ejecutada 2026-10-16) cubre autenticación, catálogo público, eventos (incl. subida de imagen), pedidos, caja, compras/mermas, turnos (`abierto` y rango `fecha_fin`), chat, reportes, sesión de tokens y el Asistente KAFFA. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
 
 ## 4. Fuera de alcance (no implementado)
 

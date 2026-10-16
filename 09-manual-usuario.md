@@ -69,9 +69,9 @@ Panel con 17 secciones (menú lateral). El admin **no depende de turnos** para o
 | Facturas | Listado de facturas (número, pedido, subtotal, impuestos, total) |
 | Clientes | Gestión de clientes (editar/desactivar/eliminar, historial de pedidos) |
 | Baristas | Gestión de baristas: crear con contraseña y foto, asignar rol |
-| Turnos | Crear/editar turnos (`mañana`/`tarde`) y asignar baristas por turno |
+| Turnos | Crear/editar turnos (`mañana`/`tarde`/`abierto`, con rango `fecha`–`fecha_fin`) y asignar baristas por turno |
 | Reportes | Novedades enviadas por baristas: marcar leídas, editar prioridad, eliminar |
-| Asistente IA | Chat con un asistente que analiza las ventas reales, hace **predicciones** y sugiere estrategias de marketing. Escribe tu pregunta (o usa una sugerencia); el historial se guarda y puedes **Limpiar** la conversación. Solo el administrador tiene acceso |
+| Asistente KAFFA | Chat con un asistente que responde con datos reales del negocio y **adapta la respuesta al rol**: el administrador ve analítica completa, **predicciones** y sugerencias de marketing; el barista, la vista operativa; el cliente, ayuda del menú y sus pedidos. El historial se guarda por usuario y puedes **Limpiar** la conversación. Disponible desde el ícono flotante |
 | Configuración | CRUD de **medios de pago** (con flag «virtual» ⇒ exige comprobante) y tabla de roles del sistema |
 
 El perfil del admin y el cierre de sesión están en la barra superior.

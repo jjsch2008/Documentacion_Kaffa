@@ -56,16 +56,15 @@ Solo se documentan variables usadas por el proyecto (el resto de la plantilla de
 | `MAIL_FROM_ADDRESS` / `MAIL_FROM_NAME` | Remitente de los correos | `hello@example.com` | correo **verificado en Brevo** / `KAFFA` |
 | `MAIL_TIMEOUT` | Timeout del SMTP (segundos); acota el envío síncrono | `10` | `10` |
 | `MAIL_VERIFY_PEER` | Verificación del certificado TLS del relay | `true` | `true` (usar `false` solo si el host de Brevo presenta un certificado con CN distinto) |
-| `GEMINI_API_KEY` | API key de Google Gemini para el Asistente IA (solo backend) | (secreto local) | clave del proyecto en Google AI Studio; nunca en el frontend |
-| `GEMINI_MODEL` | Modelo principal del Asistente IA | `gemini-3.8-flash` | modelo Flash vigente |
-| `GEMINI_FALLBACK_MODEL` | Modelos de respaldo (coma-separados) si el principal está saturado (503/429) | `gemini-flash-latest,gemini-3.6-flash` | uno o más modelos Flash disponibles |
+| `GEMINI_API_KEY` | (opcional) API key de Google Gemini. El **Asistente KAFFA actual es local** y no la usa | (vacío) | dejar vacío salvo que se conecte un modelo externo |
+| `GEMINI_MODEL` / `GEMINI_FALLBACK_MODEL` | (opcional) modelos del proveedor si se conecta un LLM externo | `gemini-3.8-flash` / `gemini-flash-latest,gemini-3.6-flash` | sólo si se usa un proveedor externo |
 
 El frontend usa variables de entorno de Vite (`VITE_*`) para Cloudinary (ver `docs/11-frontend.md`): `VITE_CLOUDINARY_CLOUD_NAME` y `VITE_CLOUDINARY_UPLOAD_PRESET`. La URL de la API es la relativa `/api/v1` y las CDNs (Chart.js, jsPDF, fuentes) están fijas en el código.
 
 ## 4. Consideraciones operativas
 
 - **Zona horaria**: la lógica de turnos usa `America/Bogota` (`config/app.php` y `TurnoService`); sincronizar el reloj del servidor (NTP) para que los turnos y cierres de caja calculen bien.
-- **Backups**: `[RECOMENDACIÓN]` backups periódicos de PostgreSQL (`kaffa`). Las imágenes (productos, eventos, fotos de perfil y comprobantes) viven en **Cloudinary**, no en el disco del servidor, por lo que ya no requieren respaldo local.
+- **Backups**: `[RECOMENDACIÓN]` backups periódicos de PostgreSQL (`kaffa`). Las imágenes web (productos, eventos, fotos de perfil y comprobantes) viven en **Cloudinary**, no en el disco del servidor. **Excepción**: las imágenes de eventos subidas desde el móvil vía `POST /eventos/imagen` se guardan en el disco `public` del backend (`storage/app/public/eventos`), por lo que **sí** conviene respaldar ese directorio (o migrar esa subida a Cloudinary).
 - **HTTPS**: recomendable en producción (los Bearer tokens viajan en cada cabecera).
 - **Logs**: pila estándar Laravel; los fallos de envío de correo se registran explícitamente en `AuthController`.
 - **Escalado**: no hay estado en el servidor más allá de sesiones de archivos (la API es stateless por tokens); caché/cola en Redis y balanceo simple son viables. `[RECOMENDACIÓN]` no verificada con pruebas de carga.

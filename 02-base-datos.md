@@ -7,11 +7,11 @@
 - **Nomenclatura**: tablas en español; las tabletas de detalle de pagos y pivotes usan doble guion bajo (`pago__pedidos`, `usuario__rols`, `movimiento__cajas`), siguiendo el estilo del generador de código original.
 - **Borrado lógico (soft delete)**: columnas `deleted_at` en la mayoría de tablas de negocio (verificado por migraciones y rasgo `SoftDeletes` en los modelos). Excepciones: `pago__pedidos`, `detalle__pedidos`, `detalle__compras`, `compra__pagos`, `gasto__pagos`, `movimiento__cajas`, `recetas`, `usuario__rols`, `barista_turno`, `turnos`, `rols`, `medio__pagos`, `factura__ventas`, `factura_contadores`, `mensajes`, `asistente_mensajes`.
 - **Dinero**: `decimal(10,2)` en todas las columnas monetarias; casts `decimal:2` en los modelos Eloquent.
-- **Migraciones**: 38 archivos en `backend-kaffa/database/migrations/` (25 de creación de tablas + 13 de alteración/índices).
+- **Migraciones**: 44 archivos en `backend-kaffa/database/migrations/` (creación de tablas + alteración/índices).
 
 > `.env.example` ya declara la conexión correcta (`pgsql`/5432/`kaffa`), corregida en la pasada de seguridad de 2026-09.
 
-## 2. Inventario de tablas (32)
+## 2. Inventario de tablas (34)
 
 ### 2.1 Infraestructura de Laravel (6)
 
@@ -60,11 +60,13 @@
 
 | Tabla | Propósito |
 |-------|-----------|
-| `turnos` | Turnos de trabajo: `fecha` + `tipo` (`mañana`/`tarde`), únicos por combinación. |
+| `turnos` | Turnos de trabajo: rango `fecha`–`fecha_fin` + `tipo` (`mañana`/`tarde`/`abierto`), únicos por `fecha+tipo`. |
 | `barista_turno` | Pivote N:M barista ↔ turno (quiénes trabajan cada turno). |
 | `reportes` | Reportes de novedades creados por baristas (prioridad, leído). |
 | `mensajes` | Chat cliente ↔ barista/admin (leído). |
-| `asistente_mensajes` | Historial del chat con el Asistente IA de ventas (exclusivo del rol admin). |
+| `eventos` | Eventos publicados en la landing/Home (título, fecha, lugar, publicación). |
+| `evento_imagenes` | Galería de imágenes por evento (orden, máximo 5 por evento). |
+| `asistente_mensajes` | Historial del chat con el Asistente KAFFA (por usuario, todos los roles). |
 
 ## 3. Diagrama entidad–relación
 
@@ -103,6 +105,7 @@ erDiagram
     users ||--o{ mensajes : "destinatario_id"
     users |o--o{ reportes : "barista_id"
     users ||--o{ asistente_mensajes : "usuario_id"
+    eventos ||--o{ evento_imagenes : ""
     productos ||--o{ recetas : ""
     insumos ||--o{ recetas : ""
 ```
@@ -438,16 +441,19 @@ Fuente de cada tabla: los archivos de migración indicados. `PK` = clave primari
 
 > Los movimientos no se crean directamente por la API: los emiten los servicios al registrar pagos (`MovimientoCajaPolicy` lo documenta).
 
-### 4.23 `turnos` — `2026_06_14_152013…`
+### 4.23 `turnos` — `2026_06_14_152013…` + `2026_10_06_000000_add_fecha_fin_to_turnos_table.php`
 
 **Tabla 26.** _Diccionario de la tabla `turnos`_
 
 | Campo | Tipo | NULL | Clave | Detalle |
 |-------|------|------|-------|---------|
 | id | bigint | No | PK | |
-| fecha | date | No | UNIQUE(fecha, tipo) | |
-| tipo | varchar — enum `mañana`/`tarde` | No | UNIQUE(fecha, tipo) | horarios: mañana 07:00–13:00, tarde 13:00–18:00 (`TurnoService`) |
+| fecha | date | No | UNIQUE(fecha, tipo) | inicio del turno |
+| fecha_fin | date | Sí | | fin del rango (`2026_10_06_000000_add_fecha_fin_to_turnos_table`); si es nulo equivale a `fecha` (un solo día). Las filas existentes se rellenan con `fecha`. |
+| tipo | varchar — enum `mañana`/`tarde`/`abierto` | No | UNIQUE(fecha, tipo) | horarios: mañana 07:00–13:00, tarde 13:00–18:00, **abierto 05:00–22:00** (`TurnoService`) |
 | created_at / updated_at | timestamp | No | | |
+
+> El turno **cubre** una fecha si cae dentro de `[fecha, fecha_fin]`. El tipo `abierto` tiene prioridad sobre `mañana`/`tarde` (`TurnoService::getActiveTurno`).
 
 ### 4.24 `barista_turno` — `2026_06_14_152014…`
 
@@ -495,13 +501,13 @@ Fuente de cada tabla: los archivos de migración indicados. `PK` = clave primari
 | Campo | Tipo | NULL | Clave | Detalle |
 |-------|------|------|-------|---------|
 | id | bigint | No | PK | |
-| usuario_id | bigint | No | FK → users.id | cascade; administrador dueño del hilo |
-| rol | varchar(20) | No | | `user` (pregunta del admin) o `assistant` (respuesta de la IA) |
+| usuario_id | bigint | No | FK → users.id | cascade; dueño del hilo (cualquier rol) |
+| rol | varchar(20) | No | | `user` (pregunta) o `assistant` (respuesta del asistente) |
 | contenido | text | No | | texto del turno |
 | created_at / updated_at | timestamp | No | | |
 | Índice | | | | `(usuario_id, id)` para recuperar el hilo cronológicamente |
 
-> El historial se persiste por administrador y sirve de memoria del Asistente IA de ventas (últimos 20 turnos como contexto). Se accede sólo vía `POST /api/v1/asistente/chat` (rol admin) — ver `03-api.md` y `04-modulos.md`.
+> El historial se persiste **por usuario** (todos los roles) y sólo se accede a él mediante `/api/v1/asistente/*`; cada quien ve únicamente su hilo. Ver `03-api.md` §17 y `04-modulos.md` §13.
 
 ### 4.28 `personal_access_tokens` — `2019_12_14_000001…`
 
@@ -565,9 +571,41 @@ Restricción única `(correo, tipo)`. Usada por `OtpService` para la verificaci�
 
 Implementa el **alta diferida**: el registro público guarda aquí los datos y envía el OTP, pero **no** crea la fila en `users`. Al validar el código (`RegistrationService::confirmar`) se crea el usuario ya verificado (con rol `cliente`) y se elimina el pendiente. Los pendientes con más de 24 h se purgan (`RegistrationService::purgarAntiguos`).
 
+### 4.33 `eventos` — `2026_10_08_000002_create_eventos_table.php`
+
+**Tabla 36.** _Diccionario de la tabla `eventos`_
+
+| Columna | Tipo | Nulo | Notas |
+|---------|------|------|-------|
+| id | bigint | No | PK |
+| titulo | varchar(255) | No | |
+| descripcion | text | No | |
+| lugar | varchar(255) | Sí | |
+| fecha | date | No | índice |
+| hora | time | Sí | |
+| publicado | boolean | No | default `false`; índice. Sólo los publicados se muestran en la landing/Home |
+| deleted_at | timestamp | Sí | soft delete |
+| created_at / updated_at | timestamp | Sí | |
+
+> El listado público (`GET /eventos`) devuelve sólo `publicado = true`; el panel admin (`GET /eventos/admin`) ve también los borradores. La galería vive en `evento_imagenes` (máximo 5). Ver `03-api.md` §3.1 y `04-modulos.md` §16.
+
+### 4.34 `evento_imagenes` — `2026_10_08_000003_create_evento_imagenes_table.php`
+
+**Tabla 37.** _Diccionario de la tabla `evento_imagenes`_
+
+| Columna | Tipo | Nulo | Notas |
+|---------|------|------|-------|
+| id | bigint | No | PK |
+| evento_id | bigint | No | FK → eventos.id (cascade) |
+| url | varchar(500) | No | URL validada con `App\Rules\CloudinaryUrl` (o URL local devuelta por `POST /eventos/imagen`) |
+| orden | int unsigned | No | default 0; índice `(evento_id, orden)` |
+| created_at / updated_at | timestamp | Sí | |
+
+> La misma migración migra la antigua columna `eventos.imagen` a la galería (como portada, orden 0) y elimina esa columna.
+
 ## 5. Índices de rendimiento — `2026_07_31_000000_add_performance_indexes_to_tables.php`
 
-**Tabla 36.** _Índices de rendimiento añadidos por tabla_
+**Tabla 38.** _Índices de rendimiento añadidos por tabla_
 
 | Tabla | Índices adicionados |
 |-------|---------------------|
@@ -585,7 +623,7 @@ Además, índices únicos declarados en las migraciones: `factura__ventas.pedido
 
 ## 6. Seeders — `backend-kaffa/database/seeders/`
 
-**Tabla 37.** _Seeders del proyecto (orden de ejecución)_
+**Tabla 39.** _Seeders del proyecto (orden de ejecución)_
 
 Orden de ejecución (`DatabaseSeeder`): `RolSeeder` → `MedioPagoSeeder` → `UserSeeder` → `TurnoSeeder` → `CatalogSeeder`.
 
