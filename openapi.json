@@ -8257,7 +8257,10 @@
                         "format": "date-time"
                     },
                     "fecha_fin": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     },
                     "tipo": {
@@ -8278,7 +8281,6 @@
                 },
                 "required": [
                     "fecha",
-                    "fecha_fin",
                     "tipo",
                     "barista_ids"
                 ],
@@ -8644,7 +8646,10 @@
                         "format": "date-time"
                     },
                     "fecha_fin": {
-                        "type": "string",
+                        "type": [
+                            "string",
+                            "null"
+                        ],
                         "format": "date-time"
                     },
                     "tipo": {

@@ -266,12 +266,12 @@ Todos los recursos siguientes exigen `role:admin,barista` + `turno.activo`; sus 
 | Método | Endpoint | Roles | Descripción |
 |--------|----------|-------|-------------|
 | GET | `/turnos` | admin | Lista con `baristas` cargados |
-| POST | `/turnos` | admin | `{fecha (Y-m-d), fecha_fin (Y-m-d, ≥ fecha), tipo ∈ mañana\|tarde\|abierto, barista_ids[] (≥1)}` — único por `fecha+tipo` |
+| POST | `/turnos` | admin | `{fecha (Y-m-d), fecha_fin (Y-m-d, opcional, ≥ fecha), tipo ∈ mañana\|tarde\|abierto, barista_ids[] (≥1)}` — único por `fecha+tipo`. Si se omite `fecha_fin`, el turno dura un solo día (`fecha_fin = fecha`) |
 | GET/PUT/DELETE | `/turnos/{id}` | admin | PUT reemplaza los baristas asignados (`fecha_fin` y `tipo` editables) |
 | GET | `/mis-turnos` | barista | Turnos propios, paginado 15, orden `fecha,tipo asc` |
 | GET | `/turno-activo` | todos los autenticados | Turno activo del barista: `{turno_activo, turno_info{id, fecha, fecha_fin, tipo, minutos_restantes, hora_inicio, hora_fin}}` (para no baristas: `{turno_activo:false, turno_info:null}`) |
 
-Horarios (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, **abierto 05:00–22:00** (jornada extendida), zona `America/Bogota`. Un turno **cubre** una fecha si cae dentro de su rango `[fecha, fecha_fin]` (si `fecha_fin` es nulo equivale a un turno de un solo día). El tipo `abierto` tiene **prioridad** sobre mañana/tarde cuando el barista lo tiene asignado. Fuera de 05:00–22:00 no hay turno esperado.
+Horarios (`TurnoService`): mañana 07:00–13:00, tarde 13:00–18:00, **abierto 05:00–22:00** (jornada extendida), zona `America/Bogota`. Un turno **cubre** una fecha si cae dentro de su rango `[fecha, fecha_fin]` (`fecha_fin` es **opcional**: si se omite o es nula, equivale a un turno de un solo día). El tipo `abierto` tiene **prioridad** sobre mañana/tarde cuando el barista lo tiene asignado. Fuera de 05:00–22:00 no hay turno esperado.
 
 > Al eliminar un turno con **cajas asociadas** se responde 422 (`BusinessRuleException`): primero deben cerrarse sus cajas.
 

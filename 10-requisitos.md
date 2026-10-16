@@ -76,7 +76,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-10..RF-16 | Pedidos y POS / Pagos / Facturación | §5–§7 | `PedidoTest` (6 pruebas: autoría, comprobante, pagos, stock, scope, numeración de factura) |
 | RF-17, RF-18 | Caja | §8 | `CajaTest` (5 pruebas: apertura, turno, arqueo, eliminación) |
 | RF-19..RF-21 | Compras / Gastos / Mermas | §9 | `CompraMermaTest` (6 pruebas; gastos con caja aún `[GAP]`) |
-| RF-22..RF-24 | Turnos | §10 | `TurnoMiddlewareTest` (8 pruebas: turno activo, **`abierto`**, rango `fecha_fin`, códigos 403, exenciones, abilities) |
+| RF-22..RF-24 | Turnos | §10 | `TurnoMiddlewareTest` (11 pruebas: turno activo, **`abierto`**, rango `fecha_fin`, creación sin `fecha_fin`, códigos 403, exenciones, abilities) |
 | RF-25 | Chat | §11 | `ChatReporteTest` (5 pruebas) |
 | RF-26 | Reportes | §12 | `ChatReporteTest` (3 pruebas) |
 | RF-28 | Transversal | §1 | parcial (envoltura de paginación en `ApiTest`) |
@@ -84,7 +84,7 @@ Requisitos derivados exclusivamente del **código implementado** (comportamiento
 | RF-31 | Asistente KAFFA | §13 (§17 en docs/03) | `AsistenteTest` (5 pruebas: multi-rol, respuesta local, historial y reinicio, 401 anónimo) |
 | RF-32 | Eventos | §16 (§3.1 en docs/03) | `EventoTest` (12 pruebas: público/publicado, gestión admin, galería, subida de imagen, 403 barista) |
 
-**Leyenda de gaps**: la suite (85 pruebas, ejecutada 2026-10-16) cubre autenticación, catálogo público, eventos (incl. subida de imagen), pedidos, caja, compras/mermas, turnos (`abierto` y rango `fecha_fin`), chat, reportes, sesión de tokens y el Asistente KAFFA. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
+**Leyenda de gaps**: la suite (88 pruebas, ejecutada 2026-10-16) cubre autenticación, catálogo público, eventos (incl. subida de imagen), pedidos, caja, compras/mermas, turnos (`abierto`, rango `fecha_fin` y creación sin `fecha_fin`), chat, reportes, sesión de tokens y el Asistente KAFFA. Quedan sin pruebas automatizadas: CRUD de catálogo completo, gestión de usuarios/roles/turnos, gastos con caja, subida de comprobantes, filtros avanzados y throttle. Ver `docs/08-pruebas.md`.
 
 ## 4. Fuera de alcance (no implementado)
 

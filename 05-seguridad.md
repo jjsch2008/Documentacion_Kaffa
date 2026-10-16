@@ -119,7 +119,7 @@ Respuesta de rechazo: **403** `{message: "Tu token no tiene el permiso requerido
 |----------|--------|
 | Abilities de tokens Sanctum almacenadas sin validarse | **RESUELTO**: middleware `ability:` (`EnsureTokenCanAbility`) creado, registrado y aplicado a las rutas de escritura (ver §9) |
 | `UserFactory` con columnas `name`/`email` inexistentes | **RESUELTO**: fábrica reescrita sobre `nombre`/`correo` (+ estados `unverified`/`inactive`) |
-| Suite de pruebas mínima | **RESUELTO**: suite ampliada (58 pruebas en 2026-09; **63** en 2026-10 con el Asistente IA; **85** en 2026-10-16 tras integrar los cambios móviles de `ana`) — ver `08-pruebas.md` |
+| Suite de pruebas mínima | **RESUELTO**: suite ampliada (58 pruebas en 2026-09; **63** en 2026-10 con el Asistente IA; **88** en 2026-10-16 tras integrar los cambios móviles de `ana`) — ver `08-pruebas.md` |
 | Dos lockfiles en el frontend | **RESUELTO**: eliminado `package-lock.json`; queda `pnpm-lock.yaml` como fuente única |
 | Directorio vacío `backend-kaffa/backend-kaffa/` | **RESUELTO**: eliminado |
 

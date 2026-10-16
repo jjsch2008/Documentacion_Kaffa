@@ -29,7 +29,7 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 | Fecha de sincronización con el código | 16 de octubre de 2026 |
 | Commit backend auditado | `ecd1c66` (integración del backend móvil de `ana` sobre `main`/`parche_6`) |
 | Commit frontend auditado | `bbcd709` (parche_seguridad_2) |
-| Última ampliación (2026-10-16) | **Integración del backend móvil de `ana` (unificación web + móvil)**: catálogo público (categorías/productos) para el Home del invitado, módulo de **eventos** con `POST /eventos/imagen`, **Asistente KAFFA multi-rol y local** (`AsistenteService`), turnos con tipo `abierto` y rango `fecha_fin`, alias `roles[]` y códigos de negocio; se eliminan migraciones duplicadas; suite a **85 pruebas** |
+| Última ampliación (2026-10-16) | **Integración del backend móvil de `ana` (unificación web + móvil)**: catálogo público (categorías/productos) para el Home del invitado, módulo de **eventos** con `POST /eventos/imagen`, **Asistente KAFFA multi-rol y local** (`AsistenteService`), turnos con tipo `abierto` y rango `fecha_fin` (opcional), alias `roles[]` y códigos de negocio; se eliminan migraciones duplicadas; suite a **88 pruebas** |
 | Método | Auditoría archivo por archivo (rutas, migraciones, modelos, controladores, servicios, middleware, seeders, tests, SPA) + pasadas de remediación y de nivel profesional/ICONTEC (2026-09-28) |
 | Cambios aplicados en la remediación | Middleware `ability:`, `.env.example` seguro por defecto, `UserFactory` corregido, lockfile único (pnpm), suite ampliada de 23 a **58 pruebas**, especificación **OpenAPI (Scramble)**, fuente única por dominio y presentación ICONTEC ligera |
 | Idioma | Español (convenciones técnicas profesionales + ICONTEC ligero) |
@@ -61,7 +61,7 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 | 5 | [05-seguridad.md](05-seguridad.md) | Autenticación, RBAC, abilities, verificación de correo, CORS, throttling y hallazgos. |
 | 6 | [06-instalacion.md](06-instalacion.md) | Instalación de backend y frontend, requisitos y usuarios de prueba. |
 | 7 | [07-despliegue.md](07-despliegue.md) | Entornos de desarrollo/producción y variables de entorno. |
-| 8 | [08-pruebas.md](08-pruebas.md) | Inventario y resultados reales de la suite (85 pruebas). |
+| 8 | [08-pruebas.md](08-pruebas.md) | Inventario y resultados reales de la suite (88 pruebas). |
 | 9 | [09-manual-usuario.md](09-manual-usuario.md) | Manual de uso por rol: visitante, cliente, barista y administrador. |
 | 10 | [10-requisitos.md](10-requisitos.md) | Requisitos funcionales/no funcionales con matriz de trazabilidad. |
 | 11 | [11-frontend.md](11-frontend.md) | SPA React: componentes, flujo de datos, estilos, sondeo y flujos. |
