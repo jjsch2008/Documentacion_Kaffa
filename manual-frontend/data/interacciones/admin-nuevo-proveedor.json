@@ -1,0 +1,87 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Proveedores",
+    "Proveedores",
+    "Nuevo Proveedor"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Proveedor",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "NIT",
+    "NOMBRE",
+    "TELÉFONO",
+    "CORREO",
+    "ACTIVO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "email",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Proveedor activo"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nProveedores\nAna María Joaquí\nAdministrador\nProveedores\nNuevo Proveedor\nNIT\tNOMBRE\tTELÉFONO\tCORREO\tACTIVO\tACCIONES\n800555333-7\tInsumos y Empaques Andinos\t301 222 7766\tcontacto@andinos.co\tActivo\t\n \n\n901987654-2\tLácteos La Pradera\t320 444 8899\tpedidos@lapradera.co\tActivo\t\n \n\n900123456-1\tCafé del Cauca S.A.S.\t310 555 1122\tventas@cafedelcauca.co\tActivo\t\n \n×\nNuevo Proveedor\nNIT\nNombre\nTeléfono\nCorreo\nDirección\nProveedor activo\nCancelar\nGuardar"
+}

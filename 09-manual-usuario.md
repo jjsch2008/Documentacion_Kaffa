@@ -1,6 +1,6 @@
 # 09 — Manual de Usuario
 
-Manual basado en las pantallas implementadas en la SPA (`REACT_clean/REACT_kaffa/src/`). **Capturas de pantalla no disponibles desde la evidencia del proyecto** — se describen los flujos por pantalla.
+Resumen funcional por rol. Para el **manual ilustrado y verificado** —con capturas anotadas, recorridos guiados, listas de verificación y versión interactiva— usa [`../KAFFA_Manual_Frontend_v1.0.pdf`](../KAFFA_Manual_Frontend_v1.0.pdf) y [`../KAFFA_Manual_Frontend_Interactivo_v1.0.zip`](../KAFFA_Manual_Frontend_Interactivo_v1.0.zip). Este documento conserva los flujos por pantalla como referencia rápida.
 
 ## 1. Visitante (sin cuenta)
 

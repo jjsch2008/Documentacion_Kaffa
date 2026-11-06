@@ -1,0 +1,64 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Clientes",
+    "Clientes",
+    "Editar Cliente"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "NOMBRE",
+    "CORREO",
+    "REGISTRO",
+    "ACTIVO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "email",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Usuario activo"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nClientes\nAna María Joaquí\nAdministrador\nClientes\n3 clientes\n\nUsuarios con rol cliente (registrados desde la web).\n\nNOMBRE\tCORREO\tREGISTRO\tACTIVO\tACCIONES\nCarlos Ramírez\tcarlos@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n \n\nMaría Fernanda López\tmaria@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n \n\nJuan José Sandoval\tcliente@kaffa.com\t22/10/2026 11:16 p. m.\tActivo\t\n \n \n×\nEditar Cliente\nNombre\nCorreo\nUsuario activo\nCancelar\nGuardar"
+}

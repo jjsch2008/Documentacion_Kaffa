@@ -1,0 +1,97 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Compras",
+    "Compras a Proveedores",
+    "Nueva Compra"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nueva Compra",
+    "×",
+    "Agregar detalle",
+    "Agregar pago",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "ID",
+    "PROVEEDOR",
+    "FACTURA PROV.",
+    "TOTAL",
+    "DETALLES",
+    "FECHA",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Ej. FV-1024",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "date",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "Cantidad",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "Costo unit.",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCompras\nAna María Joaquí\nAdministrador\nCompras a Proveedores\nNueva Compra\n\nCada compra suma stock de sus insumos.\n\nID\tPROVEEDOR\tFACTURA PROV.\tTOTAL\tDETALLES\tFECHA\tACCIONES\n#2\tLácteos La Pradera\tLP-8891\t$235.000\t50.00 insumo\t17/10/2026\t\n\n#1\tCafé del Cauca S.A.S.\tFV-20451\t$420.000\t14.00 insumo\t20/10/2026\t\n×\nNueva Compra\nProveedor\nSin proveedor\nInsumos y Empaques Andinos\nLácteos La Pradera\nCafé del Cauca S.A.S.\nN° Factura Proveedor\nFecha Compra\nTotal Compra (opcional: se calcula con detalles/pagos)\n Detalles (insumos comprados)\nHelado de Vainilla\nNueces\nCacao en Polvo\nBizcocho\nMascarpone\nAguacate\nTocino\nPollo\nPan Brioche\nFrutos Rojos\nQueso Crema\nMantequilla\nHuevos\nHarina\nCaramelo\nVainilla\nChocolate\nAzúcar\nLeche\nCafé en Grano\nAgregar detalle\n Pagos\nAgregar pago\nCancelar\nGuardar"
+}

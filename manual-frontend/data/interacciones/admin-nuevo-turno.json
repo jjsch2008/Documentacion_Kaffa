@@ -1,0 +1,78 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Turnos",
+    "Turnos (mañana 07–13 / tarde 13–18 / abierto 05–22)",
+    "Nuevo Turno"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Turno",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "FECHA",
+    "TIPO",
+    "BARISTAS ASIGNADOS",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "date",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "date",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nTurnos\nAna María Joaquí\nAdministrador\nTurnos (mañana 07–13 / tarde 13–18 / abierto 05–22)\nNuevo Turno\nFECHA\tTIPO\tBARISTAS ASIGNADOS\tACCIONES\n21/10/2026\tMañana (07:00 - 13:00)\tSantiago Salamanca\t\n \n\n22/10/2026\tTarde (13:00 - 18:00)\tSantiago Salamanca\t\n \n\n22/10/2026\tMañana (07:00 - 13:00)\tSantiago Salamanca, Camila Restrepo\t\n \n×\nNuevo Turno\nFecha\nFecha fin (opcional)\nDéjala vacía para un turno de un solo día.\nTipo\nMañana (07:00 - 13:00)\nTarde (13:00 - 18:00)\nAbierto (05:00 - 22:00)\nBaristas asignados\nC\nCamila Restrepo\nS\nSantiago Salamanca\nCancelar\nGuardar"
+}

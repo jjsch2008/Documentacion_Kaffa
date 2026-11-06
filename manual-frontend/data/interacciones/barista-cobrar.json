@@ -1,0 +1,49 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Tablero de Pedidos",
+    "PEDIDOS TURNO MAÑANA",
+    "Registrar Pago"
+  ],
+  "buttons": [
+    "Registrar Pedido",
+    "COBRAR",
+    "ENTREGAR",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "FACTURA PDF",
+    "Descargar Historial",
+    "×",
+    "Cancelar",
+    "Pasar a preparación"
+  ],
+  "tableHeads": [],
+  "inputs": [
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n3\nCaja\nCerrar Sesión\n Tablero de Pedidos\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nPEDIDOS TURNO\nMAÑANA\n ACTIVO · 150 min\nRegistrar Pedido\n SOLICITUDES (PENDIENTE)\n1\n#1\n22/10/2026 10:24 a. m.\nJuan José Sandoval\nCapuchino\n1\n Sin azúcar\nSándwich Club\n1\n$18.000\nSin pagar\nCOBRAR\n PAGADO / PREPARACIÓN\n1\n#2\n22/10/2026 09:52 a. m.\nJuan José Sandoval\nLatte\n2\nBagel\n1\n Para llevar\n$21.500\nTransferencia Bancaria\nENTREGAR\n ENTREGADOS / CANCELADOS\n8\n#10\n16/10/2026 01:10 p. m.\nMaría Fernanda López\nCheesecake\n2\nLatte\n1\n$21.500\nTransferencia Bancaria\nFACTURA PDF\n#9\n17/10/2026 09:30 a. m.\nJuan José Sandoval\nCapuchino\n1\nAmericano\n1\n$14.000\nEfectivo\nFACTURA PDF\n#8\n18/10/2026 11:05 a. m.\nCarlos Ramírez\nMocha\n2\nSándwich Club\n1\n$28.000\nTarjeta de Crédito\nFACTURA PDF\n#7\n19/10/2026 03:40 p. m.\nMaría Fernanda López\nLatte\n1\nBagel\n1\n$14.000\nQR (Pago Digital)\nFACTURA PDF\n#6\n20/10/2026 10:15 a. m.\nMostrador\nCapuchino\n2\nTiramisú\n1\n$23.500\nEfectivo\nFACTURA PDF\n#5\n21/10/2026 04:20 p. m.\nJuan José Sandoval\nBrownie\n1\n$6.000\nCancelado\n#4\n22/10/2026 06:30 a. m.\nCarlos Ramírez\nAmericano\n2\nCroissant\n2\n$23.000\nPago Móvil\nFACTURA PDF\n#3\n22/10/2026 08:30 a. m.\nMaría Fernanda López\nMocha\n1\n Con crema batida\nCheesecake\n1\n$16.000\nEfectivo\nFACTURA PDF\nDescargar Historial\n×\n Registrar Pago\n\nPedido #1 · Total: $18.000\n\nMedio de Pago\nQR (Pago Digital) (virtual)\nPago Móvil (virtual)\nTransferencia Bancaria (virtual)\nTarjeta de Débito\nTarjeta de Crédito\nEfectivo\nMonto\nComprobante (imagen del dispositivo)\nCancelar\nPasar a preparación"
+}

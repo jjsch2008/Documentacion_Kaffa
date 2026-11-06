@@ -1,0 +1,93 @@
+/* Editor de puntos — solo se carga en editor.html */
+#pin-editor {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 95;
+  background: linear-gradient(180deg, #1e3023, #142117);
+  color: #f2eadf; border-top: 2px solid var(--green-strong);
+  box-shadow: 0 -16px 40px rgba(0, 0, 0, .32);
+  padding: 9px 18px 11px;
+  font-family: var(--font);
+  font-size: 12px;
+  line-height: 1.45;
+}
+@media (min-width: 1151px) {
+  #pin-editor { left: var(--sidebar); }
+}
+#pin-editor.collapsed { padding: 6px 18px; }
+#pin-editor.collapsed .pe-actions,
+#pin-editor.collapsed .pe-hint,
+#pin-editor.collapsed .pe-toast { display: none; }
+#pin-editor.collapsed .pe-title { display: none; }
+
+.pe-row { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
+.pe-actions { margin-top: 7px; }
+.pe-badge {
+  background: var(--green-strong); color: #10210f; font-size: 9px; font-weight: 800;
+  letter-spacing: .12em; border-radius: 999px; padding: 3px 8px; white-space: nowrap;
+}
+.pe-title { font-size: 12.5px; letter-spacing: .01em; margin-right: 2px; white-space: nowrap; }
+.pe-switch {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 11px;
+  color: #cfe0c9; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 999px; padding: 4px 9px; cursor: pointer; white-space: nowrap;
+}
+.pe-switch input { accent-color: var(--green-strong); }
+.pe-field { display: inline-flex; align-items: center; gap: 6px; color: #a9bca4; font-size: 10px; min-width: 0; }
+.pe-field select {
+  max-width: min(430px, 42vw); background: #0f1a12; color: #e9f1e5;
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 7px;
+  padding: 5px 8px; font: inherit; font-size: 10.5px;
+}
+.pe-field select:focus { outline: 2px solid rgba(126, 224, 111, .4); }
+.pe-arrows { display: inline-flex; gap: 4px; }
+.pe-arrows button, .pe-toggle {
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .16);
+  color: #e9f1e5; border-radius: 7px; width: 28px; height: 27px;
+  cursor: pointer; font-size: 13px; line-height: 1; display: grid; place-items: center;
+}
+.pe-arrows button:hover, .pe-toggle:hover { background: rgba(255, 255, 255, .15); }
+.pe-toggle { flex: 0 0 auto; }
+.pe-link { margin-left: auto; color: #b9d3b1; font-size: 10.5px; text-decoration: none; border-bottom: 1px dotted #6f8a68; }
+.pe-link:hover { color: #fff; }
+
+.pe-status { flex: 1; min-width: 240px; color: #c9d9c3; font-size: 10.8px; }
+.pe-status b { color: #fff; }
+#pin-editor button:not(.pe-toggle):not(.pe-arrows button) {
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .17);
+  color: #e9f1e5; border-radius: 7px; padding: 5px 10px; font: inherit;
+  font-size: 10.5px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+#pin-editor button:hover { background: rgba(255, 255, 255, .16); }
+#pin-editor button.pe-primary {
+  background: var(--green-strong); border-color: var(--green-strong);
+  color: #10210f; font-weight: 700;
+}
+#pin-editor button.pe-primary:hover { filter: brightness(1.08); }
+.pe-hint { margin: 7px 0 0; color: #a9bca4; font-size: 10px; line-height: 1.45; }
+.pe-hint b { color: #dcebd7; }
+.pe-toast {
+  margin: 7px 0 0; padding: 5px 9px; border-radius: 6px;
+  background: rgba(57, 169, 0, .2); border: 1px solid rgba(126, 224, 111, .35);
+  color: #d9f2d1; font-size: 10.5px;
+}
+.pe-toast.bad { background: rgba(166, 58, 43, .25); border-color: rgba(255, 139, 120, .4); color: #ffd9d2; }
+
+body.editor-editing .content { padding-bottom: 180px; }
+body.editor-editing .pin { cursor: grab; touch-action: none; }
+body.editor-editing .pin:active { cursor: grabbing; }
+body.editor-editing .pin:hover { transform: translate(-50%, -50%) scale(1.18); }
+body.editor-editing .pin.selected {
+  background: #f0b429; color: #241a12;
+  box-shadow: 0 0 0 5px rgba(240, 180, 41, .28), 0 6px 18px rgba(0, 0, 0, .4);
+  transform: translate(-50%, -50%) scale(1.22);
+}
+body.editor-editing .pin.selected::after { display: none; }
+body.editor-editing .shot-frame { cursor: default; }
+
+@media (max-width: 800px) {
+  #pin-editor { padding: 8px 10px 10px; max-height: 46vh; overflow: auto; }
+  .pe-field select { max-width: 100%; width: 100%; }
+  .pe-field { flex: 1 1 100%; }
+  .pe-link { margin-left: 0; }
+  .pe-title { display: none; }
+  body.editor-editing .content { padding-bottom: 240px; }
+}

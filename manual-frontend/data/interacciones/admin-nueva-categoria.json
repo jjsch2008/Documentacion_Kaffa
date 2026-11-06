@@ -1,0 +1,49 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Categorías",
+    "Categorías de Productos",
+    "Nueva Categoría"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nueva Categoría",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "ID",
+    "NOMBRE",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCategorías\nAna María Joaquí\nAdministrador\nCategorías de Productos\nNueva Categoría\nID\tNOMBRE\tACCIONES\n3\tSnacks\t\n \n\n2\tPostres\t\n \n\n1\tCafés\t\n \n×\nNueva Categoría\nNombre\nCancelar\nGuardar"
+}

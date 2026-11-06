@@ -1,0 +1,87 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Menú / Productos",
+    "Productos del Menú",
+    "Nuevo Producto"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Producto",
+    "×",
+    "Subir a Cloudinary…",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "PRODUCTO",
+    "CATEGORÍA",
+    "PRECIO",
+    "ACTIVO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Visible en el menú"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nMenú / Productos\nAna María Joaquí\nAdministrador\nProductos del Menú\nNuevo Producto\n\nCatálogo oficial (tabla productos). Lo ven clientes y baristas desde la API.\n\nPRODUCTO\tCATEGORÍA\tPRECIO\tACTIVO\tACCIONES\n\nBagel\n\tSnacks\t$6.500\tActivo\t\n \n\nCroissant\n\tSnacks\t$5.500\tActivo\t\n \n\nSándwich Club\n\tSnacks\t$10.000\tActivo\t\n \n\nTiramisú\n\tPostres\t$7.500\tActivo\t\n \n\nCheesecake\n\tPostres\t$7.000\tActivo\t\n \n\nBrownie\n\tPostres\t$6.000\tActivo\t\n \n\nAmericano\n\tCafés\t$6.000\tActivo\t\n \n\nMocha\n\tCafés\t$9.000\tActivo\t\n \n\nLatte\n\tCafés\t$7.500\tActivo\t\n \n\nCapuchino\n\tCafés\t$8.000\tActivo\t\n \n×\nNuevo Producto\nNombre\nDescripción\nImagen\nSubir a Cloudinary…\nPrecio Venta (COP)\nCategoría\nSin categoría\nSnacks\nPostres\nCafés\nVisible en el menú\nCancelar\nGuardar"
+}

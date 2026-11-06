@@ -1,0 +1,90 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Promociones",
+    "Promociones",
+    "Nueva Promoción",
+    "Tu próxima promoción favorita"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nueva Promoción",
+    "×",
+    "Descuento",
+    "2x1",
+    "Combo",
+    "Cancelar",
+    "Crear Promoción"
+  ],
+  "tableHeads": [
+    "PROMOCIÓN",
+    "TIPO",
+    "VENCIMIENTO",
+    "ESTADO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Ej. Semana del café",
+      "label": ""
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "",
+      "placeholder": "Ej. 20% DCTO en bebidas",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "datetime-local",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "/menu o https://...",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Promoción activa Desactívala para ocultarla sin eliminarla."
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": "Elegir imagen o arrastra y suelta aquí"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nPromociones\nAna María Joaquí\nAdministrador\nPromociones\n\nCrea banners emergentes para los clientes. Actualmente hay 3 promociónes registradas y 3 vigentes.\n\nNueva Promoción\nPROMOCIÓN\tTIPO\tVENCIMIENTO\tESTADO\tACCIONES\n\nSemana del Café\n20% de descuento en todas las bebidas calientes\n\t\nDescuento\t30/10/2026 11:59 p. m.\tActiva\t\n \n \n\n2x1 en Capuchinos\nTodos los martes de 3:00 a 6:00 p. m.\n\t\n2x1\tSin vencimiento\tActiva\t\n \n \n\nCombo Desayuno KAFFA\nCafé de 8 oz + croissant por $12.900\n\t\nCombo\t15/11/2026 11:59 p. m.\tActiva\t\n \n \n×\nMARKETING\n Nueva Promoción\n\nConfigura el banner que verán los clientes al entrar al sitio.\n\nNombre de la promoción\nMensaje a mostrar\nTipo de promoción\nDescuento\n2x1\nCombo\nColor de fondo\nFecha y hora de vencimiento\nSi no eliges fecha, la promoción queda activa hasta que la desactives manualmente.\nEnlace de la promoción\nRuta interna o URL completa a donde llevará el botón.\nPromoción activa\nDesactívala para ocultarla sin eliminarla.\nPREVISUALIZACIÓN EN VIVO\nAsí lo verá el cliente\nElegir imagen\no arrastra y suelta aquí\nPROMOCIÓN ESPECIAL\nDESCUENTO\nTu próxima promoción favorita\nVER PROMOCIÓN\nCancelar\nCrear Promoción"
+}

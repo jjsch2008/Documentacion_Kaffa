@@ -1,0 +1,61 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Cajas",
+    "Cajas",
+    "Abrir Caja"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Abrir Caja",
+    "×",
+    "Cancelar",
+    "Abrir Caja"
+  ],
+  "tableHeads": [
+    "ID",
+    "ESTADO",
+    "ABRIÓ",
+    "TURNO",
+    "APERTURA",
+    "CERRÓ",
+    "CIERRE SISTEMA",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCajas\nAna María Joaquí\nAdministrador\nCajas\nAbrir Caja\n\nComo superusuario puedes abrir y cerrar cajas (sin turno) y ver el detalle completo.\n\nID\tESTADO\tABRIÓ\tTURNO\tAPERTURA\tCERRÓ\tCIERRE SISTEMA\tACCIONES\n#2\tCerrada\tSantiago Salamanca\tMañana (2026-10-21T05:00:00.000000Z)\t21/10/2026 07:00 a. m.\tSantiago Salamanca\t$168.500\t\n\n#1\tAbierta\tSantiago Salamanca\tMañana (2026-10-22T05:00:00.000000Z)\t22/10/2026 07:00 a. m.\t—\t$141.500\t\n \n×\nAbrir Caja\nBase en Efectivo\nBase Digital (Nequi/Daviplata/transferencias)\nComo administrador la caja queda sin turno asignado.\nCancelar\nAbrir Caja"
+}

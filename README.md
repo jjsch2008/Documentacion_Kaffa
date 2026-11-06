@@ -66,6 +66,7 @@ Popayán, Cauca — Colombia · 28 de septiembre de 2026
 | 10 | [10-requisitos.md](10-requisitos.md) | Requisitos funcionales/no funcionales con matriz de trazabilidad. |
 | 11 | [11-frontend.md](11-frontend.md) | SPA React: componentes, flujo de datos, estilos, sondeo y flujos. |
 | — | [openapi.json](openapi.json) | Especificación OpenAPI 3.1 generada desde el código (Scramble). |
+| — | [Manual del Frontend (PDF)](KAFFA_Manual_Frontend_v1.0.pdf) | Manual de usuario ilustrado del frontend (126 págs., 75 capturas anotadas), con [sitio interactivo](manual-frontend/dist/index.html) y [ZIP offline](KAFFA_Manual_Frontend_Interactivo_v1.0.zip). |
 | — | [glosario.md](glosario.md) | Definiciones de términos del sistema y de la documentación. |
 | — | [CHANGELOG.md](CHANGELOG.md) | Historial de cambios de esta documentación. |
 | — | [CONTRIBUCION.md](CONTRIBUCION.md) | Guía para mantener la documentación sincronizada. |

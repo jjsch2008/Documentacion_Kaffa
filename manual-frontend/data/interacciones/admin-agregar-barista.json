@@ -1,0 +1,80 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Baristas",
+    "Baristas",
+    "Agregar Barista"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Agregar Barista",
+    "×",
+    "Subir foto…",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "NOMBRE",
+    "CORREO",
+    "REGISTRO",
+    "ACTIVO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "email",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "password",
+      "name": "",
+      "placeholder": "Mín. 8: mayúscula, minúscula, número y símbolo",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Usuario activo"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nBaristas\nAna María Joaquí\nAdministrador\nBaristas\nAgregar Barista\nNOMBRE\tCORREO\tREGISTRO\tACTIVO\tACCIONES\nCamila Restrepo\tcamila@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n\nSantiago Salamanca\tbarista@kaffa.com\t22/10/2026 11:16 p. m.\tActivo\t\n \n×\nAgregar Barista\nNombre Completo\nCorreo\nFoto de perfil (opcional)\nSubir foto…\nContraseña\nUsuario activo\nCancelar\nGuardar"
+}

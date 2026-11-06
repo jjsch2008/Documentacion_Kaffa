@@ -1,0 +1,82 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Insumos",
+    "Inventario de Insumos",
+    "Nuevo Insumo"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Insumo",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "ID",
+    "NOMBRE",
+    "UND.",
+    "STOCK",
+    "MÍNIMO",
+    "ESTADO",
+    "ACTIVO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "kg, lt, unidades",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Insumo activo"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nInsumos\nAna María Joaquí\nAdministrador\nInventario de Insumos\nNuevo Insumo\n\nEl stock sube con Compras y baja con Mermas y ventas.\n\nID\tNOMBRE\tUND.\tSTOCK\tMÍNIMO\tESTADO\tACTIVO\tACCIONES\n20\tHelado de Vainilla\tlt\t4.00\t1.00\tDisponible\tActivo\t\n \n\n19\tNueces\tkg\t3.00\t0.50\tDisponible\tActivo\t\n \n\n18\tCacao en Polvo\tkg\t3.00\t0.50\tDisponible\tActivo\t\n \n\n17\tBizcocho\tunidades\t12.00\t3.00\tDisponible\tActivo\t\n \n\n16\tMascarpone\tkg\t4.00\t1.00\tDisponible\tActivo\t\n \n\n15\tAguacate\tunidades\t0.00\t3.00\tAgotado\tActivo\t\n \n\n14\tTocino\tkg\t4.00\t1.00\tDisponible\tActivo\t\n \n\n13\tPollo\tkg\t8.00\t2.00\tDisponible\tActivo\t\n \n\n12\tPan Brioche\tunidades\t30.00\t5.00\tDisponible\tActivo\t\n \n\n11\tFrutos Rojos\tkg\t2.00\t1.00\tDisponible\tActivo\t\n \n\n10\tQueso Crema\tkg\t6.00\t2.00\tDisponible\tActivo\t\n \n\n9\tMantequilla\tkg\t6.00\t1.00\tDisponible\tActivo\t\n \n\n8\tHuevos\tunidades\t8.00\t12.00\tBajo\tActivo\t\n \n\n7\tHarina\tkg\t15.00\t3.00\tDisponible\tActivo\t\n \n\n6\tCaramelo\tlt\t0.90\t0.50\tDisponible\tActivo\t\n \n\n5\tVainilla\tlt\t0.30\t0.50\tBajo\tActivo\t\n \n\n4\tChocolate\tkg\t8.00\t2.00\tDisponible\tActivo\t\n \n\n3\tAzúcar\tkg\t10.00\t2.00\tDisponible\tActivo\t\n \n\n2\tLeche\tlt\t7.00\t10.00\tBajo\tActivo\t\n \n\n1\tCafé en Grano\tkg\t2.40\t5.00\tBajo\tActivo\t\n \n×\nNuevo Insumo\nNombre\nUnidad de Medida\nStock Mínimo\nStock Actual (valor inicial)\nInsumo activo\nCancelar\nGuardar"
+}

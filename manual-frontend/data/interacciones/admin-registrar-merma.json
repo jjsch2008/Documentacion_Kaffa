@@ -1,0 +1,66 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Mermas",
+    "Mermas",
+    "Registrar Merma"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Registrar Merma",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "INSUMO",
+    "CANTIDAD",
+    "MOTIVO",
+    "REGISTRADA POR",
+    "FECHA",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "",
+      "placeholder": "Ej. producto vencido, derrame...",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nMermas\nAna María Joaquí\nAdministrador\nMermas\nRegistrar Merma\nINSUMO\tCANTIDAD\tMOTIVO\tREGISTRADA POR\tFECHA\tACCIONES\nAguacate\t4.00\tProducto golpeado\tSantiago Salamanca\t22/10/2026 10:30 a. m.\t\n\nLeche\t3.00\tLeche vencida\tSantiago Salamanca\t22/10/2026 10:30 a. m.\t\n×\nRegistrar Merma\nInsumo\nHelado de Vainilla (stock 4.00)\nNueces (stock 3.00)\nCacao en Polvo (stock 3.00)\nBizcocho (stock 12.00)\nMascarpone (stock 4.00)\nAguacate (stock 0.00)\nTocino (stock 4.00)\nPollo (stock 8.00)\nPan Brioche (stock 30.00)\nFrutos Rojos (stock 2.00)\nQueso Crema (stock 6.00)\nMantequilla (stock 6.00)\nHuevos (stock 8.00)\nHarina (stock 15.00)\nCaramelo (stock 0.90)\nVainilla (stock 0.30)\nChocolate (stock 8.00)\nAzúcar (stock 10.00)\nLeche (stock 7.00)\nCafé en Grano (stock 2.40)\nCantidad\nMotivo\nCancelar\nGuardar"
+}

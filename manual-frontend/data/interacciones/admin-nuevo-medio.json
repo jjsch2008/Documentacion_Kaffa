@@ -1,0 +1,59 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Configuración",
+    "Medios de Pago",
+    "Roles del Sistema",
+    "Nuevo Medio de Pago"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Medio",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "NOMBRE",
+    "VIRTUAL",
+    "ACCIONES",
+    "ID",
+    "NOMBRE"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": "Requiere comprobante de pago"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nConfiguración\nAna María Joaquí\nAdministrador\nMedios de Pago\nNuevo Medio\n\nLos medios virtuales exigen comprobante de pago (comprobante_url).\n\nNOMBRE\tVIRTUAL\tACCIONES\nQR (Pago Digital)\tVirtual (exige comprobante)\t\n \n\nPago Móvil\tVirtual (exige comprobante)\t\n \n\nTransferencia Bancaria\tVirtual (exige comprobante)\t\n \n\nTarjeta de Débito\tFísico\t\n \n\nTarjeta de Crédito\tFísico\t\n \n\nEfectivo\tFísico\t\n \nRoles del Sistema\nID\tNOMBRE\n3\tcliente\n2\tbarista\n1\tadmin\n×\nNuevo Medio de Pago\nNombre\nRequiere comprobante de pago\nCancelar\nGuardar"
+}

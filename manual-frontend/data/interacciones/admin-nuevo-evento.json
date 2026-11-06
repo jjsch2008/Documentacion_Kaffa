@@ -1,0 +1,94 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Eventos",
+    "Eventos",
+    "Nuevo Evento"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Evento",
+    "×",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "IMAGEN",
+    "TÍTULO",
+    "LUGAR",
+    "FECHA",
+    "ESTADO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Nombre del evento",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Ej. Popayán, Cauca",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "date",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "time",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "textarea",
+      "type": "textarea",
+      "name": "",
+      "placeholder": "¿De qué trata el evento?",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": "Agregar"
+    },
+    {
+      "tag": "input",
+      "type": "checkbox",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nEventos\nAna María Joaquí\nAdministrador\nEventos\nNuevo Evento\n\nLos eventos marcados como publicados aparecen en la sección pública «Eventos».\n\nIMAGEN\tTÍTULO\tLUGAR\tFECHA\tESTADO\tACCIONES\n\tNoche de Acústicos\tTerraza KAFFA\t11/11/2026 · 18:30\tPublicado\t\n \n\n\tTaller de Latte Art\tSede KAFFA, Calle 5 #8-21\t27/10/2026 · 15:00\tPublicado\t\n \n\n\tFeria del Café de Popayán\tParque Caldas, Popayán\t3/11/2026 · 09:30\tPublicado\t\n \n×\nNuevo Evento\nTítulo\nLugar / Procedencia\nFecha\nHora (opcional)\nDescripción\nImágenes (0/5) · la primera es la portada\nAgregar\nPublicar en la sección de eventos\nCancelar\nGuardar"
+}

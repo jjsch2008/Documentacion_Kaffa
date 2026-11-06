@@ -1,0 +1,246 @@
+[
+  {
+    "id": "prel-como-usar-este-manual",
+    "title": "Cómo usar este manual"
+  },
+  {
+    "id": "prel-kaffa-en-dos-minutos",
+    "title": "KAFFA en dos minutos"
+  },
+  {
+    "id": "prel-glosario",
+    "title": "Glosario"
+  },
+  {
+    "id": "prel-credenciales-de-demostracion",
+    "title": "Credenciales de demostración"
+  },
+  {
+    "id": "cap-1",
+    "title": "Cap. 1 Abrir KAFFA y orientarte"
+  },
+  {
+    "id": "cap-2",
+    "title": "Cap. 2 Crear tu cuenta"
+  },
+  {
+    "id": "cap-3",
+    "title": "Cap. 3 Verificar tu correo"
+  },
+  {
+    "id": "cap-4",
+    "title": "Cap. 4 Iniciar sesión y llegar al panel correcto"
+  },
+  {
+    "id": "cap-5",
+    "title": "Cap. 5 Recuperar tu contraseña"
+  },
+  {
+    "id": "cap-6",
+    "title": "Cap. 6 Tu perfil, el tema y el cierre de sesión"
+  },
+  {
+    "id": "cap-7",
+    "title": "Cap. 7 La portada"
+  },
+  {
+    "id": "cap-8",
+    "title": "Cap. 8 El menú y los filtros"
+  },
+  {
+    "id": "cap-9",
+    "title": "Cap. 9 La ficha del producto"
+  },
+  {
+    "id": "cap-10",
+    "title": "Cap. 10 El carrito"
+  },
+  {
+    "id": "cap-11",
+    "title": "Cap. 11 Pagar el pedido"
+  },
+  {
+    "id": "cap-12",
+    "title": "Cap. 12 Mis pedidos"
+  },
+  {
+    "id": "cap-13",
+    "title": "Cap. 13 Chat con el barista"
+  },
+  {
+    "id": "cap-14",
+    "title": "Cap. 14 Eventos"
+  },
+  {
+    "id": "cap-15",
+    "title": "Cap. 15 Sobre nosotros y el equipo del turno"
+  },
+  {
+    "id": "cap-16",
+    "title": "Cap. 16 Contacto"
+  },
+  {
+    "id": "cap-17",
+    "title": "Cap. 17 Promociones y avisos"
+  },
+  {
+    "id": "cap-18",
+    "title": "Cap. 18 Entrar al panel y entender tu turno"
+  },
+  {
+    "id": "cap-19",
+    "title": "Cap. 19 El tablero de pedidos"
+  },
+  {
+    "id": "cap-20",
+    "title": "Cap. 20 Cobrar un pedido"
+  },
+  {
+    "id": "cap-21",
+    "title": "Cap. 21 Entregar, cancelar y facturar"
+  },
+  {
+    "id": "cap-22",
+    "title": "Cap. 22 Registrar un pedido de mostrador"
+  },
+  {
+    "id": "cap-23",
+    "title": "Cap. 23 Inventario"
+  },
+  {
+    "id": "cap-24",
+    "title": "Cap. 24 Reportar una novedad"
+  },
+  {
+    "id": "cap-25",
+    "title": "Cap. 25 Chat de clientes"
+  },
+  {
+    "id": "cap-26",
+    "title": "Cap. 26 Caja y arqueo"
+  },
+  {
+    "id": "cap-27",
+    "title": "Cap. 27 Tu perfil de barista"
+  },
+  {
+    "id": "cap-28",
+    "title": "Cap. 28 Entrar y recorrer el panel"
+  },
+  {
+    "id": "cap-29",
+    "title": "Cap. 29 Inicio y los indicadores"
+  },
+  {
+    "id": "cap-30",
+    "title": "Cap. 30 Pedidos desde el administrador"
+  },
+  {
+    "id": "cap-31",
+    "title": "Cap. 31 Productos"
+  },
+  {
+    "id": "cap-32",
+    "title": "Cap. 32 Categorías"
+  },
+  {
+    "id": "cap-33",
+    "title": "Cap. 33 Insumos"
+  },
+  {
+    "id": "cap-34",
+    "title": "Cap. 34 Mermas"
+  },
+  {
+    "id": "cap-35",
+    "title": "Cap. 35 Compras"
+  },
+  {
+    "id": "cap-36",
+    "title": "Cap. 36 Proveedores"
+  },
+  {
+    "id": "cap-37",
+    "title": "Cap. 37 Gastos"
+  },
+  {
+    "id": "cap-38",
+    "title": "Cap. 38 Cajas"
+  },
+  {
+    "id": "cap-39",
+    "title": "Cap. 39 Facturas"
+  },
+  {
+    "id": "cap-40",
+    "title": "Cap. 40 Clientes"
+  },
+  {
+    "id": "cap-41",
+    "title": "Cap. 41 Baristas"
+  },
+  {
+    "id": "cap-42",
+    "title": "Cap. 42 Turnos"
+  },
+  {
+    "id": "cap-43",
+    "title": "Cap. 43 Eventos"
+  },
+  {
+    "id": "cap-44",
+    "title": "Cap. 44 Promociones"
+  },
+  {
+    "id": "cap-45",
+    "title": "Cap. 45 Reportes"
+  },
+  {
+    "id": "cap-46",
+    "title": "Cap. 46 Asistente IA"
+  },
+  {
+    "id": "cap-47",
+    "title": "Cap. 47 Configuración"
+  },
+  {
+    "id": "cap-48",
+    "title": "Cap. 48 Tema, notificaciones y mensajes del sistema"
+  },
+  {
+    "id": "cap-49",
+    "title": "Cap. 49 Tablas, filtros y formularios"
+  },
+  {
+    "id": "cap-50",
+    "title": "Cap. 50 Imágenes y comprobantes"
+  },
+  {
+    "id": "cap-51",
+    "title": "Cap. 51 Errores frecuentes y cómo resolverlos"
+  },
+  {
+    "id": "cap-52",
+    "title": "Cap. 52 Preguntas frecuentes"
+  },
+  {
+    "id": "cap-53",
+    "title": "Cap. 53 Checklist diario y autoevaluación"
+  },
+  {
+    "id": "anexo-a",
+    "title": "Anexo A Mapa de rutas"
+  },
+  {
+    "id": "anexo-b",
+    "title": "Anexo B Matriz de permisos"
+  },
+  {
+    "id": "anexo-c",
+    "title": "Anexo C Campos de cada formulario"
+  },
+  {
+    "id": "anexo-d",
+    "title": "Anexo D Índice de figuras"
+  }
+]

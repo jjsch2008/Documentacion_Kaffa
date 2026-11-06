@@ -1,0 +1,56 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Caja",
+    "Caja del Turno"
+  ],
+  "buttons": [
+    "Cerrar Caja"
+  ],
+  "tableHeads": [],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "0.00",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "0.00",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n2\nCaja\nCerrar Sesión\n Caja\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nCaja del Turno\n\nCaja #1 abierta por Santiago Salamanca · Turno Mañana (2026-10-22T05:00:00.000000Z) · 22/10/2026 07:00 a. m.\n\n Base Efectivo (apertura):\n Base Digital (apertura):\n Ventas Sistema (ingresos):\n Esperado en caja (efectivo + digital):\n Efectivo Real contado:\n Digital Real (Nequi/Daviplata/transferencias):\n Cerrar Caja"
+}

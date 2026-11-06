@@ -1,0 +1,116 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Pedidos",
+    "Pedidos",
+    "Detalle del Pedido"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Exportar CSV",
+    "×",
+    "Cancelar",
+    "Cerrar"
+  ],
+  "tableHeads": [
+    "ID",
+    "CLIENTE",
+    "BARISTA",
+    "PRODUCTOS",
+    "TOTAL",
+    "ESTADO",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nPedidos\nAna María Joaquí\nAdministrador\nPedidos\nExportar CSV\nID\tCLIENTE\tBARISTA\tPRODUCTOS\tTOTAL\tESTADO\tACCIONES\n#10\tMaría Fernanda López\tSantiago Salamanca\t2x Cheesecake, 1x Latte\t$21.500\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#9\tJuan José Sandoval\tSantiago Salamanca\t1x Capuchino, 1x Americano\t$14.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#8\tCarlos Ramírez\tSantiago Salamanca\t2x Mocha, 1x Sándwich Club\t$28.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#7\tMaría Fernanda López\tSantiago Salamanca\t1x Latte, 1x Bagel\t$14.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#6\t—\tSantiago Salamanca\t2x Capuchino, 1x Tiramisú\t$23.500\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#5\tJuan José Sandoval\tSantiago Salamanca\t1x Brownie\t$6.000\tCancelado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#4\tCarlos Ramírez\tSantiago Salamanca\t2x Americano, 2x Croissant\t$23.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#3\tMaría Fernanda López\t—\t1x Mocha (Con crema batida), 1x Cheesecake\t$16.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#2\tJuan José Sandoval\t—\t2x Latte, 1x Bagel (Para llevar)\t$21.500\tPagado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#1\tJuan José Sandoval\t—\t1x Capuchino (Sin azúcar), 1x Sándwich Club\t$18.000\tPendiente\t\nPendiente\nPagado\nCancelado\nEntregado\n×\nDetalle del Pedido\n\nID: #10\n\nCliente: María Fernanda López · Barista: Santiago Salamanca\n\nEstado: Entregado\n\nFecha: 16/10/2026 01:10 p. m.\n\nProductos\n\n• 2x Cheesecake — $14.000\n\n• 1x Latte — $7.500\n\nTotal: $21.500\n\nPagos\n\n Transferencia Bancaria: $27.000 ver comprobante\n\nFactura: F2026000008 — $21.500\n\nCancelar\nCerrar"
+}

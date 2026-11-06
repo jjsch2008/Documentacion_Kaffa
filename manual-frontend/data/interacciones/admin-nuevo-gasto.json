@@ -1,0 +1,81 @@
+{
+  "title": "KAFFA - Café Artesanal",
+  "h": [
+    "Gastos",
+    "Gastos",
+    "Nuevo Gasto"
+  ],
+  "buttons": [
+    "Inicio",
+    "Pedidos",
+    "Menú / Productos",
+    "Categorías",
+    "Insumos",
+    "Mermas",
+    "Compras",
+    "Proveedores",
+    "Gastos",
+    "Cajas",
+    "Facturas",
+    "Clientes",
+    "Baristas",
+    "Turnos",
+    "Eventos",
+    "Promociones",
+    "Reportes",
+    "Asistente IA",
+    "Configuración",
+    "Cerrar Sesión",
+    "Nuevo Gasto",
+    "×",
+    "Agregar pago",
+    "Cancelar",
+    "Guardar"
+  ],
+  "tableHeads": [
+    "DESCRIPCIÓN",
+    "CATEGORÍA",
+    "TOTAL",
+    "REGISTRADO POR",
+    "FECHA",
+    "ACCIONES"
+  ],
+  "inputs": [
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Ej. Compra de filtros",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "text",
+      "name": "",
+      "placeholder": "Ej. Operativo",
+      "label": ""
+    },
+    {
+      "tag": "select",
+      "type": "select-one",
+      "name": "",
+      "placeholder": "",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "number",
+      "name": "",
+      "placeholder": "Monto",
+      "label": ""
+    },
+    {
+      "tag": "input",
+      "type": "file",
+      "name": "",
+      "placeholder": "",
+      "label": "Comprobante"
+    }
+  ],
+  "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nGastos\nAna María Joaquí\nAdministrador\nGastos\nNuevo Gasto\nDESCRIPCIÓN\tCATEGORÍA\tTOTAL\tREGISTRADO POR\tFECHA\tACCIONES\nPublicidad para redes sociales\tMarketing\t$90.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t\n\nDomicilio de insumos\tTransporte\t$25.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t\n\nServicio de energía\tServicios públicos\t$185.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t\n×\nNuevo Gasto\nDescripción\nCategoría\n Pagos\nSelecciona medio…\nQR (Pago Digital) (virtual)\nPago Móvil (virtual)\nTransferencia Bancaria (virtual)\nTarjeta de Débito\nTarjeta de Crédito\nEfectivo\nComprobante\nAgregar pago\nCancelar\nGuardar"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "kaffa-manual-frontend-build",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build-all.mjs"
+  },
+  "dependencies": {
+    "marked": "^18.1.1",
+    "pdf-lib": "^1.17.1"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "p01-portada.png": [
+    { "x": 50, "y": 4.5, "title": "Barra de navegación", "text": "Desde aquí se llega a Inicio, Menú, Eventos, Sobre Nosotros y Contacto. A la derecha están Registrarse e Iniciar Sesión." },
+    { "x": 18, "y": 36, "title": "Mensaje principal", "text": "Presenta la cafetería. Los botones Ver Menú y Conocer más llevan a las secciones principales." },
+    { "x": 70, "y": 46, "title": "Imagen de la cafetería", "text": "Refuerza la identidad de marca. No es un botón: solo decora la portada." },
+    { "x": 18, "y": 63, "title": "Botones de acción", "text": "Ver Menú abre el catálogo; Conocer más lleva a la historia y al equipo." }
+  ],
+  "c01-home-cliente.png": [
+    { "x": 88, "y": 4.5, "title": "Carrito y cuenta", "text": "Con la sesión iniciada aparecen el carrito y el saludo con tu nombre. El menú desplegable contiene Mi Perfil, Mis Pedidos, Chat y Cerrar Sesión." },
+    { "x": 18, "y": 63, "title": "Mismos botones", "text": "Las acciones de la portada no cambian: el rol de cliente agrega funciones, no reemplaza el sitio." }
+  ],
+  "p03-menu.png": [
+    { "x": 50, "y": 43, "title": "Filtros por categoría", "text": "Todos, Snacks, Postres y Cafés. La categoría activa se resalta en verde." },
+    { "x": 28, "y": 61, "title": "Tarjeta de producto", "text": "Muestra imagen, nombre, descripción, precio y el botón Comprar." },
+    { "x": 88, "y": 4.5, "title": "Carrito", "text": "El número indica cuántos productos llevas. Solo aparece con la sesión iniciada." },
+    { "x": 70, "y": 61, "title": "Precio y compra", "text": "El precio está siempre visible. Pulsa Comprar para abrir la ficha y elegir cantidad y notas." }
+  ],
+  "c03-detalle-producto.png": [
+    { "x": 50, "y": 24, "title": "Imagen del producto", "text": "Ayuda a confirmar que es el producto correcto antes de agregarlo." },
+    { "x": 37, "y": 57, "title": "Cantidad", "text": "Usa − y +. El total de la línea se recalcula automáticamente." },
+    { "x": 50, "y": 65, "title": "Nota para el barista", "text": "Instrucciones como sin azúcar o leche deslactosada. Sé breve y claro." },
+    { "x": 62, "y": 57, "title": "Total de la línea", "text": "Precio unitario multiplicado por la cantidad." },
+    { "x": 50, "y": 77, "title": "Agregar al carrito", "text": "Cierra la ficha y suma el producto al carrito." }
+  ],
+  "c04-carrito.png": [
+    { "x": 38, "y": 42, "title": "Producto agregado", "text": "Cada línea muestra nombre, precio y la nota que escribiste." },
+    { "x": 31, "y": 45, "title": "Cambiar cantidad", "text": "Los botones − y + actualizan la cantidad y el total." },
+    { "x": 55, "y": 45, "title": "Eliminar línea", "text": "El icono de basura quita el producto del carrito." },
+    { "x": 62, "y": 68, "title": "Total del pedido", "text": "Suma de todas las líneas. Revísalo antes de pagar." },
+    { "x": 50, "y": 73, "title": "Confirmar pedido", "text": "Abre la ventana de pago para elegir efectivo o un medio virtual." }
+  ],
+  "c06-pago-virtual.png": [
+    { "x": 38, "y": 38, "title": "¿Cómo pagas?", "text": "Efectivo en mostrador o Pagar ya. La opción elegida se resalta en verde." },
+    { "x": 50, "y": 48, "title": "Medio de pago", "text": "Transferencia, pago móvil o QR son virtuales y exigen comprobante." },
+    { "x": 45, "y": 56, "title": "Comprobante", "text": "Sube una imagen legible del pago. Es obligatoria para medios virtuales." },
+    { "x": 50, "y": 69, "title": "Finalizar pedido", "text": "Crea el pedido y te lleva a Mis Pedidos. El barista confirmará el pago." }
+  ],
+  "c07-mis-pedidos.png": [
+    { "x": 72, "y": 45, "title": "Estado del pedido", "text": "El color y el texto indican si está pendiente, pagado, entregado o cancelado." },
+    { "x": 40, "y": 48, "title": "Productos y notas", "text": "Se listan la cantidad, el producto y la nota enviada al barista." },
+    { "x": 30, "y": 53, "title": "Número de factura", "text": "Aparece cuando el pedido ya fue facturado. Úsalo para consultas o reclamos." },
+    { "x": 73, "y": 50, "title": "Total", "text": "Valor del pedido con los pagos registrados." }
+  ],
+  "p09-login.png": [
+    { "x": 50, "y": 47, "title": "Correo", "text": "Escribe el correo con el que te registraste." },
+    { "x": 50, "y": 55, "title": "Contraseña", "text": "Puedes mostrarla con el icono del ojo. Respeta mayúsculas y símbolos." },
+    { "x": 50, "y": 66, "title": "Ingresar", "text": "Valida tus datos y te lleva al panel que corresponde a tu rol." },
+    { "x": 50, "y": 74, "title": "Enlaces de ayuda", "text": "Recuperar contraseña o crear una cuenta nueva." }
+  ],
+  "b01-tablero.png": [
+    { "x": 82, "y": 4.5, "title": "Turno activo", "text": "Indica el turno y los minutos restantes. Si está gris, no puedes cobrar ni operar caja." },
+    { "x": 78, "y": 19, "title": "Registrar pedido", "text": "Crea un pedido de mostrador cuando el cliente compra directamente en caja." },
+    { "x": 15, "y": 28, "title": "Solicitudes", "text": "Pedidos pendientes de cobro o de confirmación de pago." },
+    { "x": 50, "y": 28, "title": "Pagado / Preparación", "text": "Pedidos cobrados que se están preparando. Aquí se usa ENTREGAR." },
+    { "x": 85, "y": 28, "title": "Entregados / Cancelados", "text": "Historial del turno. Desde aquí se genera la factura en PDF." }
+  ],
+  "b02-cobrar.png": [
+    { "x": 50, "y": 38, "title": "Pedido y total", "text": "Confirma el número de pedido y el valor antes de cobrar." },
+    { "x": 50, "y": 52, "title": "Medio de pago", "text": "Los medios virtuales están marcados y exigen comprobante." },
+    { "x": 50, "y": 60, "title": "Monto", "text": "Viene precargado con el total. Ajusta solo si hay pago parcial." },
+    { "x": 50, "y": 67, "title": "Comprobante", "text": "Solo aparece para medios virtuales. Debe verse el monto y la operación." },
+    { "x": 60, "y": 77, "title": "Pasar a preparación", "text": "Registra el pago y mueve el pedido a la columna central." }
+  ],
+  "b05-inventario.png": [
+    { "x": 48, "y": 30, "title": "Stock actual", "text": "Cantidad disponible del insumo." },
+    { "x": 65, "y": 30, "title": "Estado", "text": "Agotado, Bajo o Disponible. Los colores permiten detectar problemas de un vistazo." },
+    { "x": 80, "y": 30, "title": "Reportar", "text": "Abre el formulario para avisar al administrador de una novedad." }
+  ],
+  "b08-caja.png": [
+    { "x": 35, "y": 27, "title": "Bases de apertura", "text": "Dinero con el que se abrió la caja: efectivo y digital." },
+    { "x": 35, "y": 42, "title": "Ventas del sistema", "text": "Ingresos registrados por los pagos del turno." },
+    { "x": 35, "y": 50, "title": "Esperado en caja", "text": "Bases + ingresos − egresos. Es lo que debería haber." },
+    { "x": 35, "y": 62, "title": "Montos contados", "text": "Escribe aquí el efectivo y el digital reales antes de cerrar." },
+    { "x": 35, "y": 72, "title": "Cerrar caja", "text": "Calcula el arqueo y muestra Perfecto, Faltante o Sobrante." }
+  ],
+  "b06-reportar.png": [
+    { "x": 50, "y": 55, "title": "Mensaje", "text": "Describe qué pasa, dónde y desde cuándo. Evita mensajes vagos." },
+    { "x": 50, "y": 68, "title": "Prioridad", "text": "Alta si impide vender; media si afecta el servicio; baja si es informativo." },
+    { "x": 60, "y": 80, "title": "Enviar reporte", "text": "El administrador lo verá en la sección Reportes." }
+  ],
+  "a01-inicio.png": [
+    { "x": 25, "y": 18, "title": "Ingresos de hoy", "text": "Suma de las facturas del día." },
+    { "x": 50, "y": 18, "title": "Pedidos de hoy", "text": "Cantidad de pedidos creados hoy." },
+    { "x": 75, "y": 18, "title": "Ticket promedio", "text": "Ingresos divididos entre pedidos. Ayuda a medir el valor medio de cada venta." },
+    { "x": 34, "y": 45, "title": "Ingresos de 7 días", "text": "Línea de facturación diaria. Sirve para detectar valles y picos." },
+    { "x": 75, "y": 45, "title": "Productos más vendidos", "text": "Dona con los cinco productos líderes de la semana." }
+  ],
+  "a02-pedidos.png": [
+    { "x": 88, "y": 14, "title": "Exportar CSV", "text": "Descarga la lista de pedidos para abrirla en una hoja de cálculo." },
+    { "x": 45, "y": 45, "title": "Tabla de pedidos", "text": "Cliente, barista, productos, total y estado en una sola vista." },
+    { "x": 62, "y": 52, "title": "Estado editable", "text": "Cambia el estado con la lista desplegable. El cambio se guarda al instante." },
+    { "x": 82, "y": 52, "title": "Ver y eliminar", "text": "El ojo abre el detalle; la basura elimina el pedido de forma definitiva." }
+  ],
+  "a05-insumos.png": [
+    { "x": 48, "y": 38, "title": "Stock y mínimo", "text": "Compara ambas columnas para saber si hace falta reponer." },
+    { "x": 65, "y": 38, "title": "Estado", "text": "Agotado, Bajo o Disponible. Se calcula con el stock y el mínimo." },
+    { "x": 82, "y": 38, "title": "Acciones", "text": "Editar el insumo o eliminarlo. El stock solo se fija al crear." }
+  ],
+  "a10-cajas.png": [
+    { "x": 86, "y": 14, "title": "Abrir caja", "text": "El administrador puede abrir una caja sin depender de un turno." },
+    { "x": 20, "y": 40, "title": "Estado de la caja", "text": "Abierta o cerrada. Revisa que no queden cajas abiertas al terminar el día." },
+    { "x": 70, "y": 40, "title": "Cierre del sistema", "text": "Monto esperado según los movimientos registrados." }
+  ],
+  "a18-asistente.png": [
+    { "x": 50, "y": 72, "title": "Sugerencias rápidas", "text": "Preguntas listas para empezar: ventas, predicción, promociones e insumos." },
+    { "x": 45, "y": 88, "title": "Campo de mensaje", "text": "Escribe una pregunta concreta para obtener una respuesta más útil." },
+    { "x": 86, "y": 18, "title": "Limpiar", "text": "Borra el historial de la conversación de tu usuario." }
+  ],
+  "a35-asistente-conversacion.png": [
+    { "x": 40, "y": 50, "title": "Respuesta con datos", "text": "El asistente resume ventas y da recomendaciones basadas en el histórico." },
+    { "x": 50, "y": 80, "title": "Sugerencias", "text": "Puedes seguir preguntando con un clic o escribir tu propia consulta." },
+    { "x": 86, "y": 18, "title": "Limpiar", "text": "Reinicia la conversación cuando quieras cambiar de tema." }
+  ],
+  "p08-promocion-popup.png": [
+    { "x": 50, "y": 65, "title": "Promoción activa", "text": "Muestra imagen, mensaje y enlace. Cambia sola si hay varias promociones." },
+    { "x": 63, "y": 38, "title": "Cerrar", "text": "La promoción no vuelve a aparecer en esta sesión del navegador." },
+    { "x": 50, "y": 88, "title": "Controles del carrusel", "text": "Puntos o flechas para pasar a la siguiente promoción." }
+  ],
+  "a20-detalle-pedido.png": [
+    { "x": 50, "y": 35, "title": "Datos del pedido", "text": "Cliente, barista, estado y fecha en el encabezado." },
+    { "x": 50, "y": 55, "title": "Productos", "text": "Cantidad, nombre y valor de cada línea." },
+    { "x": 50, "y": 72, "title": "Pagos", "text": "Medio y monto registrado. Si es virtual, incluye enlace al comprobante." },
+    { "x": 50, "y": 80, "title": "Factura", "text": "Número y total de la factura asociada, si existe." }
+  ],
+  "a19-configuracion.png": [
+    { "x": 28, "y": 40, "title": "Medios de pago", "text": "Define qué medios existen y cuáles exigen comprobante." },
+    { "x": 75, "y": 40, "title": "Roles del sistema", "text": "Tabla de consulta con los roles disponibles. No se edita desde aquí." },
+    { "x": 40, "y": 25, "title": "Nuevo medio", "text": "Crea un medio de pago y marca si requiere comprobante." }
+  ]
+}

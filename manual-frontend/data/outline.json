@@ -1,0 +1,1225 @@
+{
+  "admin:Inicio": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Inicio",
+      "INGRESOS HOY",
+      "PEDIDOS HOY",
+      "CLIENTES REGISTRADOS",
+      "TICKET PROMEDIO",
+      "Ingresos Últimos 7 Días",
+      "Productos Más Vendidos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión"
+    ],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nInicio\nAna María Joaquí\nAdministrador\nINGRESOS HOY\n$0\nSegún facturas del día\nPEDIDOS HOY\n0\nCreados hoy\nCLIENTES REGISTRADOS\n3\nRol cliente\nTICKET PROMEDIO\n$0\nIngreso / pedidos\nIngresos Últimos 7 Días\nProductos Más Vendidos"
+  },
+  "admin:Pedidos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Pedidos",
+      "Pedidos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Exportar CSV"
+    ],
+    "tableHeads": [
+      "ID",
+      "CLIENTE",
+      "BARISTA",
+      "PRODUCTOS",
+      "TOTAL",
+      "ESTADO",
+      "ACCIONES"
+    ],
+    "inputs": [
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "select",
+        "type": "select-one",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      }
+    ],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nPedidos\nAna María Joaquí\nAdministrador\nPedidos\nExportar CSV\nID\tCLIENTE\tBARISTA\tPRODUCTOS\tTOTAL\tESTADO\tACCIONES\n#10\tMaría Fernanda López\tSantiago Salamanca\t2x Cheesecake, 1x Latte\t$21.500\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#9\tJuan José Sandoval\tSantiago Salamanca\t1x Capuchino, 1x Americano\t$14.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#8\tCarlos Ramírez\tSantiago Salamanca\t2x Mocha, 1x Sándwich Club\t$28.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#7\tMaría Fernanda López\tSantiago Salamanca\t1x Latte, 1x Bagel\t$14.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#6\t—\tSantiago Salamanca\t2x Capuchino, 1x Tiramisú\t$23.500\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#5\tJuan José Sandoval\tSantiago Salamanca\t1x Brownie\t$6.000\tCancelado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#4\tCarlos Ramírez\tSantiago Salamanca\t2x Americano, 2x Croissant\t$23.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#3\tMaría Fernanda López\t—\t1x Mocha (Con crema batida), 1x Cheesecake\t$16.000\tEntregado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#2\tJuan José Sandoval\t—\t2x Latte, 1x Bagel (Para llevar)\t$21.500\tPagado\t\nPendiente\nPagado\nCancelado\nEntregado\n\n#1\tJuan José Sandoval\t—\t1x Capuchino (Sin azúcar), 1x Sándwich Club\t$18.000\tPendiente\t\nPendiente\nPagado\nCancelado\nEntregado"
+  },
+  "admin:Menú / Productos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Menú / Productos",
+      "Productos del Menú"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Producto"
+    ],
+    "tableHeads": [
+      "PRODUCTO",
+      "CATEGORÍA",
+      "PRECIO",
+      "ACTIVO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nMenú / Productos\nAna María Joaquí\nAdministrador\nProductos del Menú\nNuevo Producto\n\nCatálogo oficial (tabla productos). Lo ven clientes y baristas desde la API.\n\nPRODUCTO\tCATEGORÍA\tPRECIO\tACTIVO\tACCIONES\n\nBagel\n\tSnacks\t$6.500\tActivo\t\n \n\nCroissant\n\tSnacks\t$5.500\tActivo\t\n \n\nSándwich Club\n\tSnacks\t$10.000\tActivo\t\n \n\nTiramisú\n\tPostres\t$7.500\tActivo\t\n \n\nCheesecake\n\tPostres\t$7.000\tActivo\t\n \n\nBrownie\n\tPostres\t$6.000\tActivo\t\n \n\nAmericano\n\tCafés\t$6.000\tActivo\t\n \n\nMocha\n\tCafés\t$9.000\tActivo\t\n \n\nLatte\n\tCafés\t$7.500\tActivo\t\n \n\nCapuchino\n\tCafés\t$8.000\tActivo\t\n "
+  },
+  "admin:Categorías": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Categorías",
+      "Categorías de Productos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nueva Categoría"
+    ],
+    "tableHeads": [
+      "ID",
+      "NOMBRE",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCategorías\nAna María Joaquí\nAdministrador\nCategorías de Productos\nNueva Categoría\nID\tNOMBRE\tACCIONES\n3\tSnacks\t\n \n\n2\tPostres\t\n \n\n1\tCafés\t\n "
+  },
+  "admin:Insumos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Insumos",
+      "Inventario de Insumos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Insumo"
+    ],
+    "tableHeads": [
+      "ID",
+      "NOMBRE",
+      "UND.",
+      "STOCK",
+      "MÍNIMO",
+      "ESTADO",
+      "ACTIVO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nInsumos\nAna María Joaquí\nAdministrador\nInventario de Insumos\nNuevo Insumo\n\nEl stock sube con Compras y baja con Mermas y ventas.\n\nID\tNOMBRE\tUND.\tSTOCK\tMÍNIMO\tESTADO\tACTIVO\tACCIONES\n20\tHelado de Vainilla\tlt\t4.00\t1.00\tDisponible\tActivo\t\n \n\n19\tNueces\tkg\t3.00\t0.50\tDisponible\tActivo\t\n \n\n18\tCacao en Polvo\tkg\t3.00\t0.50\tDisponible\tActivo\t\n \n\n17\tBizcocho\tunidades\t12.00\t3.00\tDisponible\tActivo\t\n \n\n16\tMascarpone\tkg\t4.00\t1.00\tDisponible\tActivo\t\n \n\n15\tAguacate\tunidades\t0.00\t3.00\tAgotado\tActivo\t\n \n\n14\tTocino\tkg\t4.00\t1.00\tDisponible\tActivo\t\n \n\n13\tPollo\tkg\t8.00\t2.00\tDisponible\tActivo\t\n \n\n12\tPan Brioche\tunidades\t30.00\t5.00\tDisponible\tActivo\t\n \n\n11\tFrutos Rojos\tkg\t2.00\t1.00\tDisponible\tActivo\t\n \n\n10\tQueso Crema\tkg\t6.00\t2.00\tDisponible\tActivo\t\n \n\n9\tMantequilla\tkg\t6.00\t1.00\tDisponible\tActivo\t\n \n\n8\tHuevos\tunidades\t8.00\t12.00\tBajo\tActivo\t\n \n\n7\tHarina\tkg\t15.00\t3.00\tDisponible\tActivo\t\n \n\n6\tCaramelo\tlt\t0.90\t0.50\tDisponible\tActivo\t\n \n\n5\tVainilla\tlt\t0.30\t0.50\tBajo\tActivo\t\n \n\n4\tChocolate\tkg\t8.00\t2.00\tDisponible\tActivo\t\n \n\n3\tAzúcar\tkg\t10.00\t2.00\tDisponible\tActivo\t\n \n\n2\tLeche\tlt\t7.00\t10.00\tBajo\tActivo\t\n \n\n1\tCafé en Grano\tkg\t2.40\t5.00\tBajo\tActivo\t\n "
+  },
+  "admin:Mermas": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Mermas",
+      "Mermas"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Registrar Merma"
+    ],
+    "tableHeads": [
+      "INSUMO",
+      "CANTIDAD",
+      "MOTIVO",
+      "REGISTRADA POR",
+      "FECHA",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nMermas\nAna María Joaquí\nAdministrador\nMermas\nRegistrar Merma\nINSUMO\tCANTIDAD\tMOTIVO\tREGISTRADA POR\tFECHA\tACCIONES\nAguacate\t4.00\tProducto golpeado\tSantiago Salamanca\t22/10/2026 10:30 a. m.\t\n\nLeche\t3.00\tLeche vencida\tSantiago Salamanca\t22/10/2026 10:30 a. m.\t"
+  },
+  "admin:Compras": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Compras",
+      "Compras a Proveedores"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nueva Compra"
+    ],
+    "tableHeads": [
+      "ID",
+      "PROVEEDOR",
+      "FACTURA PROV.",
+      "TOTAL",
+      "DETALLES",
+      "FECHA",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCompras\nAna María Joaquí\nAdministrador\nCompras a Proveedores\nNueva Compra\n\nCada compra suma stock de sus insumos.\n\nID\tPROVEEDOR\tFACTURA PROV.\tTOTAL\tDETALLES\tFECHA\tACCIONES\n#2\tLácteos La Pradera\tLP-8891\t$235.000\t50.00 insumo\t17/10/2026\t\n\n#1\tCafé del Cauca S.A.S.\tFV-20451\t$420.000\t14.00 insumo\t20/10/2026\t"
+  },
+  "admin:Proveedores": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Proveedores",
+      "Proveedores"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Proveedor"
+    ],
+    "tableHeads": [
+      "NIT",
+      "NOMBRE",
+      "TELÉFONO",
+      "CORREO",
+      "ACTIVO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nProveedores\nAna María Joaquí\nAdministrador\nProveedores\nNuevo Proveedor\nNIT\tNOMBRE\tTELÉFONO\tCORREO\tACTIVO\tACCIONES\n800555333-7\tInsumos y Empaques Andinos\t301 222 7766\tcontacto@andinos.co\tActivo\t\n \n\n901987654-2\tLácteos La Pradera\t320 444 8899\tpedidos@lapradera.co\tActivo\t\n \n\n900123456-1\tCafé del Cauca S.A.S.\t310 555 1122\tventas@cafedelcauca.co\tActivo\t\n "
+  },
+  "admin:Gastos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Gastos",
+      "Gastos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Gasto"
+    ],
+    "tableHeads": [
+      "DESCRIPCIÓN",
+      "CATEGORÍA",
+      "TOTAL",
+      "REGISTRADO POR",
+      "FECHA",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nGastos\nAna María Joaquí\nAdministrador\nGastos\nNuevo Gasto\nDESCRIPCIÓN\tCATEGORÍA\tTOTAL\tREGISTRADO POR\tFECHA\tACCIONES\nPublicidad para redes sociales\tMarketing\t$90.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t\n\nDomicilio de insumos\tTransporte\t$25.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t\n\nServicio de energía\tServicios públicos\t$185.000\tAna María Joaquí\t22/10/2026 10:30 a. m.\t"
+  },
+  "admin:Cajas": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Cajas",
+      "Cajas"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Abrir Caja"
+    ],
+    "tableHeads": [
+      "ID",
+      "ESTADO",
+      "ABRIÓ",
+      "TURNO",
+      "APERTURA",
+      "CERRÓ",
+      "CIERRE SISTEMA",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nCajas\nAna María Joaquí\nAdministrador\nCajas\nAbrir Caja\n\nComo superusuario puedes abrir y cerrar cajas (sin turno) y ver el detalle completo.\n\nID\tESTADO\tABRIÓ\tTURNO\tAPERTURA\tCERRÓ\tCIERRE SISTEMA\tACCIONES\n#2\tCerrada\tSantiago Salamanca\tMañana (2026-10-21T05:00:00.000000Z)\t21/10/2026 07:00 a. m.\tSantiago Salamanca\t$168.500\t\n\n#1\tAbierta\tSantiago Salamanca\tMañana (2026-10-22T05:00:00.000000Z)\t22/10/2026 07:00 a. m.\t—\t$141.500\t\n "
+  },
+  "admin:Facturas": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Facturas",
+      "Facturas de Venta"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión"
+    ],
+    "tableHeads": [
+      "N° FACTURA",
+      "PEDIDO",
+      "SUBTOTAL",
+      "IMPUESTOS",
+      "TOTAL",
+      "EMISIÓN"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nFacturas\nAna María Joaquí\nAdministrador\nFacturas de Venta\nN° FACTURA\tPEDIDO\tSUBTOTAL\tIMPUESTOS\tTOTAL\tEMISIÓN\nF2026000008\t#10\t$21.500\t$0\t$21.500\t16/10/2026 01:10 p. m.\nF2026000007\t#9\t$14.000\t$0\t$14.000\t17/10/2026 09:30 a. m.\nF2026000006\t#8\t$28.000\t$0\t$28.000\t18/10/2026 11:05 a. m.\nF2026000005\t#7\t$14.000\t$0\t$14.000\t19/10/2026 03:40 p. m.\nF2026000004\t#6\t$23.500\t$0\t$23.500\t20/10/2026 10:15 a. m.\nF2026000003\t#4\t$23.000\t$0\t$23.000\t22/10/2026 06:30 a. m.\nF2026000002\t#3\t$16.000\t$0\t$16.000\t22/10/2026 08:30 a. m.\nF2026000001\t#2\t$21.500\t$0\t$21.500\t22/10/2026 09:52 a. m."
+  },
+  "admin:Clientes": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Clientes",
+      "Clientes"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión"
+    ],
+    "tableHeads": [
+      "NOMBRE",
+      "CORREO",
+      "REGISTRO",
+      "ACTIVO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nClientes\nAna María Joaquí\nAdministrador\nClientes\n3 clientes\n\nUsuarios con rol cliente (registrados desde la web).\n\nNOMBRE\tCORREO\tREGISTRO\tACTIVO\tACCIONES\nCarlos Ramírez\tcarlos@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n \n\nMaría Fernanda López\tmaria@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n \n\nJuan José Sandoval\tcliente@kaffa.com\t22/10/2026 11:16 p. m.\tActivo\t\n \n "
+  },
+  "admin:Baristas": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Baristas",
+      "Baristas"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Agregar Barista"
+    ],
+    "tableHeads": [
+      "NOMBRE",
+      "CORREO",
+      "REGISTRO",
+      "ACTIVO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nBaristas\nAna María Joaquí\nAdministrador\nBaristas\nAgregar Barista\nNOMBRE\tCORREO\tREGISTRO\tACTIVO\tACCIONES\nCamila Restrepo\tcamila@kaffa.com\t22/10/2026 10:30 a. m.\tActivo\t\n \n\nSantiago Salamanca\tbarista@kaffa.com\t22/10/2026 11:16 p. m.\tActivo\t\n "
+  },
+  "admin:Turnos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Turnos",
+      "Turnos (mañana 07–13 / tarde 13–18 / abierto 05–22)"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Turno"
+    ],
+    "tableHeads": [
+      "FECHA",
+      "TIPO",
+      "BARISTAS ASIGNADOS",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nTurnos\nAna María Joaquí\nAdministrador\nTurnos (mañana 07–13 / tarde 13–18 / abierto 05–22)\nNuevo Turno\nFECHA\tTIPO\tBARISTAS ASIGNADOS\tACCIONES\n21/10/2026\tMañana (07:00 - 13:00)\tSantiago Salamanca\t\n \n\n22/10/2026\tTarde (13:00 - 18:00)\tSantiago Salamanca\t\n \n\n22/10/2026\tMañana (07:00 - 13:00)\tSantiago Salamanca, Camila Restrepo\t\n "
+  },
+  "admin:Eventos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Eventos",
+      "Eventos"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Evento"
+    ],
+    "tableHeads": [
+      "IMAGEN",
+      "TÍTULO",
+      "LUGAR",
+      "FECHA",
+      "ESTADO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nEventos\nAna María Joaquí\nAdministrador\nEventos\nNuevo Evento\n\nLos eventos marcados como publicados aparecen en la sección pública «Eventos».\n\nIMAGEN\tTÍTULO\tLUGAR\tFECHA\tESTADO\tACCIONES\n\tNoche de Acústicos\tTerraza KAFFA\t11/11/2026 · 18:30\tPublicado\t\n \n\n\tTaller de Latte Art\tSede KAFFA, Calle 5 #8-21\t27/10/2026 · 15:00\tPublicado\t\n \n\n\tFeria del Café de Popayán\tParque Caldas, Popayán\t3/11/2026 · 09:30\tPublicado\t\n "
+  },
+  "admin:Promociones": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Promociones",
+      "Promociones"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nueva Promoción"
+    ],
+    "tableHeads": [
+      "PROMOCIÓN",
+      "TIPO",
+      "VENCIMIENTO",
+      "ESTADO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nPromociones\nAna María Joaquí\nAdministrador\nPromociones\n\nCrea banners emergentes para los clientes. Actualmente hay 0 promociónes registradas y 0 vigentes.\n\nNueva Promoción\nPROMOCIÓN\tTIPO\tVENCIMIENTO\tESTADO\tACCIONES\n\nAún no hay promociones. Crea la primera para mostrarla en el sitio."
+  },
+  "admin:Reportes": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Reportes",
+      "Reportes de Baristas"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión"
+    ],
+    "tableHeads": [
+      "BARISTA",
+      "MENSAJE",
+      "PRIORIDAD",
+      "FECHA",
+      "ESTADO",
+      "ACCIONES"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nReportes\nAna María Joaquí\nAdministrador\nReportes de Baristas\n3 reportes\n\nNovedades de inventario enviadas desde el panel de barista.\n\nBARISTA\tMENSAJE\tPRIORIDAD\tFECHA\tESTADO\tACCIONES\nSantiago Salamanca\tSe recibió el pedido de vasos de 12 oz completo.\tBAJA\t22/10/2026 10:30 a. m.\tLeído\t\n\nCamila Restrepo\tEl grifo de agua caliente está goteando; requiere revisión técnica.\tMEDIA\t22/10/2026 10:30 a. m.\tNuevo\t\n \n\nSantiago Salamanca\tSe agotó el jarabe de caramelo. Quedan 2 botellas en bodega.\tALTA\t22/10/2026 10:30 a. m.\tNuevo\t\n "
+  },
+  "admin:Asistente IA": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Asistente IA",
+      "Asistente IA de Ventas"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Limpiar",
+      "¿Cómo van las ventas de esta semana?",
+      "Predice las ventas de los próximos 7 días",
+      "¿Qué promoción me recomiendas lanzar?",
+      "¿Qué insumos debo reponer?"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "textarea",
+        "type": "textarea",
+        "name": "",
+        "placeholder": "Escribe tu pregunta… (Enter para enviar)",
+        "label": ""
+      }
+    ],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nAsistente IA\nAna María Joaquí\nAdministrador\nAsistente IA de Ventas\n\nPredicciones de ventas y sugerencias de marketing a partir de los datos reales del negocio.\n\nLimpiar\nAsistente KAFFA\nEn línea\n\nHola, Ana 👋. Soy tu asistente de ventas. Pregúntame lo que necesites o elige una sugerencia.\n\n¿Cómo van las ventas de esta semana?\nPredice las ventas de los próximos 7 días\n¿Qué promoción me recomiendas lanzar?\n¿Qué insumos debo reponer?"
+  },
+  "admin:Configuración": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Configuración",
+      "Medios de Pago",
+      "Roles del Sistema"
+    ],
+    "buttons": [
+      "Inicio",
+      "Pedidos",
+      "Menú / Productos",
+      "Categorías",
+      "Insumos",
+      "Mermas",
+      "Compras",
+      "Proveedores",
+      "Gastos",
+      "Cajas",
+      "Facturas",
+      "Clientes",
+      "Baristas",
+      "Turnos",
+      "Eventos",
+      "Promociones",
+      "Reportes",
+      "Asistente IA",
+      "Configuración",
+      "Cerrar Sesión",
+      "Nuevo Medio"
+    ],
+    "tableHeads": [
+      "NOMBRE",
+      "VIRTUAL",
+      "ACCIONES",
+      "ID",
+      "NOMBRE"
+    ],
+    "inputs": [],
+    "text": "KAFFA Admin\nPANEL DE CONTROL\nInicio\nPedidos\nMenú / Productos\nCategorías\nInsumos\nMermas\nCompras\nProveedores\nGastos\nCajas\nFacturas\nClientes\nBaristas\nTurnos\nEventos\nPromociones\nReportes\nAsistente IA\nConfiguración\nCerrar Sesión\nConfiguración\nAna María Joaquí\nAdministrador\nMedios de Pago\nNuevo Medio\n\nLos medios virtuales exigen comprobante de pago (comprobante_url).\n\nNOMBRE\tVIRTUAL\tACCIONES\nQR (Pago Digital)\tVirtual (exige comprobante)\t\n \n\nPago Móvil\tVirtual (exige comprobante)\t\n \n\nTransferencia Bancaria\tVirtual (exige comprobante)\t\n \n\nTarjeta de Débito\tFísico\t\n \n\nTarjeta de Crédito\tFísico\t\n \n\nEfectivo\tFísico\t\n \nRoles del Sistema\nID\tNOMBRE\n3\tcliente\n2\tbarista\n1\tadmin"
+  },
+  "barista:Pedidos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Tablero de Pedidos",
+      "PEDIDOS TURNO MAÑANA"
+    ],
+    "buttons": [
+      "Registrar Pedido",
+      "COBRAR",
+      "ENTREGAR",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "FACTURA PDF",
+      "Descargar Historial"
+    ],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n3\nCaja\nCerrar Sesión\n Tablero de Pedidos\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nPEDIDOS TURNO\nMAÑANA\n ACTIVO · 150 min\nRegistrar Pedido\n SOLICITUDES (PENDIENTE)\n1\n#1\n22/10/2026 10:24 a. m.\nJuan José Sandoval\nCapuchino\n1\n Sin azúcar\nSándwich Club\n1\n$18.000\nSin pagar\nCOBRAR\n PAGADO / PREPARACIÓN\n1\n#2\n22/10/2026 09:52 a. m.\nJuan José Sandoval\nLatte\n2\nBagel\n1\n Para llevar\n$21.500\nTransferencia Bancaria\nENTREGAR\n ENTREGADOS / CANCELADOS\n8\n#10\n16/10/2026 01:10 p. m.\nMaría Fernanda López\nCheesecake\n2\nLatte\n1\n$21.500\nTransferencia Bancaria\nFACTURA PDF\n#9\n17/10/2026 09:30 a. m.\nJuan José Sandoval\nCapuchino\n1\nAmericano\n1\n$14.000\nEfectivo\nFACTURA PDF\n#8\n18/10/2026 11:05 a. m.\nCarlos Ramírez\nMocha\n2\nSándwich Club\n1\n$28.000\nTarjeta de Crédito\nFACTURA PDF\n#7\n19/10/2026 03:40 p. m.\nMaría Fernanda López\nLatte\n1\nBagel\n1\n$14.000\nQR (Pago Digital)\nFACTURA PDF\n#6\n20/10/2026 10:15 a. m.\nMostrador\nCapuchino\n2\nTiramisú\n1\n$23.500\nEfectivo\nFACTURA PDF\n#5\n21/10/2026 04:20 p. m.\nJuan José Sandoval\nBrownie\n1\n$6.000\nCancelado\n#4\n22/10/2026 06:30 a. m.\nCarlos Ramírez\nAmericano\n2\nCroissant\n2\n$23.000\nPago Móvil\nFACTURA PDF\n#3\n22/10/2026 08:30 a. m.\nMaría Fernanda López\nMocha\n1\n Con crema batida\nCheesecake\n1\n$16.000\nEfectivo\nFACTURA PDF\nDescargar Historial"
+  },
+  "barista:Inventario": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Inventario",
+      "Inventario de Insumos"
+    ],
+    "buttons": [
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar",
+      "Reportar"
+    ],
+    "tableHeads": [
+      "INSUMO",
+      "UNIDAD",
+      "STOCK",
+      "MÍNIMO",
+      "ESTADO",
+      "ACCIÓN"
+    ],
+    "inputs": [],
+    "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n3\nCaja\nCerrar Sesión\n Inventario\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nInventario de Insumos\nINSUMO\tUNIDAD\tSTOCK\tMÍNIMO\tESTADO\tACCIÓN\n\nHelado de Vainilla\n\tlt\t4.00\t1.00\t\nDisponible\t\nReportar\n\nNueces\n\tkg\t3.00\t0.50\t\nDisponible\t\nReportar\n\nCacao en Polvo\n\tkg\t3.00\t0.50\t\nDisponible\t\nReportar\n\nBizcocho\n\tunidades\t12.00\t3.00\t\nDisponible\t\nReportar\n\nMascarpone\n\tkg\t4.00\t1.00\t\nDisponible\t\nReportar\n\nAguacate\n\tunidades\t0.00\t3.00\t\nAgotado\t\nReportar\n\nTocino\n\tkg\t4.00\t1.00\t\nDisponible\t\nReportar\n\nPollo\n\tkg\t8.00\t2.00\t\nDisponible\t\nReportar\n\nPan Brioche\n\tunidades\t30.00\t5.00\t\nDisponible\t\nReportar\n\nFrutos Rojos\n\tkg\t2.00\t1.00\t\nDisponible\t\nReportar\n\nQueso Crema\n\tkg\t6.00\t2.00\t\nDisponible\t\nReportar\n\nMantequilla\n\tkg\t6.00\t1.00\t\nDisponible\t\nReportar\n\nHuevos\n\tunidades\t8.00\t12.00\t\nBajo\t\nReportar\n\nHarina\n\tkg\t15.00\t3.00\t\nDisponible\t\nReportar\n\nCaramelo\n\tlt\t0.90\t0.50\t\nDisponible\t\nReportar\n\nVainilla\n\tlt\t0.30\t0.50\t\nBajo\t\nReportar\n\nChocolate\n\tkg\t8.00\t2.00\t\nDisponible\t\nReportar\n\nAzúcar\n\tkg\t10.00\t2.00\t\nDisponible\t\nReportar\n\nLeche\n\tlt\t7.00\t10.00\t\nBajo\t\nReportar\n\nCafé en Grano\n\tkg\t2.40\t5.00\t\nBajo\t\nReportar"
+  },
+  "barista:Chat": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Chat Cliente",
+      "Chat con Clientes 3"
+    ],
+    "buttons": [],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n3\nCaja\nCerrar Sesión\n Chat Cliente\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nChat con Clientes\n3\nM\nMaría Fernanda López\n1\nBuenas tardes, ¿tienen mesas disponibles\nJ\nJuan José Sandoval\n2\nY una última cosa: ¿tienen opción sin az\n\nSelecciona una conversación para comenzar."
+  },
+  "barista:Caja": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Caja",
+      "Caja del Turno"
+    ],
+    "buttons": [
+      "Cerrar Caja"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "0.00",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "number",
+        "name": "",
+        "placeholder": "0.00",
+        "label": ""
+      }
+    ],
+    "text": "KAFFA\nPANEL DE BARISTA\nTablero Pedidos\nInventario\nChat Cliente\n3\nCaja\nCerrar Sesión\n Caja\n TURNO MAÑANA · 150 min\nSantiago Salamanca\nBarista\nCaja del Turno\n\nCaja #1 abierta por Santiago Salamanca · Turno Mañana (2026-10-22T05:00:00.000000Z) · 22/10/2026 07:00 a. m.\n\n Base Efectivo (apertura):\n Base Digital (apertura):\n Ventas Sistema (ingresos):\n Esperado en caja (efectivo + digital):\n Efectivo Real contado:\n Digital Real (Nequi/Daviplata/transferencias):\n Cerrar Caja"
+  },
+  "cliente:Mis pedidos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Tus Pedidos",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [
+      "Hola, Juan",
+      "Mi Perfil",
+      "Cerrar Sesión",
+      "Mi Perfil",
+      "Carrito"
+    ],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nHola, Juan\nJUAN JOSÉ SANDOVAL\nTus Pedidos\n\nSegui el estado de tus pedidos en tiempo real.\n\n#9\n Entregado\n\n1x Capuchino, 1x Americano\n\nEfectivo\n$14.000\n\n F2026000007\n\n#5\n Cancelado\n\n1x Brownie\n\nPago en mostrador\n$6.000\n#2\n Pagado · En preparación\n\n2x Latte, 1x Bagel (Para llevar)\n\nTransferencia Bancaria\n$21.500\n\n F2026000001\n\n#1\n Pendiente\n\n1x Capuchino (Sin azúcar), 1x Sándwich Club\n\nPago en mostrador\n$18.000\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "cliente:Chat cliente": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Chat Barista",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [
+      "Hola, Juan",
+      "Mi Perfil",
+      "Cerrar Sesión",
+      "Mi Perfil",
+      "Carrito"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "",
+        "placeholder": "Escribe...",
+        "label": ""
+      }
+    ],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nHola, Juan\nATENCIÓN EN LÍNEA\nChat Barista\n\nConsultá al barista sobre tu pedido o el menú.\n\nAna María Joaquí\nEn línea\n ¡Hola! ¿En qué te puedo ayudar hoy?\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Inicio": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "El Arte del Buen Café",
+      "Nuestros Favoritos",
+      "Bagel",
+      "Croissant",
+      "Sándwich Club",
+      "Pasión por el Café Artesanal",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nRegistrarse\nIniciar Sesión\nCAFÉ DE ESPECIALIDAD\nEl Arte del\nBuen Café\n\nDescubre nuestra selección de granos premium, tostados artesanalmente para ofrecerte una experiencia única en cada taza.\n\nVer Menú\nConocer más\n☕\n100% Colombiano\nGranos de origen\nRECOMENDADOS\nNuestros Favoritos\n\nLos más vendidos de nuestra cafetería, seleccionados por nuestros clientes.\n\nBagel\n\nBagel artesanal tostado con queso crema. Opciones de salmón ahumado, v...\n\n$6.500\nComprar\nCroissant\n\nCroissant francés recién horneado, hojaldrado y mantecoso. Disponible ...\n\n$5.500\nComprar\nSándwich Club\n\nSándwich triple con pollo, tocino, lechuga, tomate y mayonesa. Servido...\n\n$10.000\nComprar\nNuestra historia\nPasión por el Café Artesanal\n\nEn KAFFA seleccionamos los mejores granos colombianos y los tostamos artesanalmente para resaltar sus notas únicas. Cada taza cuenta una historia de tradición, calidad y amor por el café.\n\nConoce más\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Menú": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Nuestro Menú",
+      "Bagel",
+      "Croissant",
+      "Sándwich Club",
+      "Tiramisú",
+      "Cheesecake",
+      "Brownie",
+      "Americano",
+      "Mocha",
+      "Latte",
+      "Capuchino",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [
+      "Todos",
+      "Snacks",
+      "Postres",
+      "Cafés"
+    ],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nRegistrarse\nIniciar Sesión\nCATÁLOGO\nNuestro Menú\n\nSelección de cafés artesanales, postres caseros y snacks preparados con los mejores ingredientes.\n\nTodos\nSnacks\nPostres\nCafés\nBagel\n\nBagel artesanal tostado con queso crema. Opciones de salmón ahumado, v...\n\n$6.500\nComprar\nCroissant\n\nCroissant francés recién horneado, hojaldrado y mantecoso. Disponible ...\n\n$5.500\nComprar\nSándwich Club\n\nSándwich triple con pollo, tocino, lechuga, tomate y mayonesa. Servido...\n\n$10.000\nComprar\nTiramisú\n\nPostre italiano clásico con capas de bizcocho empapado en café, crema ...\n\n$7.500\nComprar\nCheesecake\n\nCheesecake cremoso estilo Nueva York con base de galleta. Disponible c...\n\n$7.000\nComprar\nBrownie\n\nBrownie de chocolate belga, húmedo y con trozos de nueces. Servido tib...\n\n$6.000\nComprar\nAmericano\n\nEspresso diluido con agua caliente. Intenso y aromático, ideal para qu...\n\n$6.000\nComprar\nMocha\n\nLa combinación perfecta de espresso, chocolate y leche vaporizada. Cor...\n\n$9.000\nComprar\nLatte\n\nCafé espresso con abundante leche vaporizada y una fina capa de espuma...\n\n$7.500\nComprar\nCapuchino\n\nEspresso con leche vaporizada y espuma cremosa. Un clásico italiano qu...\n\n$8.000\nComprar\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Eventos": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Próximos Eventos",
+      "Taller de Latte Art",
+      "Feria del Café de Popayán",
+      "Noche de Acústicos",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nRegistrarse\nIniciar Sesión\nEVENTOS\nPróximos Eventos\n\nParticipamos en las ferias y concursos de café más importantes de Colombia.\n\n27 DE OCTUBRE DE 2026 · 15:00\nTaller de Latte Art\n\nSede KAFFA, Calle 5 #8-21\n\nAprende a dibujar corazones, tulipanes y cisnes sobre la espuma. Cupo limitado a 12 personas.\n\n03 DE NOVIEMBRE DE 2026 · 09:30\nFeria del Café de Popayán\n\nParque Caldas, Popayán\n\nCata de cafés de especialidad, música en vivo y talleres de barismo. Entrada libre con consumo mínimo.\n\n11 DE NOVIEMBRE DE 2026 · 18:30\nNoche de Acústicos\n\nTerraza KAFFA\n\nMúsica en vivo, promociones 2x1 en capuchinos y postres de la casa.\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Sobre nosotros": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Pasión, aroma y tradición en cada taza",
+      "Nuestra Historia",
+      "Misión, Visión y Valores",
+      "La Experiencia KAFFA",
+      "Nuestro Equipo",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [
+      "Mañana",
+      "Tarde",
+      "Abierto"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "date",
+        "name": "",
+        "placeholder": "",
+        "label": "Fecha"
+      }
+    ],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nRegistrarse\nIniciar Sesión\nNuestra historia\nPasión, aroma y tradición en cada taza\n\nEn KAFFA combinamos raíces artesanales con técnicas modernas para ofrecerte una experiencia única.\n\nNuestra Historia\n\nKAFFA nació del deseo de rescatar la tradición del café artesanal y renovarla con técnicas contemporáneas. Desde la selección de granos hasta la atención en cada taza, trabajamos con dedicación para que cada sorbo cuente una historia.\n\nPorque creemos que el café es cultura. Nuestros proveedores son pequeños productores comprometidos con prácticas sostenibles. Nosotros tostamos con cuidado, preparamos con atención y servimos con cariño.\n\nNUESTRA ESENCIA\nMisión, Visión y Valores\n\nLo que nos impulsa cada día a ofrecer el mejor café.\n\n🎯\nMisión\n\nOfrecer experiencias memorables a través del café, conectando a las personas con sabores auténticos.\n\n🔭\nVisión\n\nSer un referente local en café de especialidad, reconocidos por calidad, sostenibilidad y comunidad.\n\n💚\nValores\n\nCalidad · Transparencia · Respeto por la tierra · Cercanía con la comunidad\n\nGALERÍA\nLa Experiencia KAFFA\n\nAromas, texturas y momentos que inspiran.\n\nEQUIPO\nNuestro Equipo\n\nUn grupo de baristas y apasionados que traen KAFFA a la vida.\n\nFecha\nMañana\nTarde\nAbierto\nAna María Joaquí\n\nAdministradora\n\nNo hay baristas asignados para este turno.\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Contacto": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Estamos aquí para servirte",
+      "Síguenos en redes",
+      "Horarios",
+      "Contacto",
+      "Enlaces Rápidos"
+    ],
+    "buttons": [],
+    "tableHeads": [],
+    "inputs": [],
+    "text": "KAFFA\nCAFÉ ARTESANAL\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\nRegistrarse\nIniciar Sesión\nContáctanos\nEstamos aquí para servirte\n\n¿Te gustaría saber más sobre nuestra cafetería, dejar una sugerencia o simplemente saludarnos? Estamos listos para prepararte el mejor café.\n\n📍\nDirección\n\nCalle 4 #2-80, SENA Centro Comercio y Servicio\nPopayán, Colombia\n\n📞\nTeléfono\n\n+57 300 000 0000\n\n✉️\nEmail\n\ncontacto@kaffa.com\n\n🕐\nHorario\n\nLunes - Viernes: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\n\nSíguenos en redes\nFb\nIg\nTk\nMapa de ubicación\n\nEl arte del buen café artesanal con aroma y tradición.\n\nHorarios\nLun - Vie: 8:00 a.m - 5:00 p.m\nSábados: 8:00 a.m - 12:00 p.m\nDomingos: Cerrado\nContacto\nCalle 4 #2-80, SENA Centro Comercio y Servicio, Popayán, Colombia\n+57 300 000 0000\ncontacto@kaffa.com\nEnlaces Rápidos\nInicio\nMenú\nEventos\nSobre Nosotros\nContacto\n\n© 2026 KAFFA Café artesanal."
+  },
+  "publico:Login": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Inicia Sesión"
+    ],
+    "buttons": [
+      "Ingresar"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "correo",
+        "placeholder": "ejemplo@correo.com",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "password",
+        "name": "password",
+        "placeholder": "••••••••",
+        "label": ""
+      }
+    ],
+    "text": "Inicia Sesión\nCorreo Electrónico\nContraseña\nIngresar\n\n¿Olvidaste tu contraseña?\n\n¿No tienes cuenta? Regístrate aquí"
+  },
+  "publico:Registro": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Registrarse"
+    ],
+    "buttons": [
+      "Registrarme"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "nombre",
+        "placeholder": "Tu nombre completo",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "email",
+        "name": "email",
+        "placeholder": "ejemplo@correo.com",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "password",
+        "name": "password",
+        "placeholder": "Crea una contraseña",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "password",
+        "name": "confirmar",
+        "placeholder": "Repite la contraseña",
+        "label": ""
+      }
+    ],
+    "text": "Registrarse\nNombre Completo\nCorreo Electrónico\nContraseña\nMín. 8 caracteres: mayúscula, minúscula, número y símbolo.\nConfirmar Contraseña\nRegistrarme\n\n¿Ya tienes una cuenta? Inicia sesión"
+  },
+  "publico:Recuperar contraseña": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Recuperar contraseña"
+    ],
+    "buttons": [
+      "Enviar código"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "correo",
+        "placeholder": "ejemplo@correo.com",
+        "label": ""
+      }
+    ],
+    "text": "Recuperar contraseña\n\nIngresa tu correo y te enviaremos un código para restablecer tu contraseña.\n\nCorreo Electrónico\nEnviar código\n\n¿La recordaste? Inicia sesión"
+  },
+  "publico:Verificar correo": {
+    "title": "KAFFA - Café Artesanal",
+    "h": [
+      "Verifica tu correo"
+    ],
+    "buttons": [
+      "Verificar cuenta",
+      "Reenviar código"
+    ],
+    "tableHeads": [],
+    "inputs": [
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "",
+        "placeholder": "ejemplo@correo.com",
+        "label": ""
+      },
+      {
+        "tag": "input",
+        "type": "text",
+        "name": "",
+        "placeholder": "000000",
+        "label": ""
+      }
+    ],
+    "text": "Verifica tu correo\n\nTe enviamos un código de 6 dígitos a tu correo electrónico. Ingrésalo para activar tu cuenta. Revisa también el spam.\n\nCorreo electrónico\nCódigo de verificación\nVerificar cuenta\n\n¿No te llegó? Reenviar código\n\n¿Ya verificaste? Inicia sesión"
+  }
+}
